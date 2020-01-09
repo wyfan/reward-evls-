@@ -585,6 +585,7 @@ a.pure-button-selected {
   color: #fff;
 }
 
+
 .pure-button-group .pure-button {
   margin: 0;
   border-radius: 0;
@@ -602,6 +603,15 @@ a.pure-button-selected {
   border-bottom-right-radius: 2px;
   border-right: none;
 }
+
+/**自訂義BUTTON**/
+a.pure-button.go-reward {
+  background: rgb(66, 184, 221);
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
 
 .pure-form input[type="color"],
 .pure-form input[type="date"],

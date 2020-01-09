@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A layout example with a side menu that hides on mobile, just like the Pure website.">
-    <title>VLS 影片學習系統10</title>
+    <title>VLS 影片學習系統</title>
     <link rel="stylesheet" href="css/layouts/pure-min.css">
     <link rel="stylesheet" href="css/layouts/side-menu.css">
     <link rel="stylesheet" href="css/layouts/semantic.min.css">
@@ -38,6 +38,14 @@
             <!-- 討論區連結  -->
             <li class="pure-menu-item" id="_forum">
               <a href="javascript:void(0);" class="pure-menu-link" id="message_link">討論區</a>
+            </li>
+            <!-- 測驗 -->
+            <li class="pure-menu-item" id="exam">
+              <a href="javascript:void(0);" class="pure-menu-link" id="exam_link">測驗</a>
+            </li>
+            <!-- 排行榜 -->
+            <li class="pure-menu-item" id="reward">
+              <a href="javascript:void(0);" class="pure-menu-link" id="reward_link">排行榜</a>
             </li>
             <!-- 登出連結 -->
             <li id="logout-menu" class="pure-menu-item">
@@ -164,6 +172,16 @@
             <div class="pure-u-1-4">
             </div>
           </div>
+        </div>
+        <!--測驗區頁面-->
+        <div id="exam_content" class="exam_content">
+          <div>這邊是測驗區喔</div>
+          <a href="javascript:void(0);"  onclick="goToReward()" class="pure-button go-reward" id="goRewardBtn">查看排行榜</a>
+        </div>
+        <!--排行榜頁面-->
+        <div id="reward_content" class="reward_content">
+          <div>這邊是排行榜喔</div>
+          <a href="javascript:void(0);"  onclick="backToVideo()" class="pure-button go-reward" id="goHomeBtn">回到影片</a>
         </div>
       </div>
     </div>

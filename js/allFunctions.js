@@ -18,6 +18,15 @@ if (_forum == true) {
   $("#_forum").hide();
   $("#message_content").hide();
 }
+//是否使用測驗
+_exam = true;
+
+if(_exam == true){
+  $("#exam_content").show();
+}else{
+  $("#exam_content").hide();
+}
+
 
 //設定所見所得編輯器
 CKEDITOR.replace("message_box");
@@ -27,6 +36,8 @@ _player = $("video").get(0);
 //UI設定 隱藏留言頁面與登出按鈕
 $("#message").fadeOut(100);
 $("#message_content").fadeOut(100);
+$("#exam_content").fadeOut(100);
+$("#reward_content").fadeOut(100);
 $("#logout_link").hide();
 /******************************登入與登出功能******************************/
 function login() {
@@ -48,12 +59,12 @@ function login() {
       $("#volumeInfo").html(_player.volume * 100);
       _player.playbackRate = 1;
       $("#speedInfo").html("x" + _player.playbackRate);
-	
+
 	/*20200107 加入TIMER開始計時以便進行測驗跳轉，這邊是中途離開載回來的，要注意TIMER不能從頭算起**/
-	
+
 	/*20200107 加入TIMER開始計時以便進行測驗跳轉**/
-	
-	
+
+
       //載入貼文、單字與時間標記
       loadPost();
       loadTimeTag();
@@ -97,7 +108,7 @@ function login() {
               _player.playbackRate = 1;
               $("#speedInfo").html("x" + _player.playbackRate);
 
-			/*20200107 加入TIMER開始計時以便進行測驗跳轉，這邊是一開始的登入**/**/
+			/*20200107 加入TIMER開始計時以便進行測驗跳轉，這邊是一開始的登入**/
 			/*20200107 加入TIMER開始計時以便進行測驗跳轉**/
               //載入貼文、單字與時間標記
               loadPost();
@@ -489,7 +500,11 @@ $("#home_link").click(function() {
   //隱藏留言板頁面
   $("#message").fadeOut(100);
   $("#message_content").fadeOut(100);
-  //顯示首頁頁面
+  //隱藏測驗頁面
+  $("#exam_content").fadeOut(100);
+  //隱藏排行榜
+  $("#reward_content").fadeOut(100);
+    //顯示首頁頁面
   $("#home").fadeIn(100);
   $("#home_content").fadeIn(100);
 
@@ -502,11 +517,75 @@ $("#message_link").click(function() {
   $("#home").fadeOut(100);
   $("#home_content").fadeOut(100);
   //顯示留言板頁面
-  $("#message").fadeIn(100);
+  //$("#message").fadeIn(100);
   $("#message_content").fadeIn(100);
 
   userLog(_currentUser, "goToMessageBoard", _videoURL, null);
 });
+
+//前往測驗
+$("#exam_link").click(function() {
+  //隱藏首頁頁面和其他頁面
+  $("#home").fadeOut(100);
+  $("#home_content").fadeOut(100);
+  $("#reward_content").fadeOut(100);
+  //顯示測驗頁面
+  $("#exam_content").fadeIn(100);
+  //$("#message_content").fadeIn(100);
+
+  userLog(_currentUser, "goToExam", _videoURL, null);
+});
+
+//從MENU前往排行榜
+$("#reward_link").click(function() {
+  //隱藏首頁頁面和其他頁面
+  $("#home").fadeOut(100);
+  $("#home_content").fadeOut(100);
+  $("#exam_content").fadeOut(100);
+  //顯示排行榜頁面
+  $("#reward_content").fadeIn(100);
+  //$("#message_content").fadeIn(100);
+
+  userLog(_currentUser, "goToReward", _videoURL, null);
+});
+
+//從測驗前往排行榜
+
+function goToReward(){
+  //隱藏留言板頁面
+  $("#message").fadeOut(100);
+  $("#message_content").fadeOut(100);
+  //隱藏測驗頁面
+  $("#exam_content").fadeOut(100);
+  //隱藏首頁頁面
+  $("#home").fadeOut(100);
+  $("#home_content").fadeOut(100);
+  //顯示排行榜
+  $("#reward_content").fadeIn(100);
+
+  userLog(_currentUser, "goToReward", _videoURL, null);
+  console.log("goToReward");
+}
+
+
+//從排行榜回到影片頁面
+function backToVideo(){
+  //隱藏留言板頁面
+  $("#message").fadeOut(100);
+  $("#message_content").fadeOut(100);
+  //隱藏測驗頁面
+  $("#exam_content").fadeOut(100);
+  //隱藏排行榜
+  $("#reward_content").fadeOut(100);
+  //顯示首頁頁面
+  $("#home").fadeIn(100);
+  $("#home_content").fadeIn(100);
+
+  userLog(_currentUser, "backToHomepage", _videoURL, null);
+
+}
+
+
 
 /******************************影片操作******************************/
 function mediaPlay() {
