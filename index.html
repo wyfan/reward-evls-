@@ -12,8 +12,12 @@
 
     <!-- jQuery載入 -->
     <script src="js/jquery.min.js"></script>
+    <!--排行榜時間累積長條圖-->
+    <script src=https://d3js.org/d3.v3.min.js charset="utf-8"></script>
     <!-- 所見所得編輯器 -->
     <script src="js/editor/ckeditor.js"></script>
+
+
     <!-- 介面操作控制項 -->
     <script src="js/control.js"></script>
 
@@ -180,8 +184,12 @@
         </div>
         <!--排行榜頁面-->
         <div id="reward_content" class="reward_content">
+
           <div>這邊是排行榜喔</div>
-          <a href="javascript:void(0);"  onclick="backToVideo()" class="pure-button go-reward" id="goHomeBtn">回到影片</a>
+
+
+          <div id=learn_bar></div>
+          <a href="javascript:void(0);"  onclick="backToVideo()" class="pure-button go-reward" id="goHomeBtn">前往第二部影片</a>
         </div>
       </div>
     </div>
@@ -189,5 +197,21 @@
 
   <!-- 基本元件 無需更動 -->
   <script src="js/ui.js"></script>
-
+  <script src="js/d3-timeline/src/d3-timeline.js"></script>
+  <script>
+  //DEMO 資料
+  var testData = [
+    {label: "person a", times: [
+      {"starting_time": 1355752800000, "ending_time": 1355759900000},
+      {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+    {label: "person b", times: [
+      {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+    {label: "person c", times: [
+      {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
+    ];
+    var chart = d3.timeline();
+    var svg = d3.select("#learn_bar").append("svg").attr("width", 500)
+    .datum(testData).call(chart);
+  $("#word_select").append(svg);
+  </script>
 </html>
