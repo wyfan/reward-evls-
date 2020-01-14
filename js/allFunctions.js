@@ -545,7 +545,7 @@ $("#reward_link").click(function() {
   //顯示排行榜頁面
   $("#reward_content").fadeIn(100);
   //$("#message_content").fadeIn(100);
-
+  getAllReward();
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
 
@@ -1003,4 +1003,60 @@ function loadPost() {
       }
     }
   });
+}
+/******************排行榜-d3-timeline**************************************/
+var testData_p1 = [
+  /*{label: "person a", times: [
+    {"starting_time": 1355752800000, "ending_time": 1355759900000},
+    {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+  {label: "person b", times: [
+    {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+  {label: "person c", times: [
+    {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
+  {times: //顏色1
+    [{"color":"green", "label":"Weeee", "starting_time": 1355752800000, "ending_time": 1355759900000}, {"color":"blue", "label":"Weeee", "starting_time": 1355767900000, "ending_time": 1355774400000}]},
+  {times: [//顏色2
+    {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+  {times: [//顏色3
+      {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
+  ];
+  var testData_p2 = [
+    {times: [//顏色1
+      {"starting_time": 1355752800000, "ending_time": 1355759900000},
+      {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+    {times: [//顏色2
+      {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+    {times: [//顏色3
+        {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
+    ];
+
+  var chart = d3.timeline().showTimeAxis();
+  //console.log(chart);
+  //var svg =
+  d3.select("#learnBar_1").append("svg").attr("width", 500).datum(testData_p1).call(chart);
+  //$("#p1").append(svg1);
+  //$("#p2").append("this is p2");
+  d3.select("#learnBar_2").append("svg").attr("width", 500).datum(testData_p2).call(chart);
+  /*var svg2 = d3.select("#learn_bar_P2").append("svg").attr("width", 500)
+  .datum(testData_p1).call(chart);
+  $("#p2").append(svg2);*/
+
+
+
+//取得使用者資料
+function getAllReward() {
+  $.post("./php/getSession.php", function(data) {
+    console.log(data);
+    if (data != "fail") {
+      _currentUser = data;
+
+      $("#userName").append(_currentUser);
+      console.log(_currentUser);
+      console.log("getAllReward success");
+    } else {
+      console.log("getAllReward error");
+
+    }
+  });
+
 }
