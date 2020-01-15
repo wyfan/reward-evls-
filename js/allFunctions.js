@@ -21,17 +21,18 @@ if (_forum == true) {
 //是否使用測驗
 _exam = true;
 
-if(_exam == true){
+if (_exam == true) {
   $("#exam_content").show();
-}else{
+} else {
   $("#exam_content").hide();
 }
-
 
 //設定所見所得編輯器
 CKEDITOR.replace("message_box");
 //讀取撥放器
 _player = $("video").get(0);
+//影片時間更新
+_maxPlaytime = 0;
 
 //UI設定 隱藏留言頁面與登出按鈕
 $("#message").fadeOut(100);
@@ -60,10 +61,9 @@ function login() {
       _player.playbackRate = 1;
       $("#speedInfo").html("x" + _player.playbackRate);
 
-	/*20200107 加入TIMER開始計時以便進行測驗跳轉，這邊是中途離開載回來的，要注意TIMER不能從頭算起**/
+      /*20200107 加入TIMER開始計時以便進行測驗跳轉，這邊是中途離開載回來的，要注意TIMER不能從頭算起**/
 
-	/*20200107 加入TIMER開始計時以便進行測驗跳轉**/
-
+      /*20200107 加入TIMER開始計時以便進行測驗跳轉**/
 
       //載入貼文、單字與時間標記
       loadPost();
@@ -108,8 +108,8 @@ function login() {
               _player.playbackRate = 1;
               $("#speedInfo").html("x" + _player.playbackRate);
 
-			/*20200107 加入TIMER開始計時以便進行測驗跳轉，這邊是一開始的登入**/
-			/*20200107 加入TIMER開始計時以便進行測驗跳轉**/
+              /*20200107 加入TIMER開始計時以便進行測驗跳轉，這邊是一開始的登入**/
+              /*20200107 加入TIMER開始計時以便進行測驗跳轉**/
               //載入貼文、單字與時間標記
               loadPost();
               loadTimeTag();
@@ -504,7 +504,7 @@ $("#home_link").click(function() {
   $("#exam_content").fadeOut(100);
   //隱藏排行榜
   $("#reward_content").fadeOut(100);
-    //顯示首頁頁面
+  //顯示首頁頁面
   $("#home").fadeIn(100);
   $("#home_content").fadeIn(100);
 
@@ -551,7 +551,7 @@ $("#reward_link").click(function() {
 
 //從測驗前往排行榜
 
-function goToReward(){
+function goToReward() {
   //隱藏留言板頁面
   $("#message").fadeOut(100);
   $("#message_content").fadeOut(100);
@@ -567,9 +567,8 @@ function goToReward(){
   console.log("goToReward");
 }
 
-
 //從排行榜回到影片頁面
-function backToVideo(){
+function backToVideo() {
   //隱藏留言板頁面
   $("#message").fadeOut(100);
   $("#message_content").fadeOut(100);
@@ -582,14 +581,12 @@ function backToVideo(){
   $("#home_content").fadeIn(100);
 
   userLog(_currentUser, "backToHomepage", _videoURL, null);
-
 }
-
-
 
 /******************************影片操作******************************/
 function mediaPlay() {
   _player.play(); //開始播放
+
   $("button#play.media_control.mini.ui.button").html(
     "<i class='pause icon'></i> 暫停"
   ); //按紐文字改為暫停
@@ -635,6 +632,13 @@ function mediaTag(_currentTime) {
 }
 
 function mediaReplay(_replayTime) {
+
+  var _maxTime = _replayTime + 5;
+  var _event = "mediaReplay";
+  getMaxPlaytime(_maxTime, _event); //開始偵測影片撥放時間
+  console.log("mediaReplay"+_maxTime);
+
+
   var _replayCount = 0;
   _player.currentTime = _replayTime; //由選擇的時間往前回溯5秒
 
@@ -694,7 +698,7 @@ function mediaReplay(_replayTime) {
   };
 }
 
-function mediaRelease() {
+function mediaRelease() {//解除重播
   $("button#release.media_control.mini.ui.button").html(
     "<i class='sync icon'></i> 重播"
   );
@@ -706,6 +710,10 @@ function mediaRelease() {
   $("button.media_control.mini.ui.button#pause").attr("disabled", false);
 
   _player.ontimeupdate = null;
+  //偵測是否有超過第一次觀看影片的時間，因為getMaxPlaytime使用ontimeupdate，因此需在_player.ontimeupdate = null;後面
+  var _event = "tagRelease";
+  getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
+  console.log("tagRelease = "+_player.currentTime);
 
   userLog(_currentUser, "mediaRelease", _videoURL, null);
 }
@@ -754,6 +762,10 @@ function speedControl(_value, _function) {
 
 /******************************標記操作******************************/
 function tagPlay(_selectedTag) {
+  var _event = "tagPlay";
+  getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
+  console.log("tagPlay"+_player.currentTime);
+
   _player.currentTime = _selectedTag - 5; //由選擇的時間往前回溯5秒
   _player.play(); //開始播放
 
@@ -793,9 +805,13 @@ function tagDelete(_selectedTag) {
     alert("請選擇要刪除的標記");
   }
 }
-
+/****************
+* 標記重播功能
+* 20200115
+****************/
 function tagReplay(_selectedTag) {
   var _replayCount = 0;
+  var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
   _player.currentTime = _selectedTag - 5; //由選擇的時間往前回溯5秒
   _player.play(); //開始播放
 
@@ -842,21 +858,44 @@ function tagReplay(_selectedTag) {
         "mediaReplay",
         _videoURL,
         "(" +
-          formatSecond(_start) +
-          "~" +
-          formatSecond(_end) +
-          ")已完成" +
-          _replayCount +
-          "次循環"
+        formatSecond(_start) +
+        "~" +
+        formatSecond(_end) +
+        ")已完成" +
+        _replayCount +
+        "次循環"
       );
     }
+    /**********************************************************/
+    //當重播被按下時要確認的事
+    var _click = "tagReplay";
+    //1.是不是第一次重播
+    if (_maxPlaytime == 0) {
+      _maxPlaytime = _actionTime;
+      console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是：" + _click);
+      userLog(_currentUser, "learnPause", _videoURL, _maxPlaytime);
+    } else {
+      //2.如果不是第一次重播，有沒有要重新設定最大播放時間
+      if (_actionTime > _maxPlaytime) {
+        _maxPlaytime = _actionTime;
+        console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是：" + _click);
+        //userLog(_currentUser, "learnPause", _videoURL, _maxPlaytime);
+      } else {
+        console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是：" + _click);
+      }
+    }
 
+    /*********************************************************/
     subtitle_english(_player.currentTime);
     subtitle_chinese(_player.currentTime);
   };
 }
-
+/****************
+* 標記重播解除功能
+* 20200115
+****************/
 function tagRelease() {
+
   $("button#release.tag_control.mini.ui.button").html(
     "<i class='sync icon'></i> 重播標記"
   );
@@ -868,7 +907,12 @@ function tagRelease() {
   $("button.media_control.mini.ui.button#pause").attr("disabled", false);
 
   _player.ontimeupdate = null;
-
+  /****************************************************/
+  //解除重播被按下之後，才要開始持續偵測現在影片時間有沒有超過
+  var _event = "tagRelease";
+  getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
+  console.log("tagRelease = "+_player.currentTime);
+  /****************************************************/
   userLog(_currentUser, "tagRelease", _videoURL, null);
 }
 
@@ -887,6 +931,38 @@ function userLog(_currentUser, _action, _object, _extention) {
     }
   });
 }
+
+ /**************取得第一次學習播放影片時間點*************************************************/
+  function getMaxPlaytime(_actionTime, _event) {
+    var _click = _event;
+    _player.ontimeupdate = function() {
+      if (_maxPlaytime == 0) {
+        _maxPlaytime = _actionTime;
+        console.log("這是第一次設定：" + _maxPlaytime + _click);
+        userLog(_currentUser, "learnPause", _videoURL, _maxPlaytime);
+      } else {
+        //偵測現在影片撥放時間是否有超過_maxPlaytime
+        if (_player.currentTime > _maxPlaytime) {
+
+          console.log("你又開始學啦！" + _player.currentTime + _click);
+          userLog(_currentUser, "learnContinue", _videoURL, _player.currentTime);
+          _player.ontimeupdate = null;
+        } else {
+          console.log("你還在複習！");
+        }
+        //是否要更新_maxPlaytime
+        if (_actionTime > _maxPlaytime) {
+          _maxPlaytime = _actionTime;
+          // userLog(_currentUser, "continueLearning", _videoURL, _maxPlaytime);
+          //_player.ontimeupdate = null;
+          console.log("超過原本時間，更新時間為：" + _maxPlaytime + _click);
+          userLog(_currentUser, "learnPause", _videoURL, _maxPlaytime);
+        }
+      }
+    };
+  }
+
+
 
 /******************************討論區功能******************************/
 
@@ -1013,35 +1089,68 @@ var testData_p1 = [
     {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
   {label: "person c", times: [
     {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
-  {times: //顏色1
-    [{"color":"green", "label":"Weeee", "starting_time": 1355752800000, "ending_time": 1355759900000}, {"color":"blue", "label":"Weeee", "starting_time": 1355767900000, "ending_time": 1355774400000}]},
-  {times: [//顏色2
-    {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-  {times: [//顏色3
-      {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
-  ];
-  var testData_p2 = [
-    {times: [//顏色1
-      {"starting_time": 1355752800000, "ending_time": 1355759900000},
-      {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
-    {times: [//顏色2
-      {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-    {times: [//顏色3
-        {"starting_time": 1355761910000, "ending_time": 1355763910000}]}
-    ];
+  {
+    //顏色1
+    times: [
+      { color: "green", starting_time: 0, ending_time: 100 },
+      { color: "blue", starting_time: 40, ending_time: 60 }
+    ]
+  },
+  {
+    times: [
+      //顏色2
+      { starting_time: 10, ending_time: 15 }
+    ]
+  },
+  {
+    times: [
+      //顏色3
+      { starting_time: 60, ending_time: 100 }
+    ]
+  }
+];
+var testData_p2 = [
+  {
+    times: [
+      //顏色1
+      { starting_time: 0, ending_time: 30 },
+      { starting_time: 90, ending_time: 100 }
+    ]
+  },
+  {
+    times: [
+      //顏色2
+      { starting_time: 40, ending_time: 45 }
+    ]
+  },
+  {
+    times: [
+      //顏色3
+      { starting_time: 50, ending_time: 100 }
+    ]
+  }
+];
 
-  var chart = d3.timeline().showTimeAxis();
-  //console.log(chart);
-  //var svg =
-  d3.select("#learnBar_1").append("svg").attr("width", 500).datum(testData_p1).call(chart);
-  //$("#p1").append(svg1);
-  //$("#p2").append("this is p2");
-  d3.select("#learnBar_2").append("svg").attr("width", 500).datum(testData_p2).call(chart);
-  /*var svg2 = d3.select("#learn_bar_P2").append("svg").attr("width", 500)
+var chart = d3.timeline().showTimeAxis();
+//console.log(chart);
+//var svg =
+d3
+  .select("#learnBar_1")
+  .append("svg")
+  .attr("width", 500)
+  .datum(testData_p1)
+  .call(chart);
+//$("#p1").append(svg1);
+//$("#p2").append("this is p2");
+d3
+  .select("#learnBar_2")
+  .append("svg")
+  .attr("width", 500)
+  .datum(testData_p2)
+  .call(chart);
+/*var svg2 = d3.select("#learn_bar_P2").append("svg").attr("width", 500)
   .datum(testData_p1).call(chart);
   $("#p2").append(svg2);*/
-
-
 
 //取得使用者資料
 function getAllReward() {
@@ -1055,8 +1164,6 @@ function getAllReward() {
       console.log("getAllReward success");
     } else {
       console.log("getAllReward error");
-
     }
   });
-
 }
