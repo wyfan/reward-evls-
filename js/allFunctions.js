@@ -932,7 +932,13 @@ function userLog(_currentUser, _action, _object, _extention) {
   });
 }
 
- /**************取得第一次學習播放影片時間點*************************************************/
+ /****************
+ * 取得第一次學習播放影片時間點(計算連續學習時間與複習時間進度條使用)
+ * 20200115
+ * _actionTime 動作時間
+ * _event 執行動作(重播標記、解除重播...)
+ ****************/
+
   function getMaxPlaytime(_actionTime, _event) {
     var _click = _event;
     _player.ontimeupdate = function() {
