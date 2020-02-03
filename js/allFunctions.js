@@ -630,15 +630,16 @@ function mediaTag(_currentTime) {
     }
   });
 }
-
+/*********************影片重播****************************************************/
+/*******
+*影片下面的重播功能：重播當前按下去的時間前後
+*
+*******/
 function mediaReplay(_replayTime) {
 
-  var _maxTime = _replayTime + 5;
-  var _event = "mediaReplay";
-  getMaxPlaytime(_maxTime, _event); //開始偵測影片撥放時間
-  console.log("mediaReplay"+_maxTime);
-
-
+  /***設定判斷是否為第一次學習時間使用***/
+  var _actionTime = _replayTime + 5; //按下重播的時間
+  /**********************************/
   var _replayCount = 0;
   _player.currentTime = _replayTime; //由選擇的時間往前回溯5秒
 
@@ -651,18 +652,7 @@ function mediaReplay(_replayTime) {
   ); //按紐文字改為暫停
   $("button#play.media_control.mini.ui.button").attr("id", "pause"); //按鈕id改為pause
 
-  userLog(
-    _currentUser,
-    "mediaReplay",
-    _videoURL,
-    "(" +
-      formatSecond(_start) +
-      "~" +
-      formatSecond(_end) +
-      ")已完成" +
-      _replayCount +
-      "次循環"
-  );
+  userLog( _currentUser, "mediaReplay", _videoURL, "(" + formatSecond(_start) + "~" + formatSecond(_end) + ")已完成" + _replayCount +"次循環");
 
   //按鈕改為解除重播
   $("button#replay.media_control.mini.ui.button").html("解除重播");
@@ -692,12 +682,30 @@ function mediaReplay(_replayTime) {
           "次循環"
       );
     }
-
+    /********影片重播的時候只要確認現在的時間有沒有超過第一次設定的時間，如果沒有就不要管他，如果第一次設定就設定時間*****************/
+    //當重播被按下時要確認的事
+    var _click = "mediaReplay";
+    //1.是不是第一次重播
+    if (_maxPlaytime == 0) {
+      _maxPlaytime = _actionTime;
+      console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
+      userLog(_currentUser, "LearnPause by VideoReplay", _videoURL, _maxPlaytime);
+    } else {
+      //2.如果不是第一次重播，有沒有要重新設定最大播放時間
+      if (_actionTime > _maxPlaytime) {
+        _maxPlaytime = _actionTime;
+        console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是影片重播=" + _click);
+        //userLog(_currentUser, "learnPause", _videoURL, _maxPlaytime);
+      } else {
+        console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是影片重播=" + _click);
+      }
+    }
+    /********************************************/
     subtitle_english(_player.currentTime);
     subtitle_chinese(_player.currentTime);
   };
 }
-
+/*****************解除影片重播********************************/
 function mediaRelease() {//解除重播
   $("button#release.media_control.mini.ui.button").html(
     "<i class='sync icon'></i> 重播"
@@ -710,14 +718,16 @@ function mediaRelease() {//解除重播
   $("button.media_control.mini.ui.button#pause").attr("disabled", false);
 
   _player.ontimeupdate = null;
+  /**************************************/
   //偵測是否有超過第一次觀看影片的時間，因為getMaxPlaytime使用ontimeupdate，因此需在_player.ontimeupdate = null;後面
-  var _event = "tagRelease";
+  var _event = "mediaRelease";
   getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
-  console.log("tagRelease = "+_player.currentTime);
+  console.log("現在是解除影片重播(mediaRelease)："+_player.currentTime);
+  /**************************************/
 
   userLog(_currentUser, "mediaRelease", _videoURL, null);
 }
-
+/*****************音量控制********************************/
 function volumeControl(_value, _function) {
   switch (_function) {
     case "大聲":
@@ -764,7 +774,7 @@ function speedControl(_value, _function) {
 function tagPlay(_selectedTag) {
   var _event = "tagPlay";
   getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
-  console.log("tagPlay"+_player.currentTime);
+  console.log("現在是播放標記(tagPlay)："+_player.currentTime);
 
   _player.currentTime = _selectedTag - 5; //由選擇的時間往前回溯5秒
   _player.play(); //開始播放
@@ -866,22 +876,22 @@ function tagReplay(_selectedTag) {
         "次循環"
       );
     }
-    /**********************************************************/
+    /********************************************/
     //當重播被按下時要確認的事
     var _click = "tagReplay";
     //1.是不是第一次重播
     if (_maxPlaytime == 0) {
       _maxPlaytime = _actionTime;
-      console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是：" + _click);
-      userLog(_currentUser, "learnPause", _videoURL, _maxPlaytime);
+      console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
+      userLog(_currentUser, "learnPause by TagReplay", _videoURL, _maxPlaytime);
     } else {
       //2.如果不是第一次重播，有沒有要重新設定最大播放時間
       if (_actionTime > _maxPlaytime) {
         _maxPlaytime = _actionTime;
-        console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是：" + _click);
+        console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
         //userLog(_currentUser, "learnPause", _videoURL, _maxPlaytime);
       } else {
-        console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是：" + _click);
+        console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
       }
     }
 
