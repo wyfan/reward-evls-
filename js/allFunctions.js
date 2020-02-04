@@ -632,16 +632,16 @@ function mediaTag(_currentTime) {
 }
 /*********************影片重播****************************************************/
 /*******
-*影片下面的重播功能：重播當前按下去的時間前後
-*
+*影片下面的重播功能：重播當前按下去的時間前10S
+* _replayTime = _player.currentTime - 10
 *******/
 function mediaReplay(_replayTime) {
 
   /***設定判斷是否為第一次學習時間使用***/
-  var _actionTime = _replayTime + 5; //按下重播的時間
+  var _actionTime = _replayTime + 10; //按下重播的時間(從10秒前開始複習，當前時間需+10才是真正時間)
   /**********************************/
   var _replayCount = 0;
-  _player.currentTime = _replayTime; //由選擇的時間往前回溯5秒
+  _player.currentTime = _replayTime; //由選擇的時間往前回溯10秒
 
   _start = parseInt(_replayTime);
   _end = parseInt(_replayTime + 10);
@@ -688,8 +688,8 @@ function mediaReplay(_replayTime) {
     //1.是不是第一次重播
     if (_maxPlaytime == 0) {
       _maxPlaytime = _actionTime;
-      console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
-      userLog(_currentUser, "LearnPause by VideoReplay", _videoURL, _maxPlaytime);
+      console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是影片重播=" + _click);
+      //userLog(_currentUser, "LearnPause by VideoReplay", _videoURL, _maxPlaytime);
     } else {
       //2.如果不是第一次重播，有沒有要重新設定最大播放時間
       if (_actionTime > _maxPlaytime) {
@@ -772,6 +772,7 @@ function speedControl(_value, _function) {
 
 /******************************標記操作******************************/
 function tagPlay(_selectedTag) {
+
   var _event = "tagPlay";
   getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
   console.log("現在是播放標記(tagPlay)："+_player.currentTime);
@@ -826,8 +827,7 @@ function tagReplay(_selectedTag) {
   _player.play(); //開始播放
 
   _start = parseInt(_selectedTag - 5);
-  _end = parseInt(_start + 10);
-
+    _end = parseInt(_selectedTag); //原本_end = parseInt(_start + 10); 改成只重播到原本標記時間
   //按鈕改為解除重播
   $("button#replay.tag_control.mini.ui.button").html("解除重播");
   $("button#replay.tag_control.mini.ui.button").attr("id", "release");
@@ -921,7 +921,8 @@ function tagRelease() {
   //解除重播被按下之後，才要開始持續偵測現在影片時間有沒有超過
   var _event = "tagRelease";
   getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
-  console.log("tagRelease = "+_player.currentTime);
+  //console.log("tagRelease = "+_player.currentTime);
+  console.log("現在是解除標記重播(tagRelease)："+_player.currentTime);
   /****************************************************/
   userLog(_currentUser, "tagRelease", _videoURL, null);
 }

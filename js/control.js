@@ -28,7 +28,7 @@ $.getScript("js/allFunctions.js", function() {
                 break;
 
               case "replay": //影片重播
-                mediaReplay(_player.currentTime - 5);
+                mediaReplay(_player.currentTime - 10); //從10秒前開始複習
                 break;
 
               case "release":
