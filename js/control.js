@@ -17,6 +17,7 @@ $.getScript("js/allFunctions.js", function() {
             switch (_buttonFunction) { //根據按鈕功能進行切換
               case "play": //影片播放功能
                 mediaPlay();
+                countdownTime();
                 break;
 
               case "pause": //影片暫停功能

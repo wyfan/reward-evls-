@@ -34,6 +34,9 @@ _player = $("video").get(0);
 //影片時間更新
 _maxPlaytime = 0;
 
+//學習倒數時間 FLAG
+_countdownFlag = 0;
+
 //UI設定 隱藏留言頁面與登出按鈕
 $("#message").fadeOut(100);
 $("#message_content").fadeOut(100);
@@ -978,8 +981,49 @@ function userLog(_currentUser, _action, _object, _extention) {
       }
     };
   }
+  /****************************學習時間倒數***************************************/
+  /****************
+  * 學習時間倒數
+  * 20200204
+  ****************/
+function countdownTime(){
 
+  if (_countdownFlag == 0) { //第一次播放影片，開始學習時間倒數
+    _countdownFlag = 1; //flag設1，表示已經開始播放過
+    var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
+    var _countDownDate = new Date(_iniTime+10000).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
+    var _startCountdown = setInterval(function() {
+      var _now = new Date().getTime();
+      var _distance = _countDownDate - _now; //剩餘時間
+      //計算幾分幾秒
+      var _minutes = Math.floor((_distance % (1000 * 60 * 60)) / (1000 * 60));
+      var _seconds = Math.floor((_distance % (1000 * 60)) / 1000);
 
+      $("#countdown").empty();
+      $("#countdown").append(_minutes+"分"+_seconds+"秒");
+      //console.log("現在時間：" + _minutes+"分"+_seconds+"秒");
+
+      //時間倒數結束
+      if ( _distance < 0) {
+        clearInterval(_startCountdown);
+        $("#countdown").append("已結束！");
+        console.log("已結束！");
+        //跳轉測驗
+        _player.pause();
+        //隱藏首頁頁面
+        $("#home").fadeOut(100);
+        $("#home_content").fadeOut(100);
+        $("#reward_content").fadeOut(100);
+        //顯示測驗頁面
+        $("#exam_content").fadeIn(100);
+        }
+   }, 1000);//var startCountdown = setInterval(function() {
+  }else{
+      console.log("重新繼續播放影片");
+
+  }
+
+}
 
 /******************************討論區功能******************************/
 
