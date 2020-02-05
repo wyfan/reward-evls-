@@ -991,7 +991,7 @@ function countdownTime(){
   if (_countdownFlag == 0) { //第一次播放影片，開始學習時間倒數
     _countdownFlag = 1; //flag設1，表示已經開始播放過
     var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
-    var _countDownDate = new Date(_iniTime+10000).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
+    var _countDownDate = new Date(_iniTime+600000).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
     var _startCountdown = setInterval(function() {
       var _now = new Date().getTime();
       var _distance = _countDownDate - _now; //剩餘時間
@@ -1060,6 +1060,9 @@ $("#message_button").click(function() {
     $("#message_hint").fadeOut(1000);
   }
 });
+
+
+
 
 function makeResponse(_id) {
   //產生回應區所見所得編輯器
@@ -1153,8 +1156,9 @@ var testData_p1 = [
   {
     //顏色1
     times: [
-      { color: "green", starting_time: 0, ending_time: 100 },
-      { color: "blue", starting_time: 40, ending_time: 60 }
+      { label:"WWW", color: "green", starting_time: 0, ending_time: 100 },
+      { color: "blue", starting_time: 40, ending_time: 60 },
+      { color: "blue", starting_time: 80, ending_time: 85 },
     ]
   },
   {
@@ -1166,7 +1170,7 @@ var testData_p1 = [
   {
     times: [
       //顏色3
-      { starting_time: 60, ending_time: 100 }
+      { starting_time: 85, ending_time: 100 }
     ]
   }
 ];
