@@ -36,6 +36,7 @@ _maxPlaytime = 0;
 
 //學習倒數時間 FLAG
 _countdownFlag = 0;
+//學習
 
 //UI設定 隱藏留言頁面與登出按鈕
 $("#message").fadeOut(100);
@@ -595,27 +596,77 @@ function mediaPlay() {
   ); //按紐文字改為暫停
   $("button#play.media_control.mini.ui.button").attr("id", "pause"); //按鈕id改為pause
 
-  userLog(
+  /********影片播放的時候只要確認現在的時間有沒有超過第一次設定的時間，如果沒有就不要管他，如果第一次設定就設定時間*****************/
+  //當重播被按下時要確認的事
+  var _click = "mediaPlay";
+  var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
+  var _time = new Date().getTime(); //紀錄現在系統時間使用
+  //1.是不是第一次重播
+  if (_maxPlaytime == 0) {
+    console.log("這是第一次播放(mediaPlay)，不做設定：" + _maxPlaytime + "現在的動作是影片播放=" + _click);
+    //現在系統時間紀錄(計算用)
+    userLog(_currentUser, "Start", _videoURL, _time);
+    console.log("現在系統時間："+_time);
+    //userLog(_currentUser, "LearnPause by VideoReplay", _videoURL, _maxPlaytime);
+  } else {
+    //2.如果不是第一次播放，有沒有要重新設定最大播放時間
+    if (_actionTime >= _maxPlaytime) { //表示開始新的學習-複習時間結束點
+      console.log("不是最初開始的播放動作，現在影片時間為：" + _maxPlaytime + "現在的動作是影片播放=" + _click);
+      userLog(_currentUser, "Continue", _videoURL, _time);
+      console.log("現在系統時間："+_time);
+    } else {
+      //console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是影片播放=" + _click);
+      console.log("這是重播動作中間暫停之後的播放，複習未結束，時間為：" + _maxPlaytime + "現在的動作是影片播放=" + _click);
+    }
+  }
+  /********************************************/
+
+  userLog(//影片時間紀錄
     _currentUser,
     "mediaPlay",
     _videoURL,
     formatSecond(parseInt(_player.currentTime))
   );
+
 }
 
-function mediaPause() {
-  _player.pause(); //影片暫停
+function mediaPause() { //影片暫停
+  _player.pause();
   $("button#pause.media_control.mini.ui.button").html(
     "<i class='play icon'></i> 播放"
   ); //按紐文字改為播放
   $("button#pause.media_control.mini.ui.button").attr("id", "play"); //按鈕id改為play
 
-  userLog(
+  /********影片暫停的時候只要確認現在的時間有沒有超過第一次設定的時間，如果沒有就不要管他，如果第一次設定就設定時間*****************/
+  //當暫停被按下時要確認的事
+  var _click = "mediaPause";
+  var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
+  var _time = new Date().getTime(); //紀錄現在系統時間使用
+  //1.是不是第一次暫停
+  if (_maxPlaytime == 0) {
+    _maxPlaytime = _actionTime;
+    console.log("這是第一次暫停(mediaPause)，複習開始計算，並設定時間：" + _maxPlaytime + "現在的動作是影片暫停=" + _click);
+    userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+    console.log("現在系統時間："+_time);
+  } else {
+    //2.如果不是第一次暫停，有沒有要重新設定最大播放時間
+    if (_actionTime > _maxPlaytime) {
+      _maxPlaytime = _actionTime;
+      console.log("超過原本時間，複習開始計算，更新時間為：" + _maxPlaytime + "現在的動作是影片暫停=" + _click);
+      userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+      console.log("現在系統時間："+_time);
+    } else {
+      console.log("沒有超過原本時間，複習未結束，原本時間為：" + _maxPlaytime + "現在的動作是影片暫停=" + _click);
+      }
+  }
+
+  userLog(//影片時間紀錄
     _currentUser,
     "mediaPause",
     _videoURL,
     formatSecond(parseInt(_player.currentTime))
   );
+  
 }
 
 function mediaTag(_currentTime) {
