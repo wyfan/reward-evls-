@@ -537,7 +537,9 @@ $("#exam_link").click(function() {
   $("#exam_content").fadeIn(100);
   //$("#message_content").fadeIn(100);
 
+  var _time = new Date().getTime(); //紀錄現在系統時間使用
   userLog(_currentUser, "goToExam", _videoURL, null);
+  userLog(_currentUser, "End", _videoURL, _time); //學習結束點
 });
 
 //從MENU前往排行榜
@@ -1067,8 +1069,12 @@ function countdownTime(){
 
       //時間倒數結束
       if ( _distance < 0) {
+        var _time = new Date().getTime(); //紀錄現在系統時間使用
         clearInterval(_startCountdown);
         $("#countdown").append("已結束！");
+
+        userLog(_currentUser, "End", _videoURL, _time); //學習結束點
+
         console.log("已結束！");
         //跳轉測驗
         _player.pause();
@@ -1081,7 +1087,7 @@ function countdownTime(){
         }
    }, 1000);//var startCountdown = setInterval(function() {
   }else{
-      console.log("重新繼續播放影片");
+      console.log("時間還沒到，重新繼續播放影片");
 
   }
 
