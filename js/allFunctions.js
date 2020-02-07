@@ -539,6 +539,10 @@ $("#exam_link").click(function() {
 
   var _time = new Date().getTime(); //紀錄現在系統時間使用
   userLog(_currentUser, "goToExam", _videoURL, null);
+
+  if(_player.currentTime < _maxPlaytime){//表示在複習時間中就跳到測驗
+    userLog(_currentUser, "ReviewEnd", _videoURL, _time);
+  }
   userLog(_currentUser, "End", _videoURL, _time); //學習結束點
 });
 
@@ -614,7 +618,7 @@ function mediaPlay() {
     //2.如果不是第一次播放，有沒有要重新設定最大播放時間
     if (_actionTime >= _maxPlaytime) { //表示開始新的學習-複習時間結束點
       console.log("不是最初開始的播放動作，現在影片時間為：" + _maxPlaytime + "現在的動作是影片播放=" + _click);
-      userLog(_currentUser, "Continue", _videoURL, _time);
+      userLog(_currentUser, "ReviewEnd", _videoURL, _time);
       console.log("現在系統時間："+_time);
     } else {
       //console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是影片播放=" + _click);
@@ -1027,7 +1031,7 @@ function userLog(_currentUser, _action, _object, _extention) {
         if (_player.currentTime > _maxPlaytime) {
 
           console.log("你又開始學啦！" + _player.currentTime + _click);
-          userLog(_currentUser, "Continue", _videoURL, _time); //複習結束點
+          userLog(_currentUser, "ReviewEnd", _videoURL, _time); //複習結束點
           console.log("現在系統時間："+_time);
           _player.ontimeupdate = null;
         } else {
@@ -1073,6 +1077,7 @@ function countdownTime(){
         clearInterval(_startCountdown);
         $("#countdown").append("已結束！");
 
+        userLog(_currentUser, "ReviewEnd", _videoURL, _time); //學習結束點
         userLog(_currentUser, "End", _videoURL, _time); //學習結束點
 
         console.log("已結束！");
