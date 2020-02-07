@@ -536,7 +536,8 @@ $("#exam_link").click(function() {
   //顯示測驗頁面
   $("#exam_content").fadeIn(100);
   //$("#message_content").fadeIn(100);
-
+  _player.pause();
+  
   var _time = new Date().getTime(); //紀錄現在系統時間使用
   userLog(_currentUser, "goToExam", _videoURL, null);
 
