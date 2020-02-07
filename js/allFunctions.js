@@ -537,7 +537,7 @@ $("#exam_link").click(function() {
   $("#exam_content").fadeIn(100);
   //$("#message_content").fadeIn(100);
   _player.pause();
-  
+
   var _time = new Date().getTime(); //紀錄現在系統時間使用
   userLog(_currentUser, "goToExam", _videoURL, null);
 
@@ -1078,7 +1078,10 @@ function countdownTime(){
         clearInterval(_startCountdown);
         $("#countdown").append("已結束！");
 
-        userLog(_currentUser, "ReviewEnd", _videoURL, _time); //學習結束點
+        if(_player.currentTime < _maxPlaytime){//表示在複習時間中就時間結束
+          userLog(_currentUser, "ReviewEnd", _videoURL, _time); //學習結束點
+        }
+
         userLog(_currentUser, "End", _videoURL, _time); //學習結束點
 
         console.log("已結束！");
