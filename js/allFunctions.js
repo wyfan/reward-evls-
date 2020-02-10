@@ -1222,6 +1222,53 @@ function loadPost() {
   });
 }
 /******************排行榜-d3-timeline**************************************/
+//排行榜測試資料檢查用
+function checkData() {
+
+  var _post = {
+    videoURL: _videoURL
+  };
+
+  console.log(_post.videoURL);
+
+
+  /*$.ajax({
+    type: "POST",
+    url: "./php/getReviewPoint.php",
+    data: _post,
+    success: function(_data) {
+
+      if (_data != "fail") {
+        var _checkData = _data;
+        console.log(_data);
+        $("#check").empty();
+        $("#check").append(
+          "<div id='reviewPoint'>" + _data + "</div>"
+        );
+
+      }
+
+    }
+  });*/
+
+  $.post("./php/getReviewPoint.php", _post, function(_data) {
+
+    if(_data != "fail"){
+      var _checkData = $.parseJSON(_data);
+      console.log(_checkData);
+      //_checkData= JSON.stringify(_checkData[0]);
+      console.log(_checkData[0].extention);
+      $("#check").empty();
+      $("#check").append(
+        "<div id='reviewPoint'>"+ _checkData+"</div>"
+      );
+
+    }
+
+  });
+
+}
+
 var testData_p1 = [
   /*{label: "person a", times: [
     {"starting_time": 1355752800000, "ending_time": 1355759900000},
