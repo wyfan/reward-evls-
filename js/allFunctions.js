@@ -1221,6 +1221,39 @@ function loadPost() {
     }
   });
 }
+
+/**********************測試資料用(抓session)*****************************************/
+function getSession() {
+  var _type = "account";
+
+  var _sessionValue = tryGetSession(_type);
+  console.log(_sessionValue);
+}
+
+function tryGetSession() {
+
+  var _session_type = {
+    type: "account", //要取得的Session類型
+  };
+
+  $.post("./php/getSession.php", _session_type, function(_session) {
+
+    if (_session !== undefined) {
+      $("#getSession").empty();
+      $("#getSession").append(
+        "<div id='getSession'>" + _session + "</div>"
+      );
+      console.log(_session);
+    } else {
+      $("#getSession").append(
+        "<div id='getSession'>空空如也</div>"
+      );
+      console.log("什麼都妹有喔");
+    }
+
+  });
+
+}
 /******************排行榜-d3-timeline**************************************/
 //排行榜測試資料檢查用
 function checkData() {

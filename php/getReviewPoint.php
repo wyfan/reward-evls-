@@ -25,8 +25,6 @@ if ($_SESSION['authenticated'] == true) {
     $rows = $result->fetchAll(PDO::FETCH_ASSOC);
     $res = [];
     foreach($rows as $row) {
-      //print_r($row['extention']);
-        //foreach ($row as $key => $value) {
             //echo $row['account']."||".$row['action']."||".$row['extention']."---"."<br />";
             //time:1234
             //data[0].time
@@ -35,14 +33,6 @@ if ($_SESSION['authenticated'] == true) {
               'extention'=>$row['extention']
             );
             array_push($res,$value_json);
-           //$value_json_result = json_encode($vale_json, JSON_NUMERIC_CHECK);
-
-            //echo $value_json_result."**";
-            //echo $value;
-            //echo 'extention'." : ".$value['extention'].'|||';
-        //}
-        //$value_json = json_encode($value_json, JSON_NUMERIC_CHECK);
-
 
     }
     echo json_encode($res);
