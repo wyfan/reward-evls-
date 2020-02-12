@@ -1225,32 +1225,14 @@ function loadPost() {
 //排行榜測試資料檢查用
 function checkData() {
 
+  //要送出的資料，看哪一部影片
   var _post = {
-    videoURL: _videoURL
+    year: _year, //年級
+    class: _class, //班級
+    videoURL: _videoURL //影片
   };
 
   console.log(_post.videoURL);
-
-
-  /*$.ajax({
-    type: "POST",
-    url: "./php/getReviewPoint.php",
-    data: _post,
-    success: function(_data) {
-
-      if (_data != "fail") {
-        var _checkData = _data;
-        console.log(_data);
-        $("#check").empty();
-        $("#check").append(
-          "<div id='reviewPoint'>" + _data + "</div>"
-        );
-
-      }
-
-    }
-  });*/
-
   $.post("./php/getReviewPoint.php", _post, function(_data) {
 
     if(_data != "fail"){
@@ -1260,7 +1242,7 @@ function checkData() {
       console.log(_checkData[0].extention);
       $("#check").empty();
       $("#check").append(
-        "<div id='reviewPoint'>"+ _checkData+"</div>"
+        "<div id='reviewPoint'>"+_checkData[0].extention +"</div>"
       );
 
     }

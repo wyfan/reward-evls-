@@ -8,6 +8,7 @@ require('connect.php');
 $account = $_SESSION['account'];
 $videourl = $_POST['videoURL'];
 
+
 /*if(isset($_POST['videoURL'])) {
 
 print_r($videourl."123456");
