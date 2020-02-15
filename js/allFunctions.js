@@ -36,7 +36,10 @@ _maxPlaytime = 0;
 
 //學習倒數時間 FLAG
 _countdownFlag = 0;
-//學習
+
+//學生資訊
+_studentYear = "year";
+_studentClass = "class";
 
 //UI設定 隱藏留言頁面與登出按鈕
 $("#message").fadeOut(100);
@@ -1224,16 +1227,17 @@ function loadPost() {
 
 /**********************測試資料用(抓session)*****************************************/
 function getSession() {
-  var _type = "account";
+  var _yeartype = "class";
+  var _year = tryGetSession(_yeartype);
 
-  var _sessionValue = tryGetSession(_type);
-  console.log(_sessionValue);
+
+  console.log(_year);
 }
-
-function tryGetSession() {
+//-----
+function tryGetSession(_type) {
 
   var _session_type = {
-    type: "account", //要取得的Session類型
+    type: _type, //要取得的Session類型
   };
 
   $.post("./php/getSession.php", _session_type, function(_session) {
@@ -1248,7 +1252,7 @@ function tryGetSession() {
       $("#getSession").append(
         "<div id='getSession'>空空如也</div>"
       );
-      console.log("什麼都妹有喔");
+      console.log("什麼都沒有喔");
     }
 
   });
@@ -1257,11 +1261,8 @@ function tryGetSession() {
 /******************排行榜-d3-timeline**************************************/
 //排行榜測試資料檢查用
 function checkData() {
-
   //要送出的資料，看哪一部影片
   var _post = {
-    year: _year, //年級
-    class: _class, //班級
     videoURL: _videoURL //影片
   };
 

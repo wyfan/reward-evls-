@@ -8,16 +8,25 @@ $sessionType = $_POST['type'];
 //是否登入過
 if ($_SESSION['authenticated'] == true) {
 
-    if($sessionType !== NULL){
+    //session type有值
+    if(isset($sessionType) == true){
+      switch ($sessionType){
+        case "account":
+          echo $_SESSION['account'].'+ $sessionType = '.$sessionType;
+          break;
+        case "year":
+          echo $_SESSION['year'].'+ $sessionType = '.$sessionType;
+          break;
+        case "class":
+          echo $_SESSION['class'].'+ $sessionType = '.$sessionType;
+          break;
+        default:
+          echo "無此種Type SESSION喔！";
 
-      echo $_SESSION['account'].'+'.$sessionType;
-
-
+      }
     }else{
-      echo "session noooo!!!";
+      echo "sessionType fail";
     }
-
-
 
 } else {
     echo "fail";

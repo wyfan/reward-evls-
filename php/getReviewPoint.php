@@ -6,6 +6,8 @@ require('connect.php');
 
 //使用者資料
 $account = $_SESSION['account'];
+$year = $_SESSION['year'];
+$class = $_SESSION['class'];
 $videourl = $_POST['videoURL'];
 
 
@@ -15,11 +17,11 @@ print_r($videourl."123456");
 }else{
   print_r('NOOOOOO');
 }*/
-
 if ($_SESSION['authenticated'] == true) {
+
     $result = $pdo->query("SELECT account, timestamp, action, extention
                            FROM user_log
-                           WHERE account = '$account' AND  object = '$videourl' AND (action = 'Review' OR action ='ReviewEnd')
+                           WHERE account = '$account' AND  object = '$videourl' AND year = '109' AND (action = 'Review' OR action ='ReviewEnd')
                            ORDER BY `user_log`.`timestamp` DESC
                             ");
     $rows = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -29,6 +31,7 @@ if ($_SESSION['authenticated'] == true) {
             //time:1234
             //data[0].time
             //admin**2020-02-07 00:39:09**ReviewEnd**158105400938
+
             $value_json=array(
               'extention'=>$row['extention']
             );
