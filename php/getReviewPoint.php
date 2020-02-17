@@ -18,12 +18,18 @@ print_r($videourl."123456");
   print_r('NOOOOOO');
 }*/
 if ($_SESSION['authenticated'] == true) {
-
-    $result = $pdo->query("SELECT account, timestamp, action, extention
+    //20200217 - SQL加入影片連結、使用者班級、年級的判斷，以作為未來多班級使用
+    $result = $pdo->query("SELECT user_log.account, timestamp, action, extention
                            FROM user_log
-                           WHERE account = '$account' AND  object = '$videourl' AND year = '109' AND (action = 'Review' OR action ='ReviewEnd')
-                           ORDER BY `user_log`.`timestamp` DESC
+                           LEFT JOIN user_list ON user_list.account=user_log.account
+                           WHERE  user_log.account = '$account'
+                              AND user_log.object = '$videourl'
+                              AND user_list.year ='$year'
+                              AND user_list.class = '$class'
+                              AND ( user_log.action = 'Review' OR  user_log.action ='ReviewEnd')
+                           ORDER BY user_log.timestamp DESC
                             ");
+
     $rows = $result->fetchAll(PDO::FETCH_ASSOC);
     $res = [];
     foreach($rows as $row) {
