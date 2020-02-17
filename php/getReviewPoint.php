@@ -27,7 +27,7 @@ if ($_SESSION['authenticated'] == true) {
                               AND user_list.year ='$year'
                               AND user_list.class = '$class'
                               AND ( user_log.action = 'Review' OR  user_log.action ='ReviewEnd')
-                           ORDER BY user_log.timestamp DESC
+                           ORDER BY user_log.timestamp ASC
                             ");
 
     $rows = $result->fetchAll(PDO::FETCH_ASSOC);

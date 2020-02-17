@@ -1290,35 +1290,41 @@ function checkData() {
         "<div id='reviewPoint'>" + _checkData[0].extention + '|||'+_test+"</div>"
       );
       /*****D3-data******************/
+      /*{label: "person a", times: [
+        {"starting_time": 1355752800000, "ending_time": 1355759900000},
+        {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+      {label: "person b", times: [
+        {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+      {label: "person c", times: [
+        {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
       //step.1.試著畫資料看看
       var _start = dateTotimestamp('2020-02-11 00:52:27');
       var _end = dateTotimestamp('2020-02-11 00:54:00');
       console.log("start time="+_start+" ; end time="+ _end);
+      //將要畫的資料打包看看
+      console.log(_checkData.length);
+      //var _reviewTime =
+      var _timeReview=[];
+
+      for( var i=0; i<_checkData.length; i=i+2){
+
+        var _reviewStr = { color: 'red', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
+        _timeReview.push(_reviewStr);
+
+        console.log("_reviewStr = "+_reviewStr.starting_time);
+        console.log("_reviewData="+_timeReview[1]);
+      }
+
+      //var _str = { color: 'red', starting_time: dateTotimestamp(_checkData[0].extention), ending_time: dateTotimestamp(_checkData[1].extention) };
+
+      var _timeStartEnd=[
+              { label: 'WWW', color: 'green', starting_time: _start, ending_time: _end }
+          ];
       var testData_p1 = [
-        /*{label: "person a", times: [
-          {"starting_time": 1355752800000, "ending_time": 1355759900000},
-          {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
-        {label: "person b", times: [
-          {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-        {label: "person c", times: [
-          {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
         {//顏色1
-          times: [
-                  { label: "WWW", color: "green", starting_time: _start, ending_time: _end },
-                  { color: "red", starting_time: dateTotimestamp(_checkData[5].extention), ending_time: dateTotimestamp(_checkData[4].extention) },
-                  { color: "red", starting_time: dateTotimestamp(_checkData[3].extention), ending_time: dateTotimestamp(_checkData[2].extention) },
-                  { color: "red", starting_time: dateTotimestamp(_checkData[1].extention), ending_time: dateTotimestamp(_checkData[0].extention) }
-              ]
-        },
-        {//顏色2
-          times: [
-            //{ starting_time: 10, ending_time: 15 }
-          ]
-        },
-        {//顏色3
-          times: [
-            //{ starting_time: 85, ending_time: 100 }
-          ]
+          times: _timeStartEnd
+        },{
+          times: _timeReview
         }
       ];//var testData_p1 = [
 
