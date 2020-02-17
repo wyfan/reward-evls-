@@ -1269,93 +1269,73 @@ function checkData() {
   console.log(_post.videoURL);
   $.post("./php/getReviewPoint.php", _post, function(_data) {
 
-    if(_data != "fail"){
+    if (_data != "fail") {
       var _checkData = $.parseJSON(_data);
       console.log(_checkData);
       //_checkData= JSON.stringify(_checkData[0]);
       console.log(_checkData[0].extention);
       $("#check").empty();
       $("#check").append(
-        "<div id='reviewPoint'>"+_checkData[0].extention +"</div>"
+        "<div id='reviewPoint'>" + _checkData[0].extention + "</div>"
       );
+      /*****D3-data******************/
+      //step.1.試著畫資料看看
+      var testData_p1 = [
+        /*{label: "person a", times: [
+          {"starting_time": 1355752800000, "ending_time": 1355759900000},
+          {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+        {label: "person b", times: [
+          {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+        {label: "person c", times: [
+          {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
+        {//顏色1
+          times: [
+                  { label: "WWW", color: "green", starting_time: 1581400365608, ending_time: 1581400458195 },
+                  { color: "red", starting_time: _checkData[5].extention, ending_time: _checkData[4].extention },
+                  { color: "red", starting_time: _checkData[3].extention, ending_time: _checkData[2].extention },
+                  { color: "red", starting_time: _checkData[1].extention, ending_time: _checkData[0].extention }
+              ]
+        },
+        {//顏色2
+          times: [
+            //{ starting_time: 10, ending_time: 15 }
+          ]
+        },
+        {//顏色3
+          times: [
+            //{ starting_time: 85, ending_time: 100 }
+          ]
+        }
+      ];//var testData_p1 = [
 
-    }
+      var chart = d3.timeline().showTimeAxis();
+      //console.log(chart);
+      //var svg =
+      d3
+        .select("#learnBar_1")
+        .append("svg")
+        .attr("width", 500)
+        .datum(testData_p1)
+        .call(chart);
+      //$("#p1").append(svg1);
+      //$("#p2").append("this is p2");
+     /*  d3
+        .select("#learnBar_2")
+        .append("svg")
+        .attr("width", 500)
+        .datum(testData_p2)
+        .call(chart);
+      var svg2 = d3.select("#learn_bar_P2").append("svg").attr("width", 500)
+        .datum(testData_p1).call(chart);
+        $("#p2").append(svg2);*/
+
+
+    } //if(_data != "fail"){ //如果有取得資料
 
   });
 
 }
 
-var testData_p1 = [
-  /*{label: "person a", times: [
-    {"starting_time": 1355752800000, "ending_time": 1355759900000},
-    {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
-  {label: "person b", times: [
-    {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-  {label: "person c", times: [
-    {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
-  {
-    //顏色1
-    times: [
-      { label:"WWW", color: "green", starting_time: 0, ending_time: 100 },
-      { color: "blue", starting_time: 40, ending_time: 60 },
-      { color: "blue", starting_time: 80, ending_time: 85 },
-    ]
-  },
-  {
-    times: [
-      //顏色2
-      { starting_time: 10, ending_time: 15 }
-    ]
-  },
-  {
-    times: [
-      //顏色3
-      { starting_time: 85, ending_time: 100 }
-    ]
-  }
-];
-var testData_p2 = [
-  {
-    times: [
-      //顏色1
-      { starting_time: 0, ending_time: 30 },
-      { starting_time: 90, ending_time: 100 }
-    ]
-  },
-  {
-    times: [
-      //顏色2
-      { starting_time: 40, ending_time: 45 }
-    ]
-  },
-  {
-    times: [
-      //顏色3
-      { starting_time: 50, ending_time: 100 }
-    ]
-  }
-];
-
-var chart = d3.timeline().showTimeAxis();
-//console.log(chart);
-//var svg =
-d3
-  .select("#learnBar_1")
-  .append("svg")
-  .attr("width", 500)
-  .datum(testData_p1)
-  .call(chart);
-//$("#p1").append(svg1);
-//$("#p2").append("this is p2");
-d3
-  .select("#learnBar_2")
-  .append("svg")
-  .attr("width", 500)
-  .datum(testData_p2)
-  .call(chart);
-/*var svg2 = d3.select("#learn_bar_P2").append("svg").attr("width", 500)
-  .datum(testData_p1).call(chart);
-  $("#p2").append(svg2);*/
 
 //取得使用者資料
 function getAllReward() {
