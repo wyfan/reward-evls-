@@ -1258,6 +1258,16 @@ function tryGetSession(_type) {
   });
 
 }
+/**********************轉換時間*********************************************/
+function dateTotimestamp( _data ){
+  var _date = new Date(_data); //时间对象
+  var _timestamp = _date.getTime(); //转换成时间戳
+  _timestamp = _timestamp / 1000;
+
+  return _timestamp;
+}
+
+
 /******************排行榜-d3-timeline**************************************/
 //排行榜測試資料檢查用
 function checkData() {
@@ -1273,13 +1283,17 @@ function checkData() {
       var _checkData = $.parseJSON(_data);
       console.log(_checkData);
       //_checkData= JSON.stringify(_checkData[0]);
-      console.log(_checkData[0].extention);
+      var _test = dateTotimestamp( _checkData[0].extention);
+      console.log(_test);
       $("#check").empty();
       $("#check").append(
-        "<div id='reviewPoint'>" + _checkData[0].extention + "</div>"
+        "<div id='reviewPoint'>" + _checkData[0].extention + '|||'+_test+"</div>"
       );
       /*****D3-data******************/
       //step.1.試著畫資料看看
+      var _start = dateTotimestamp('2020-02-11 00:52:27');
+      var _end = dateTotimestamp('2020-02-11 00:54:00');
+      console.log("start time="+_start+" ; end time="+ _end);
       var testData_p1 = [
         /*{label: "person a", times: [
           {"starting_time": 1355752800000, "ending_time": 1355759900000},
@@ -1290,10 +1304,10 @@ function checkData() {
           {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
         {//顏色1
           times: [
-                  { label: "WWW", color: "green", starting_time: 1581400365608, ending_time: 1581400458195 },
-                  { color: "red", starting_time: _checkData[5].extention, ending_time: _checkData[4].extention },
-                  { color: "red", starting_time: _checkData[3].extention, ending_time: _checkData[2].extention },
-                  { color: "red", starting_time: _checkData[1].extention, ending_time: _checkData[0].extention }
+                  { label: "WWW", color: "green", starting_time: _start, ending_time: _end },
+                  { color: "red", starting_time: dateTotimestamp(_checkData[5].extention), ending_time: dateTotimestamp(_checkData[4].extention) },
+                  { color: "red", starting_time: dateTotimestamp(_checkData[3].extention), ending_time: dateTotimestamp(_checkData[2].extention) },
+                  { color: "red", starting_time: dateTotimestamp(_checkData[1].extention), ending_time: dateTotimestamp(_checkData[0].extention) }
               ]
         },
         {//顏色2
