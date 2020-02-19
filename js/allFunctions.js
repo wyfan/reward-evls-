@@ -1270,13 +1270,21 @@ function dateTotimestamp( _data ){
 
 /******************排行榜-d3-timeline**************************************/
 //排行榜測試資料檢查用
-function checkData() {
+async function checkData() {
   //要送出的資料，看哪一部影片
   var _post = {
     videoURL: _videoURL //影片
   };
 
   console.log(_post.videoURL);
+
+  /* AXIOS 套件 查詢順序寫法
+  let reviewPoint1 = await axios.post('./php/getReviewPoint.php', _post);
+  let reviewPoint2 = await axios.post('./php/getReviewPoint.php');
+  let reviewPoint3 = await axios.post('./php/getReviewPoint.php');
+
+  alert(reviewPoint1)*/
+
   $.post("./php/getReviewPoint.php", _post, function(_data) {
 
     if (_data != "fail") {
@@ -1289,70 +1297,93 @@ function checkData() {
       $("#check").append(
         "<div id='reviewPoint'>" + _checkData[0].extention + '|||'+_test+"</div>"
       );
-      /*****D3-data******************/
-      /*{label: "person a", times: [
-        {"starting_time": 1355752800000, "ending_time": 1355759900000},
-        {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
-      {label: "person b", times: [
-        {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
-      {label: "person c", times: [
-        {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
-      //step.1.試著畫資料看看
-      var _start = dateTotimestamp('2020-02-11 00:52:27');
-      var _end = dateTotimestamp('2020-02-11 00:54:00');
-      console.log("start time="+_start+" ; end time="+ _end);
-      //將要畫的資料打包看看
-      console.log(_checkData.length);
-      //var _reviewTime =
-      var _timeReview=[];
 
-      for( var i=0; i<_checkData.length; i=i+2){
+      /****查詢Start時間和End時間***/
+      $.post("./php/getSEPoint.php", _post, function(_seData){
 
-        var _reviewStr = { color: 'red', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
-        _timeReview.push(_reviewStr);
+        if(_seData !="fail"){
+          var _checkSE = $.parseJSON(_seData);
+          //console.log("起始點："+_checkSE[1].extention);
 
-        console.log("_reviewStr = "+_reviewStr.starting_time);
-        console.log("_reviewData="+_timeReview[1]);
-      }
+            //開始學習時間點
+            var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
+            var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
+            var _learnEndPoint = _startPoint + 600;//dateTotimestamp('2020-02-11 01:02:27');
+            console.log("_learnEndPoint"+_learnEndPoint);
 
-      //var _str = { color: 'red', starting_time: dateTotimestamp(_checkData[0].extention), ending_time: dateTotimestamp(_checkData[1].extention) };
+            //timeline 第一次看影片的時間段
+            var _timeStartEnd=[
+                    { color: '#0066FF', starting_time: _startPoint, ending_time: _learnEndPoint }
+                ];
+            //timeline 剩下的學習時間段
+            var _timeSurplus =[
+                    { color: '#CCEEFF', starting_time: _endPoint, ending_time: _learnEndPoint }
+            ];
 
-      var _timeStartEnd=[
-              { label: 'WWW', color: 'green', starting_time: _start, ending_time: _end }
-          ];
-      var testData_p1 = [
-        {//顏色1
-          times: _timeStartEnd
-        },{
-          times: _timeReview
-        }
-      ];//var testData_p1 = [
+          /*****D3-data******************/
+          /*{label: "person a", times: [
+            {"starting_time": 1355752800000, "ending_time": 1355759900000},
+            {"starting_time": 1355767900000, "ending_time": 1355774400000}]},
+          {label: "person b", times: [
+            {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
+          {label: "person c", times: [
+            {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
+          console.log("start time="+_startPoint+" ; end time="+ _endPoint);
+          //將要畫的資料打包看看
+          console.log(_checkData.length);
+          //複習時間點(ReviewPoint 的陣列)
+          var _timeReview=[];
 
-      var chart = d3.timeline().showTimeAxis();
-      //console.log(chart);
-      //var svg =
-      d3
-        .select("#learnBar_1")
-        .append("svg")
-        .attr("width", 500)
-        .datum(testData_p1)
-        .call(chart);
-      //$("#p1").append(svg1);
-      //$("#p2").append("this is p2");
-     /*  d3
-        .select("#learnBar_2")
-        .append("svg")
-        .attr("width", 500)
-        .datum(testData_p2)
-        .call(chart);
-      var svg2 = d3.select("#learn_bar_P2").append("svg").attr("width", 500)
-        .datum(testData_p1).call(chart);
-        $("#p2").append(svg2);*/
+          for( var i=0; i<_checkData.length; i=i+2){
+            //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
+            var _reviewStr = { color: '#FFAA33', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
+            _timeReview.push(_reviewStr);
+
+            //console.log("_reviewStr = "+_reviewStr.starting_time);
+            //console.log("_reviewData="+_timeReview[1]);
+          }
+
+          var testData_p1 = [
+            {//顏色1 - 第一次觀看影片的時間
+              times: _timeStartEnd
+            },{//顏色2 - 複習影片的時間
+              times: _timeReview
+            },{//顏色3 - 剩餘時間
+              times: _timeSurplus
+            }
+          ];//var testData_p1 = [
+
+          var chart = d3.timeline().showTimeAxis();
+          //console.log(chart);
+          //var svg =
+          d3
+            .select("#learnBar_1")
+            .append("svg")
+            .attr("width", 500)
+            .datum(testData_p1)
+            .call(chart);
+          //$("#p1").append(svg1);
+          //$("#p2").append("this is p2");
+         /*  d3
+            .select("#learnBar_2")
+            .append("svg")
+            .attr("width", 500)
+            .datum(testData_p2)
+            .call(chart);
+          var svg2 = d3.select("#learn_bar_P2").append("svg").attr("width", 500)
+            .datum(testData_p1).call(chart);
+            $("#p2").append(svg2);*/
+
+        }//if(_seData !="fail"){ //如果有取得Start EndPoint資料
+
+      }); //$.post 查詢學習時間起始點
+
+    } //if(_data != "fail"){ //如果有取得ReviewPoint資料
+
+  }); //$.post 查詢複習時間點
 
 
-    } //if(_data != "fail"){ //如果有取得資料
 
-  });
 
 }
 
