@@ -559,7 +559,8 @@ $("#reward_link").click(function() {
   //顯示排行榜頁面
   $("#reward_content").fadeIn(100);
   //$("#message_content").fadeIn(100);
-  getAllReward();
+  //getAllReward();
+  getSelfData();
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
 
@@ -1269,8 +1270,10 @@ function dateTotimestamp( _data ){
 
 
 /******************排行榜-d3-timeline**************************************/
-//排行榜測試資料檢查用
-async function checkData() {
+//排行榜抓取自己的學習進度與資料
+function getSelfData() {
+  //async function checkData() {
+  $("#self_learnDuring").empty(); 
   //要送出的資料，看哪一部影片
   var _post = {
     videoURL: _videoURL //影片
@@ -1353,13 +1356,18 @@ async function checkData() {
             }
           ];//var testData_p1 = [
 
-          var chart = d3.timeline().showTimeAxis();
+          var chart = d3.timeline().showTimeAxis().itemHeight(24).margin({
+                        left: 20,
+                        right: 0,
+                        top: 5,
+                        bottom: 0
+                    });
           //console.log(chart);
           //var svg =
           d3
-            .select("#learnBar_1")
+            .select("#self_learnDuring")
             .append("svg")
-            .attr("width", 500)
+            .attr("width", 400)
             .datum(testData_p1)
             .call(chart);
           //$("#p1").append(svg1);
@@ -1381,10 +1389,6 @@ async function checkData() {
     } //if(_data != "fail"){ //如果有取得ReviewPoint資料
 
   }); //$.post 查詢複習時間點
-
-
-
-
 }
 
 

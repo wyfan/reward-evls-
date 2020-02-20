@@ -16,7 +16,7 @@
   <script src=https://d3js.org/d3.v3.min.js charset="utf-8"></script>
   <script src="js/d3-timeline/src/d3-timeline.js"></script>
 
-  
+
   <!-- 所見所得編輯器 -->
   <script src="js/editor/ckeditor.js"></script>
 
@@ -196,10 +196,82 @@
       </div>
       <!--排行榜頁面-->
       <div id="reward_content" class="reward_content">
-
-        <div>這邊是排行榜喔</div>
-        <!----排行榜顯示----->
-        <div class="content" id="user_1">
+        <div class="content">
+          <div class="pure-g">
+           <div class="pure-u-5-5" id="reware_pic" style="margin-top: 2em;">
+             <img class="pure-img" style="display:block; margin:auto; height: 15em;" src="/img/reward-title.png"></img>
+           </div>
+          </div>
+        </div>
+        <!--排行榜顯示----->
+        <div class="content" id="user_self">
+          <!--TOP 5 的分數-->
+          <div class="pure-g" id="top_1">
+            <div class="pure-u-1-4" style="text-align: right;">
+              <p style="margin-top:5px">同學A：</p>
+            </div>
+            <div class="pure-u-1-8" id="learn_score" style="text-align: center;">
+              <p style="margin-top:5px">100分</p>
+            </div>
+            <div class="pure-u-5-8" id="top_1_learnDuring"></div>
+          </div>
+          <div class="pure-g" id="top_2">
+            <div class="pure-u-1-4" style="text-align: right;">
+              <p style="margin-top:5px">同學B：</p>
+            </div>
+            <div class="pure-u-1-8" id="learn_score" style="text-align: center;">
+              <p style="margin-top:5px">98分</p>
+            </div>
+            <div class="pure-u-5-8" id="top_2_learnDuring"></div>
+          </div>
+          <div class="pure-g" id="top_3">
+            <div class="pure-u-1-4" style="text-align: right;">
+              <p style="margin-top:5px">同學C：</p>
+            </div>
+            <div class="pure-u-1-8" id="learn_score" style="text-align: center;">
+              <p style="margin-top:5px">95分</p>
+            </div>
+            <div class="pure-u-5-8" id="top_3_learnDuring"></div>
+          </div>
+          <div class="pure-g" id="top_4">
+            <div class="pure-u-1-4" style="text-align: right;">
+              <p style="margin-top:5px">同學D：</p>
+            </div>
+            <div class="pure-u-1-8" id="learn_score" style="text-align: center;">
+              <p style="margin-top:5px">92分</p>
+            </div>
+            <div class="pure-u-5-8" id="top_4_learnDuring"></div>
+          </div>
+          <div class="pure-g" id="top_5">
+            <div class="pure-u-1-4" style="text-align: right;">
+              <p style="margin-top:5px">同學E：</p>
+            </div>
+            <div class="pure-u-1-8" id="learn_score" style="text-align: center;">
+              <p style="margin-top:5px">90分</p>
+            </div>
+            <div class="pure-u-5-8" id="top_5_learnDuring"></div>
+          </div>
+          <div class="pure-u-1-1"></div>
+          <!--自己的分數-->
+          <div class="pure-g">
+            <div class="pure-u-1-4" style="text-align: right;">
+              <p style="margin-top:5px">你的學習情況：</p>
+            </div>
+            <div class="pure-u-1-8" id="learn_score" style="text-align: center;">
+              <p style="margin-top:5px">88分</p>
+            </div>
+            <div class="pure-u-5-8" id="self_learnDuring"></div>
+          </div>
+          <!--顏色說明  -->
+          <div class="pure-u-1-1"></div>
+          <div class="pure-g" style="margin-left:20em;">
+              <div class="pure-u-1-12" style="background:#0066FF; margin-left: 0em;"></div>
+              <div class="pure-u-1-4" style="margin-left: 1em; width: 6em;">影片播放</div>
+              <div class="pure-u-1-12" style="background:#FFAA33"></div>
+              <div class="pure-u-1-4" style="margin-left: 1em; width: 6em;">影片複習</div>
+              <div class="pure-u-1-12" style="background:#CCEEFF"></div>
+              <div class="pure-u-1-4  " style="margin-left: 1em; width: 6em;">剩餘時間</div>
+          </div>
           <div class="pure-u-1-1" id="userName"></div>
           <div class="pure-u-1-4" id="learn_1">學習情況</div>
           <div class="pure-u-1-2" id="check">底家啦！</div>
@@ -208,7 +280,7 @@
         </div>
         <div id="learnBar_2"></div>
         <a href="javascript:void(0);" onclick="backToVideo()" class="pure-button go-reward" id="goHomeBtn">前往第二部影片</a>
-        <a href="javascript:void(0);" onclick="checkData()" class="pure-button check-data" id="checkBtn">測試資料CHECK</a>
+        <a href="javascript:void(0);" onclick="getSelfData()" class="pure-button check-data" id="checkBtn">測試資料CHECK</a>
         <a href="javascript:void(0);" onclick="getSession()" class="pure-button get-session" id="sessionBtn">Session CHECK</a>
       </div>
 
