@@ -703,6 +703,8 @@ function mediaTag(_currentTime) {
 *******/
 function mediaReplay(_replayTime) {
 
+  mediaTag(_player.currentTime);
+
   /***設定判斷是否為第一次學習時間使用***/
   var _actionTime = _replayTime + 10; //按下重播的時間(從10秒前開始複習，當前時間需+10才是真正時間)
   /**********************************/
@@ -711,6 +713,8 @@ function mediaReplay(_replayTime) {
 
   _start = parseInt(_replayTime);
   _end = parseInt(_replayTime + 10);
+
+
 
   _player.play(); //開始播放
   $("button#play.media_control.mini.ui.button").html(
@@ -777,7 +781,7 @@ function mediaReplay(_replayTime) {
 /*****************解除影片重播********************************/
 function mediaRelease() {//解除重播
   $("button#release.media_control.mini.ui.button").html(
-    "<i class='sync icon'></i> 重播"
+    "<i class='sync icon'></i>標記並重播"
   );
   $("button#release.media_control.mini.ui.button").attr("id", "replay");
 
@@ -1273,7 +1277,7 @@ function dateTotimestamp( _data ){
 //排行榜抓取自己的學習進度與資料
 function getSelfData() {
   //async function checkData() {
-  $("#self_learnDuring").empty(); 
+  $("#self_learnDuring").empty();
   //要送出的資料，看哪一部影片
   var _post = {
     videoURL: _videoURL //影片

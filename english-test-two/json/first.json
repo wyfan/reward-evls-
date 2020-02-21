@@ -1,0 +1,467 @@
+{
+  "status": true,
+  "result": {
+    "lists": [
+      {
+        "type": 5,
+        "data": {
+          "id": "1111",
+          "title": "ㄇㄉㄈㄎ",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "y"
+            }
+          },
+          "stem": [
+            {
+              "value": "MDAF"
+            },
+            {
+              "value": "MDFK",
+              "istrue": 1
+            },
+            {
+              "value": "MFAD"
+            },
+            {
+              "value": "MDAD"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "2",
+          "user_result": [],
+          "question": [
+            {
+              "q": "ㄇㄉㄈㄎ",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "13750",
+          "title": "pol*ution",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "l"
+            }
+          },
+          "stem": [
+            {
+              "value": "l",
+              "istrue": 1
+            },
+            {
+              "value": "r"
+            },
+            {
+              "value": "p"
+            },
+            {
+              "value": "o"
+            },
+            {
+              "value": "k"
+            },
+            {
+              "value": "t"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "1",
+          "user_result": [3],
+          "question": [
+            {
+              "q": "pol",
+              "is_empty": 0
+            },
+            {
+              "q": "*",
+              "is_empty": 1
+            },
+            {
+              "q": "ution",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "13751",
+          "title": "green e*ergy",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "n"
+            }
+          },
+          "stem": [
+            {
+              "value": "n",
+              "istrue": 1
+            },
+            {
+              "value": "k"
+            },
+            {
+              "value": "s"
+            },
+            {
+              "value": "d"
+            },
+            {
+              "value": "e"
+            },
+            {
+              "value": "f"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "1",
+          "user_result": [],
+          "question": [
+            {
+              "q": "green e",
+              "is_empty": 0
+            },
+            {
+              "q": "*",
+              "is_empty": 1
+            },
+            {
+              "q": "ergy",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "13752",
+          "title": "envi*onment",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "r"
+            }
+          },
+          "stem": [
+            {
+              "value": "z"
+            },
+            {
+              "value": "x"
+            },
+            {
+              "value": "c"
+            },
+            {
+              "value": "v"
+            },
+            {
+              "value": "r",
+              "istrue": 1
+            },
+            {
+              "value": "n"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "5",
+          "user_result": [],
+          "question": [
+            {
+              "q": "envi",
+              "is_empty": 0
+            },
+            {
+              "q": "*",
+              "is_empty": 1
+            },
+            {
+              "q": "onment",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "13753",
+          "title": "pla*tic",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "s"
+            }
+          },
+          "stem": [
+            {
+              "value": "t"
+            },
+            {
+              "value": "y"
+            },
+            {
+              "value": "s",
+              "istrue": 1
+            },
+            {
+              "value": "p"
+            },
+            {
+              "value": "l"
+            },
+            {
+              "value": "o"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "3",
+          "user_result": [],
+          "question": [
+            {
+              "q": "pla",
+              "is_empty": 0
+            },
+            {
+              "q": "*",
+              "is_empty": 1
+            },
+            {
+              "q": "tic",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "13754",
+          "title": "gla*",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "ss"
+            }
+          },
+          "stem": [
+            {
+              "value": "ss",
+              "istrue": 1
+            },
+            {
+              "value": "g"
+            },
+            {
+              "value": "h"
+            },
+            {
+              "value": "j"
+            },
+            {
+              "value": "k"
+            },
+            {
+              "value": "s"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "1",
+          "user_result": [],
+          "question": [
+            {
+              "q": "gla",
+              "is_empty": 0
+            },
+            {
+              "q": "*",
+              "is_empty": 1
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "13755",
+          "title": "w*d",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "oo"
+            }
+          },
+          "stem": [
+            {
+              "value": "u"
+            },
+            {
+              "value": "oo",
+              "istrue": 1
+            },
+            {
+              "value": "o"
+            },
+            {
+              "value": "e"
+            },
+            {
+              "value": "ea"
+            },
+            {
+              "value": "ae"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "2",
+          "user_result": [],
+          "question": [
+            {
+              "q": "w",
+              "is_empty": 0
+            },
+            {
+              "q": "*",
+              "is_empty": 1
+            },
+            {
+              "q": "d",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "13756",
+          "title": "*etal",
+          "title_type": "5",
+          "config": {
+            "correct_answer": {
+              "1": "m"
+            }
+          },
+          "stem": [
+            {
+              "value": "c"
+            },
+            {
+              "value": "v"
+            },
+            {
+              "value": "b"
+            },
+            {
+              "value": "n"
+            },
+            {
+              "value": "m",
+              "istrue": 1
+            },
+            {
+              "value": "h"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "5",
+          "user_result": [],
+          "question": [
+            {
+              "q": "*",
+              "is_empty": 1
+            },
+            {
+              "q": "etal",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 0,
+              "value": -1
+            }
+          ]
+        }
+      }
+    ],
+    "question_type": {
+      "1": {
+        "en": "Vocabulary Review",
+        "ch": "複習"
+      },
+      "2": {
+        "en": "Listen and Choose ",
+        "ch": "聽與選擇"
+      },
+      "3": {
+        "en": "Read and Choose",
+        "ch": "閱讀與選擇"
+      },
+      "4": {
+        "en": "True or False ",
+        "ch": "正確或錯誤"
+      },
+      "5": {
+        "en": "Spelling",
+        "ch": "拼字"
+      },
+      "6": {
+        "en": "Complete the sentences",
+        "ch": "完成句子"
+      }
+    }
+  }
+}

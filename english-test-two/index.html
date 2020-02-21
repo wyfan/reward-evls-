@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>課程測驗系統</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--html背景两图片-->
+    
+    <!--内容-->
+    <div class="main">
+        <!--中心主体-->
+        <div class="concent">
+            <!--开始首页-->
+            <div :class="{hide:startShow}">
+                
+                <p class="lesson first-title">Lesson1</p>
+                <p class="preview first-title">Review&nbsp&nbsp&nbsp Practice</p>
+                <p class="first-btn" @click="starBtn">開始測驗</p>
+            </div>
+            <!--开始做题,中间做题页-->
+            <div v-for="(item, index) in questionList" :class="{hide:contentShow}"
+                 class="contentId" v-if="index==listsId">
+                <!--试题上方标题与页数-->
+                <div class="conTitle">
+                    <template v-for="(qType, index) in question_type" v-if="item.type==index">
+                        <span class="conTitle1">{{qType.ch}}</span>
+                    </template>
+                    <template>
+                        <span class="conTitle2">{{index+1}}/{{ questionList.length }}</span>
+                    </template>
+                </div>
+                <!--type4-->
+                <template v-if="item.type==4">
+                    <!--判断对错题目-->
+                    <p class="type4-title">{{item.data.title}}</p>
+                    <!--判断对错选项-->
+                    <p class="judge">
+                    <span @click="judgeClick1" :class="{judgeHover:judgeTrue}">
+                        <a class="judge-true"></a>
+                    </span>
+                        <span @click="judgeClick2" :class="{judgeHover:judgeFalse}">
+                        <a class="judge-false"></a>
+                    </span>
+                    </p>
+                </template>
+                <template v-if="item.type==5 || item.type==6">
+                    <!--单词填空题目-->
+                    <p class="type5-title">問題:
+                        <template v-for="qItem in item.data.question">
+                            <template v-if="qItem.q=='*'">
+                                <span class="vacancy">{{vacancyCon}}</span>
+                            </template>
+                            <template v-else>
+                                <span>{{qItem.q}}</span>
+                            </template>
+                        </template>
+                    </p>
+                    <!--单词填空选项-->
+                    <div class="type5-option-box" v-if="item.type==5">
+                        <template v-for="(option,index) in item.data.stem">
+                            <span class="type5-option" @click="type5Click(index)">{{option.value}}</span>
+                        </template>
+                    </div>
+                    <!--多选选词填空-->
+                    <div class="type5-option-box" v-if="item.type==6">
+                        <template v-for="(option,index) in item.data.stem">
+                            <span class="type5-option type6-option" @click="type6Click(index)">{{option.value}}</span>
+                        </template>
+                    </div>
+                </template>
+                <!--左右点击按钮-->
+                <div class="botBtn">
+                    <span class="prve" @click="prveClick">上一題</span>
+                    <span class="next" @click="nextClick">下一題</span>
+                </div>
+            </div>
+            <!--结尾尾页-->
+            <div class="ended" :class="{hide:endShow}">
+                <p class="correct">Correct: {{finish.trueNum}}</p>
+                <p class="wrong">Wrong: {{finish.wrongNum}}</p>
+                <div class="star-box">
+                    <p v-if="finish.star==1">
+                        <span class="star star-true"></span>
+                        <span class="star star-false"></span>
+                        <span class="star star-false"></span>
+                    </p>
+                    <p v-if="finish.star==2">
+                        <span class="star star-true"></span>
+                        <span class="star star-true"></span>
+                        <span class="star star-false"></span>
+                    </p>
+                    <p v-if="finish.star==3">
+                        <span class="star star-true"></span>
+                        <span class="star star-true"></span>
+                        <span class="star star-true"></span>
+                    </p>
+                </div>
+                <p class="btn-box">
+                    <span class="btn-end btn-again" @click="btnAgain">重新測驗</span>
+                    <span class="btn-end btn-quit">結束</span>
+                </p>
+            </div>
+        </div>
+    </div>
+<!--跳转    -->
+<div class="move">
+    第{{listsId}}頁
+</div>
+</div>
+
+</body>
+</html>
