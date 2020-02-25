@@ -5,8 +5,8 @@
       {
         "type": 5,
         "data": {
-          "id": "1111",
-          "title": "ㄇㄉㄈㄎ",
+          "id": "Q1",
+          "title": "Q1",
           "title_type": "5",
           "config": {
             "correct_answer": {
@@ -15,25 +15,27 @@
           },
           "stem": [
             {
-              "value": "MDAF"
-            },
-            {
-              "value": "MDFK",
+              "value": "選項1",
               "istrue": 1
             },
             {
-              "value": "MFAD"
+              "value": "選項2"
+
             },
             {
-              "value": "MDAD"
+              "value": "選項3"
+            },
+            {
+              "value": "選項4"
             }
           ],
           "stem_type": "2",
-          "answer": "2",
+          "answer": "1",
           "user_result": [],
           "question": [
             {
-              "q": "ㄇㄉㄈㄎ",
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
               "is_empty": 0
             }
           ],
@@ -48,8 +50,8 @@
       {
         "type": 5,
         "data": {
-          "id": "13750",
-          "title": "pol*ution",
+          "id": "Q2",
+          "title": "Q2",
           "title_type": "5",
           "config": {
             "correct_answer": {
@@ -58,39 +60,26 @@
           },
           "stem": [
             {
-              "value": "l",
+              "value": "1",
               "istrue": 1
             },
             {
-              "value": "r"
+              "value": "2"
             },
             {
-              "value": "p"
+              "value": "3"
             },
             {
-              "value": "o"
-            },
-            {
-              "value": "k"
-            },
-            {
-              "value": "t"
+              "value": "4"
             }
           ],
           "stem_type": "2",
           "answer": "1",
-          "user_result": [3],
+          "user_result": [],
           "question": [
             {
-              "q": "pol",
-              "is_empty": 0
-            },
-            {
-              "q": "*",
-              "is_empty": 1
-            },
-            {
-              "q": "ution",
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
               "is_empty": 0
             }
           ],

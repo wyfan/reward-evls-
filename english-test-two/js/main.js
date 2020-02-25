@@ -66,7 +66,7 @@ $(function () {
                 if (this.listsId == this.questionList.length - 1) {  //到达最后一页
                     this.contentShow = true; //做题页隐藏
                     this.endShow = false;//末尾页出现
-                    
+
                     this.finishget();//最后一页get提交获取成绩评分
                 } else {
                     if (this.questionList[this.listsId].type == 4) { //判断题答案
@@ -79,6 +79,12 @@ $(function () {
                         this.selectAnswer();
                     }
                 }
+            },
+            /*播放題目音檔*/
+            playQuestion: function () {
+                //console.log(this.listsId);
+                console.log("有沒有出現~");
+
             },
             /*清除判断/单选/多选的选中状态*/
             clearAll: function () {
@@ -103,7 +109,7 @@ $(function () {
                 } else {
                     alert('您未作出判断');
                 }
-
+                /*答案對不對的驗證*/
                 function judgeAn(stemIndex) {  //判断答案验证stemIndex为选择的√×
                     var thisId = app.questionList[app.listsId].data.id; //获取当前题的id
                     if (app.questionList[app.listsId].data.stem[stemIndex].istrue == 1) {

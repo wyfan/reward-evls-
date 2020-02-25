@@ -57,8 +57,10 @@
                             <template v-if="qItem.q=='*'">
                                 <span class="vacancy">{{vacancyCon}}</span>
                             </template>
+
                             <template v-else>
-                                <span>{{qItem.q}}</span>
+                                <span class="playQBtn" @click="playQuestion">{{qItem.q}}</span>
+                                <audio ref="audio" :src="qItem.soundUrl" controls></audio>
                             </template>
                         </template>
                     </p>
