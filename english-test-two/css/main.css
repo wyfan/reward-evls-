@@ -3,7 +3,7 @@ html, body {
     height: 100%;
     background: #FFFFFF;
     font-family: "Impact";
-    color: #59ba77;
+    color: #3380cc;
     overflow: hidden;
 }
 
@@ -25,11 +25,11 @@ html, body {
 }
 
 .judge .judgeHover {
-    border: 1px solid #59ba77;
+    border: 1px solid #3380cc;
 }
 
 .type5Click {
-    background: #59BA77;
+    background: #3380cc;
     color: #ffffff;
 }
 
@@ -77,16 +77,18 @@ html, body {
     height: 20px;
     font-size: 20px;
     line-height: 20px;
-    color: #59ba77;
+    color: #3380cc;
     text-align: center;
     font-family: "Impact";
 }
 
 .first-btn {
-    width: 187px;
-    height: 74px;
+    width: 20em;
+    height: 2em;
     margin: 50px auto;
-    background: #FFFFFF;
+    line-height: 2em;
+    border-radius: 10px;
+    background: #c4ddf5;
     text-align: center;
     cursor: pointer;
 }
@@ -113,7 +115,7 @@ html, body {
 .conTitle2 {
     width: 60px;
     height: 26px;
-    background-color: #DBF7E4;
+    background-color: #c4ddf5;
     font-size: 16px;
     margin-top: -3px;
     line-height: 27px;
@@ -124,7 +126,7 @@ html, body {
 
 .type4-title {
     font-size: 20px;
-    color: #59ba77;
+    color: #3380cc;
     text-align: center;
     margin-top: 20px;
 }
@@ -148,7 +150,7 @@ html, body {
 }
 
 .judge span:hover {
-    border: 1px solid #59ba77;
+    border: 1px solid #3380cc;
 }
 
 .judge a {
@@ -189,10 +191,11 @@ html, body {
 
 .next {
     display: block;
-    width: 65px;
-    height: 65px;
-    float: right;
-    background: #FFFFFF;
+    width: 168px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 10px;
+    background: #c4ddf5;
     background-position: -239px -97px;
     cursor: pointer;
 }
@@ -200,7 +203,7 @@ html, body {
 /*type5*/
 .type5-title {
     font-size: 20px;
-    color: #59ba77;
+    color: #3380cc;
     margin-top: 20px;
 }
 
@@ -211,8 +214,8 @@ html, body {
     vertical-align: middle;
     display: inline-block;
     padding: 0 20px;
-    border-bottom: 1px solid #59ba77;
-    color: #59ba77;
+    border-bottom: 1px solid #3380cc;
+    color: #3380cc;
     margin-left: 4px;
 }
 
@@ -231,7 +234,7 @@ html, body {
     display: inline-block;
     width: 340px;
     height: 42px;
-    border: 1px solid #59ba77;
+    border: 1px solid #3380cc;
     border-radius: 5px;
     line-height: 42px;
     text-align: center;
@@ -240,7 +243,7 @@ html, body {
 }
 
 .type5-option:hover {
-    background: #59BA77;
+    background: #3380cc;
     color: #fff;
 }
 
@@ -326,80 +329,16 @@ html, body {
     right: 50px;
     line-height: 40px;
     /*background: #64CD85;*/
-    color: #59BA77;
+    color: #3380cc;
     font-size: 16px;
 }
 .move input{
     width:20px;
     height:20px;
     border:none;
-    background: #59BA77;
+    background: #3380cc;
     border-bottom: 1px solid #FFFCDA;
     text-align: center;
     margin:0 5px;
     color: #CE3137;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
