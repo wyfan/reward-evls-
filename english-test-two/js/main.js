@@ -19,10 +19,10 @@ $(function () {
             vacancyArr: []        //多选填空显示单词
         },
         mounted: function () {
-            this.getQuestionList();
+            this.getQuestionList(); //取得題目的資料
         },
         methods: {
-            /*初始数据ajax请求*/
+            /*初始数据ajax请求-20200226 - 題目資料*/
             getQuestionList: function () {
                 $.ajax({
                     // url: "http://test.zhituteam.com/index.php/home/api/getquestion",
@@ -41,7 +41,7 @@ $(function () {
                         console.log(app.question_type);
                     },
                     error: function () {
-                        alert("请求错误");
+                        alert("請求錯誤");
                     }
                 })
             },
@@ -60,7 +60,8 @@ $(function () {
                     this.listsId -= 1;
                 }
             },
-            /*下一题点击*/
+            /*點擊下一題*/
+            /*2020226 - 由RadioAnswer()送出請求去對答案(本專案使用單選題)*/
             nextClick: function () {
                 console.log(this.listsId);
                 if (this.listsId == this.questionList.length - 1) {  //到达最后一页
@@ -72,7 +73,7 @@ $(function () {
                     if (this.questionList[this.listsId].type == 4) { //判断题答案
                         this.judgeAnswer();
                         this.clearAll();    //清除选中
-                    } else if (this.questionList[this.listsId].type == 5) {//单选答案
+                    } else if (this.questionList[this.listsId].type == 5) {//單選答案驗證
                         this.RadioAnswer();
                         this.clearAll();    //清除选中
                     } else if (this.questionList[this.listsId].type == 6) {//多选答案
@@ -107,7 +108,7 @@ $(function () {
                     this.listsId += 1; //页码加1
                     console.log(this.listsId);
                 } else {
-                    alert('您未作出判断');
+                    alert('您還沒做出判斷喔');
                 }
                 /*答案對不對的驗證*/
                 function judgeAn(stemIndex) {  //判断答案验证stemIndex为选择的√×
@@ -122,17 +123,19 @@ $(function () {
                     }
                 }
             },
-            /*单选题答案验证*/
+            /*單選題答案驗證 - 20200226 本專案使用之題型*/
             RadioAnswer: function () {
-                if (this.annId == -1) {
-                    alert('您未作出选择');
+                if (this.annId == -1) { //annId ->使用者選擇的答案ID
+                    alert('您還沒有做出選擇喔！');
                 } else {
-                    var thisId = this.questionList[this.listsId].data.id; //获取当前题的id
-                    var selected = (this.annId + 1) + '=' + this.vacancyCon;//获取当前选择答案的索引+内容
-                    if (this.questionList[this.listsId].data.stem[this.annId].istrue == 1) {
+                    var thisId = this.questionList[this.listsId].data.id; //獲取當前題目的ID(第幾題)
+                    var selected = (this.annId + 1) + '=' + this.vacancyCon;//獲取當前選擇答案的索引與內容
+                    if (this.questionList[this.listsId].data.stem[this.annId].istrue == 1) { //如果選擇的選項是對的(istrue)
+                        console.log("回答正確");
                         this.select = 'ok';
                         this.answerPost(thisId, this.select, selected);
                     } else {
+                        console.log("回答錯誤");
                         this.select = 'error';
                         this.answerPost(thisId, this.select, selected);
                     }
@@ -204,7 +207,7 @@ $(function () {
                 this.startShow = false; //首页出现
                 this.listsId = 0;     //页码恢复初始
             },
-            /*点击下一题对当前答题信息post提交*/
+            /*點擊下一題時 對當前題目答案的提交* 2020 - 由PHP將答題資訊存進DB去*/
             answerPost: function (id, select, selected) {
                 $.ajax({
                     // url: "http://test.zhituteam.com/index.php/home/api/ajaxHandle",

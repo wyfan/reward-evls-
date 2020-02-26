@@ -7,10 +7,10 @@
         "data": {
           "id": "Q1",
           "title": "Q1",
-          "title_type": "5",
+          "title_type": "2",
           "config": {
             "correct_answer": {
-              "1": "y"
+              "1": "1"
             }
           },
           "stem": [
@@ -52,7 +52,7 @@
         "data": {
           "id": "Q2",
           "title": "Q2",
-          "title_type": "5",
+          "title_type": "2",
           "config": {
             "correct_answer": {
               "1": "l"
@@ -94,33 +94,27 @@
       {
         "type": 5,
         "data": {
-          "id": "13751",
-          "title": "green e*ergy",
-          "title_type": "5",
+          "id": "Q3",
+          "title": "Q3",
+          "title_type": "2",
           "config": {
             "correct_answer": {
-              "1": "n"
+              "1": "1"
             }
           },
           "stem": [
             {
-              "value": "n",
+              "value": "1",
               "istrue": 1
             },
             {
-              "value": "k"
+              "value": "2"
             },
             {
-              "value": "s"
+              "value": "3"
             },
             {
-              "value": "d"
-            },
-            {
-              "value": "e"
-            },
-            {
-              "value": "f"
+              "value": "4"
             }
           ],
           "stem_type": "2",
@@ -128,15 +122,8 @@
           "user_result": [],
           "question": [
             {
-              "q": "green e",
-              "is_empty": 0
-            },
-            {
-              "q": "*",
-              "is_empty": 1
-            },
-            {
-              "q": "ergy",
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
               "is_empty": 0
             }
           ],
@@ -151,147 +138,27 @@
       {
         "type": 5,
         "data": {
-          "id": "13752",
-          "title": "envi*onment",
-          "title_type": "5",
+          "id": "Q4",
+          "title": "Q4",
+          "title_type": "2",
           "config": {
             "correct_answer": {
-              "1": "r"
+              "1": "1"
             }
           },
           "stem": [
             {
-              "value": "z"
-            },
-            {
-              "value": "x"
-            },
-            {
-              "value": "c"
-            },
-            {
-              "value": "v"
-            },
-            {
-              "value": "r",
+              "value": "1",
               "istrue": 1
             },
             {
-              "value": "n"
-            }
-          ],
-          "stem_type": "2",
-          "answer": "5",
-          "user_result": [],
-          "question": [
-            {
-              "q": "envi",
-              "is_empty": 0
+              "value": "2"
             },
             {
-              "q": "*",
-              "is_empty": 1
+              "value": "3"
             },
             {
-              "q": "onment",
-              "is_empty": 0
-            }
-          ],
-          "empty": [
-            {
-              "empty": 1,
-              "value": -1
-            }
-          ]
-        }
-      },
-      {
-        "type": 5,
-        "data": {
-          "id": "13753",
-          "title": "pla*tic",
-          "title_type": "5",
-          "config": {
-            "correct_answer": {
-              "1": "s"
-            }
-          },
-          "stem": [
-            {
-              "value": "t"
-            },
-            {
-              "value": "y"
-            },
-            {
-              "value": "s",
-              "istrue": 1
-            },
-            {
-              "value": "p"
-            },
-            {
-              "value": "l"
-            },
-            {
-              "value": "o"
-            }
-          ],
-          "stem_type": "2",
-          "answer": "3",
-          "user_result": [],
-          "question": [
-            {
-              "q": "pla",
-              "is_empty": 0
-            },
-            {
-              "q": "*",
-              "is_empty": 1
-            },
-            {
-              "q": "tic",
-              "is_empty": 0
-            }
-          ],
-          "empty": [
-            {
-              "empty": 1,
-              "value": -1
-            }
-          ]
-        }
-      },
-      {
-        "type": 5,
-        "data": {
-          "id": "13754",
-          "title": "gla*",
-          "title_type": "5",
-          "config": {
-            "correct_answer": {
-              "1": "ss"
-            }
-          },
-          "stem": [
-            {
-              "value": "ss",
-              "istrue": 1
-            },
-            {
-              "value": "g"
-            },
-            {
-              "value": "h"
-            },
-            {
-              "value": "j"
-            },
-            {
-              "value": "k"
-            },
-            {
-              "value": "s"
+              "value": "4"
             }
           ],
           "stem_type": "2",
@@ -299,12 +166,9 @@
           "user_result": [],
           "question": [
             {
-              "q": "gla",
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
               "is_empty": 0
-            },
-            {
-              "q": "*",
-              "is_empty": 1
             }
           ],
           "empty": [
@@ -318,49 +182,36 @@
       {
         "type": 5,
         "data": {
-          "id": "13755",
-          "title": "w*d",
-          "title_type": "5",
+          "id": "Q5",
+          "title": "Q5",
+          "title_type": "2",
           "config": {
             "correct_answer": {
-              "1": "oo"
+              "1": "1"
             }
           },
           "stem": [
             {
-              "value": "u"
-            },
-            {
-              "value": "oo",
+              "value": "1",
               "istrue": 1
             },
             {
-              "value": "o"
+              "value": "2"
             },
             {
-              "value": "e"
+              "value": "3"
             },
             {
-              "value": "ea"
-            },
-            {
-              "value": "ae"
+              "value": "4"
             }
           ],
           "stem_type": "2",
-          "answer": "2",
+          "answer": "1",
           "user_result": [],
           "question": [
             {
-              "q": "w",
-              "is_empty": 0
-            },
-            {
-              "q": "*",
-              "is_empty": 1
-            },
-            {
-              "q": "d",
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
               "is_empty": 0
             }
           ],
@@ -375,33 +226,115 @@
       {
         "type": 5,
         "data": {
-          "id": "13756",
-          "title": "*etal",
-          "title_type": "5",
+          "id": "Q6",
+          "title": "Q6",
+          "title_type": "2",
           "config": {
             "correct_answer": {
-              "1": "m"
+              "1": "1"
             }
           },
           "stem": [
             {
-              "value": "c"
-            },
-            {
-              "value": "v"
-            },
-            {
-              "value": "b"
-            },
-            {
-              "value": "n"
-            },
-            {
-              "value": "m",
+              "value": "1",
               "istrue": 1
             },
             {
-              "value": "h"
+              "value": "2"
+            },
+            {
+              "value": "3"
+            },
+            {
+              "value": "4"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "1",
+          "user_result": [],
+          "question": [
+            {
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
+              "is_empty": 1
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "Q7",
+          "title": "Q7",
+          "title_type": "2",
+          "config": {
+            "correct_answer": {
+              "1": "1"
+            }
+          },
+          "stem": [
+            {
+              "value": "1",
+              "istrue": 1
+            },
+            {
+              "value": "2"
+            },
+            {
+              "value": "3"
+            },
+            {
+              "value": "4"
+            }
+          ],
+          "stem_type": "2",
+          "answer": "1",
+          "user_result": [],
+          "question": [
+            {
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
+              "is_empty": 0
+            }
+          ],
+          "empty": [
+            {
+              "empty": 1,
+              "value": -1
+            }
+          ]
+        }
+      },
+      {
+        "type": 5,
+        "data": {
+          "id": "Q8",
+          "title": "Q8",
+          "title_type": "2",
+          "config": {
+            "correct_answer": {
+              "1": "1"
+            }
+          },
+          "stem": [
+            {
+              "value": "1",
+              "istrue": 1
+            },
+            {
+              "value": "2"
+            },
+            {
+              "value": "3"
+            },
+            {
+              "value": "4"
             }
           ],
           "stem_type": "2",
@@ -409,11 +342,8 @@
           "user_result": [],
           "question": [
             {
-              "q": "*",
-              "is_empty": 1
-            },
-            {
-              "q": "etal",
+              "q": "請播放以聽取題目：",
+              "soundUrl":"./json/animal.mp3",
               "is_empty": 0
             }
           ],

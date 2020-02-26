@@ -30,7 +30,8 @@
                 <!--试题上方标题与页数-->
                 <div class="conTitle">
                     <template v-for="(qType, index) in question_type" v-if="item.type==index">
-                        <span class="conTitle1">{{qType.ch}}</span>
+                        <!--span class="conTitle1">{{qType.ch}}</span-->
+                        <span class="conTitle1">聽力測驗</span>
                     </template>
                     <template>
                         <span class="conTitle2">{{index+1}}/{{ questionList.length }}</span>
@@ -52,7 +53,7 @@
                 </template>
                 <template v-if="item.type==5 || item.type==6">
                     <!--单词填空题目-->
-                    <p class="type5-title">問題:
+                    <p class="type5-title">Q:
                         <template v-for="qItem in item.data.question">
                             <template v-if="qItem.q=='*'">
                                 <span class="vacancy">{{vacancyCon}}</span>
