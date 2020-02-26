@@ -129,15 +129,20 @@ $(function () {
                     alert('您還沒有做出選擇喔！');
                 } else {
                     var thisId = this.questionList[this.listsId].data.id; //獲取當前題目的ID(第幾題)
-                    var selected = (this.annId + 1) + '=' + this.vacancyCon;//獲取當前選擇答案的索引與內容
+                    //var selected = (this.annId + 1) + '=' + this.vacancyCon;//獲取當前選擇答案的索引與內容
+                    var selected = (this.annId + 1); //當前使用者選擇的答案
                     if (this.questionList[this.listsId].data.stem[this.annId].istrue == 1) { //如果選擇的選項是對的(istrue)
                         console.log("回答正確");
+                        console.log("題號："+ thisId + "使用者選擇："+selected);
                         this.select = 'ok';
-                        this.answerPost(thisId, this.select, selected);
+                        //this.answerPost(thisId, this.select, selected); //原本專案使用
+                        this.answerCheck(thisId, this.select, selected); //20200226 - 本專案使用
                     } else {
                         console.log("回答錯誤");
+                        console.log("題號："+ thisId + "使用者選擇："+selected);
                         this.select = 'error';
-                        this.answerPost(thisId, this.select, selected);
+                        //this.answerPost(thisId, this.select, selected);
+                        this.answerCheck(thisId, this.select, selected); //20200226 - 本專案使用
                     }
                     this.listsId += 1; //页码加1
                 }
@@ -145,7 +150,7 @@ $(function () {
             /*多选题答案验证*/
             selectAnswer: function () {
                 if (this.answer.length < 6) {
-                    alert('填空未填满');
+                    alert('填空未填滿');
                 } else {
                     var answerNum = this.answer.join('');   //把数组元素拼接成字符串
                     var thisId = this.questionList[this.listsId].data.id; //获取当前题的id
@@ -207,7 +212,7 @@ $(function () {
                 this.startShow = false; //首页出现
                 this.listsId = 0;     //页码恢复初始
             },
-            /*點擊下一題時 對當前題目答案的提交* 2020 - 由PHP將答題資訊存進DB去*/
+            /*點擊下一題時 對當前題目答案的提交-原專案使用*/
             answerPost: function (id, select, selected) {
                 $.ajax({
                     // url: "http://test.zhituteam.com/index.php/home/api/ajaxHandle",
@@ -226,6 +231,36 @@ $(function () {
                         alert("本题POST信息请求出错！");
                     }
                 })
+            },
+            /*點擊下一題時 對當前題目答案的提交* 2020 - 從這邊POST 到PHP將答題資訊存進DB去*/
+            answerCheck: function (id, select, selected) {//id=題號 select=ok/error(答對/答錯) selected=使用者選擇的選項
+              // $.ajax({
+              //     // url: "http://test.zhituteam.com/index.php/home/api/ajaxHandle",
+              //     url: "./php/answerSend.php",
+              //     type: "post",//此处应该为post，本地演示改为post
+              //     dataType: "json",
+              //     data: {
+              //         id: id,
+              //         select: select,
+              //         selected: selected
+              //     },
+              //     success: function () {
+              //         // console.log('提交本题post请求');
+              //     },
+              //     error: function () {
+              //         alert("本题POST信息请求出错！");
+              //     }
+              // })
+                var _answerData = {
+                  qId: id, //題目ID
+                  selectStr:select, //OK OR ERROR
+                  selected: selected //選擇的選項
+                  };
+                $.post("./php/loadTimetag.php", _answerData, function(_checkResult) {
+
+
+                 })
+
             },
             /*答题结束请求最后结果成绩*/
             finishget: function () {
