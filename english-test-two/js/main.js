@@ -16,7 +16,10 @@ $(function () {
             annId: -1,          //单选选中答案索引
             answer: [],           //多选答案顺序数组
             vacancyCon: '',       //单选填空显示单词
-            vacancyArr: []        //多选填空显示单词
+            vacancyArr: [],    //多选填空显示单词
+            correctSum: 0,    //答對的題數總數
+            errorSum: 0       //答錯的題數總數
+
         },
         mounted: function () {
             this.getQuestionList(); //取得題目的資料
@@ -134,7 +137,7 @@ $(function () {
                     if (this.questionList[this.listsId].data.stem[this.annId].istrue == 1) { //如果選擇的選項是對的(istrue)
                         console.log("回答正確");
                         console.log("題號："+ thisId + "使用者選擇："+selected);
-                        this.select = 'ok';
+                        this.select = 'correct';
                         //this.answerPost(thisId, this.select, selected); //原本專案使用
                         this.answerCheck(thisId, this.select, selected); //20200226 - 本專案使用
                     } else {
@@ -228,36 +231,32 @@ $(function () {
                         // console.log('提交本题post请求');
                     },
                     error: function () {
-                        alert("本题POST信息请求出错！");
+                        alert("本題POST請求出錯！");
                     }
                 })
             },
             /*點擊下一題時 對當前題目答案的提交* 2020 - 從這邊POST 到PHP將答題資訊存進DB去*/
             answerCheck: function (id, select, selected) {//id=題號 select=ok/error(答對/答錯) selected=使用者選擇的選項
-              // $.ajax({
-              //     // url: "http://test.zhituteam.com/index.php/home/api/ajaxHandle",
-              //     url: "./php/answerSend.php",
-              //     type: "post",//此处应该为post，本地演示改为post
-              //     dataType: "json",
-              //     data: {
-              //         id: id,
-              //         select: select,
-              //         selected: selected
-              //     },
-              //     success: function () {
-              //         // console.log('提交本题post请求');
-              //     },
-              //     error: function () {
-              //         alert("本题POST信息请求出错！");
-              //     }
-              // })
                 var _answerData = {
                   qId: id, //題目ID
                   selectStr:select, //OK OR ERROR
                   selected: selected //選擇的選項
                   };
-                $.post("./php/loadTimetag.php", _answerData, function(_checkResult) {
+                $.post("./php/answerSend.php", _answerData, function(_checkResult) {
+                   if(_checkResult != "fail"){
 
+                     console.log("有什麼東西從PHP來了："+ _checkResult);
+                     if(_checkResult =="correct"){
+                       app.correctSum = app.correctSum+1;
+                      console.log("答對幾題了："+ app.correctSum);
+                     }else{
+                       app.errorSum = app.errorSum+1;
+                       console.log("答錯幾題了："+ app.errorSum);
+                     }
+
+                   }else{
+                     console.log("什麼東西都沒有！");
+                   }
 
                  })
 
