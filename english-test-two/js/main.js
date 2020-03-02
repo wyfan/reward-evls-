@@ -18,7 +18,8 @@ $(function () {
             vacancyCon: '',       //单选填空显示单词
             vacancyArr: [],    //多选填空显示单词
             correctSum: 0,    //答對的題數總數
-            errorSum: 0       //答錯的題數總數
+            errorSum: 0,       //答錯的題數總數
+            answerTime: 0      //作答次數
 
         },
         mounted: function () {
@@ -53,6 +54,10 @@ $(function () {
                 this.startShow = true;  //初始页隐藏
                 this.contentShow = false; //做题也出现
                 this.listsId = 0;  //开始页码调整到第一页
+                if (app.answerTime == 0){
+                  app.answerTime = app.answerTime +1;
+                  console.log("現在作答次數為："+app.answerTime);
+                }
             },
             /*上一题点击*/
             prveClick: function () {
@@ -73,7 +78,8 @@ $(function () {
                     //20200302 - 最後一題沒有送出，要補一次判斷
                     this.RadioAnswer();
                     //再做獲取總分的動作
-                    this.finishget();//最后一页get提交获取成绩评分
+                    this.finishget();//最后一页get提交获取成绩评分(原專案使用)
+                    this.correctCount(); //取得最後答對總題數
                 } else {
                     if (this.questionList[this.listsId].type == 4) { //判断题答案
                         this.judgeAnswer();
@@ -138,16 +144,16 @@ $(function () {
                     var selected = (this.annId + 1); //當前使用者選擇的答案
                     if (this.questionList[this.listsId].data.stem[this.annId].istrue == 1) { //如果選擇的選項是對的(istrue)
                         console.log("回答正確");
-                        console.log("題號："+ thisId + "使用者選擇："+selected);
+                        console.log("第幾次作答"+ app.answerTime +"題號："+ thisId + "使用者選擇："+selected);
                         this.select = 'correct';
                         //this.answerPost(thisId, this.select, selected); //原本專案使用
-                        this.answerCheck(thisId, this.select, selected); //20200226 - 本專案使用
+                        this.answerCheck(thisId, this.select, selected, app.answerTime); //20200226 - 本專案使用
                     } else {
                         console.log("回答錯誤");
-                        console.log("題號："+ thisId + "使用者選擇："+selected);
+                        console.log("第幾次作答"+ app.answerTime +"題號："+ thisId + "使用者選擇："+selected);
                         this.select = 'error';
                         //this.answerPost(thisId, this.select, selected);
-                        this.answerCheck(thisId, this.select, selected); //20200226 - 本專案使用
+                        this.answerCheck(thisId, this.select, selected, app.answerTime); //20200226 - 本專案使用
                     }
                     this.listsId += 1; //页码加1
                 }
@@ -238,11 +244,12 @@ $(function () {
                 })
             },
             /*點擊下一題時 對當前題目答案的提交* 2020 - 從這邊POST 到PHP將答題資訊存進DB去*/
-            answerCheck: function (id, select, selected) {//id=題號 select=ok/error(答對/答錯) selected=使用者選擇的選項
+            answerCheck: function (id, select, selected, answerTime) {//id=題號 select=ok/error(答對/答錯) selected=使用者選擇的選項
                 var _answerData = {
                   qId: id, //題目ID
                   selectStr:select, //OK OR ERROR
-                  selected: selected //選擇的選項
+                  selected: selected, //選擇的選項
+                  answerTime: answerTime
                   };
                 $.post("./php/answerSend.php", _answerData, function(_checkResult) {
                    if(_checkResult != "fail"){
@@ -283,7 +290,23 @@ $(function () {
                         alert("成绩信息请求错误");
                     }
                 })
+            },
+            /*點擊最後一題時 取得答對題數*/
+            correctCount: function (_answerTime) {
+              var _quizData = {
+                answerTime: _answerTime
+              };
+              $.post("./php/getCorrectCount.php", _quizData, function(_correctCount){
+                if(_correctCount != "fail"){
+                  console.log("有什麼東西從PHP-getCorrectConut來了：" + _correctCount);
+                }else{
+                  console.log("什麼東西都沒有in getCorrectCount！");
+                }
+
+
+              })
             }
+
         }
     });
 });

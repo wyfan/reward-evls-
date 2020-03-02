@@ -7,15 +7,16 @@ require('../../php/connect.php');
 $qId = $_POST['qId'];
 $selectStr = $_POST['selectStr'];
 $selected = $_POST['selected'];
+$answerTime = $_POST['answerTime'];
 $account = $_SESSION['account'];
 $action = 'Quiz';
-$extention = $selectStr.';'.$selected;
+$extention = $selectStr.'; user_selected='.$selected.'; answer_time='.$answerTime;
 
 if( isset($qId) == true){
    //寫入測驗題LOG
   //addQuizLog($account, $qId, $selected, $selectStr);
-   $sql_quiz = "INSERT INTO quiz_log (account, q_number, user_selected, correct) VALUES ('$account','$qId', '$selected', '$selectStr')";
-   $pdo->prepare($sql_quiz)->execute([$account, $qId, $selected, $selectStr]);
+   $sql_quiz = "INSERT INTO quiz_log (account, answer_time, q_number, user_selected, correct) VALUES ('$account', '$answerTime', '$qId', '$selected', '$selectStr')";
+   $pdo->prepare($sql_quiz)->execute([$account, $answerTime, $qId, $selected, $selectStr]);
 
   //寫入UserLog
   //addUserLog($account, $action, $aId, $extention);

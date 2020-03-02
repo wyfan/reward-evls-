@@ -3,6 +3,7 @@
 session_start();
 //連線
 require('connect.php');
+$videoURL = $_POST['videoURL'];
 
 //是否登入過
 if ($_SESSION['authenticated'] == true) {
@@ -29,7 +30,8 @@ if ($_SESSION['authenticated'] == true) {
         //寫入Session
         $_SESSION['authenticated'] = true;
         $_SESSION['account'] = $user;
-
+        $_SESSION['videoURL'] = $videoURL;
+        
         //取得年級和班級並寫入Session
         $rows = $row_column->fetchAll(PDO::FETCH_ASSOC);
         foreach ($rows as $row) {

@@ -50,7 +50,11 @@ $("#logout_link").hide();
 /******************************登入與登出功能******************************/
 function login() {
   //先進行Session確認，若成功登入則data回傳帳號名稱，並將該次登入的帳號存入全域變數中
-  $.post("./php/login.php", function(data) {
+   var _data = {
+     videoURL: _videoURL
+   };
+
+  $.post("./php/login.php", _data, function(data) {
     if (data != "fail") {
       //登入成功，顯示歡迎資訊並顯示登出按鈕
       _currentUser = data;
