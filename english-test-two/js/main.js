@@ -66,11 +66,13 @@ $(function () {
             /*點擊下一題*/
             /*2020226 - 由RadioAnswer()送出請求去對答案(本專案使用單選題)*/
             nextClick: function () {
-                console.log(this.listsId);
+                console.log("nexcClick的listId"+this.listsId);
                 if (this.listsId == this.questionList.length - 1) {  //到达最后一页
                     this.contentShow = true; //做题页隐藏
                     this.endShow = false;//末尾页出现
-
+                    //20200302 - 最後一題沒有送出，要補一次判斷
+                    this.RadioAnswer();
+                    //再做獲取總分的動作
                     this.finishget();//最后一页get提交获取成绩评分
                 } else {
                     if (this.questionList[this.listsId].type == 4) { //判断题答案
