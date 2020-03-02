@@ -79,7 +79,7 @@ $(function () {
                     this.RadioAnswer();
                     //再做獲取總分的動作
                     this.finishget();//最后一页get提交获取成绩评分(原專案使用)
-                    this.correctCount(); //取得最後答對總題數
+                    this.correctCount(app.answerTime); //取得最後答對總題數
                 } else {
                     if (this.questionList[this.listsId].type == 4) { //判断题答案
                         this.judgeAnswer();

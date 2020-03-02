@@ -31,7 +31,7 @@ if ($_SESSION['authenticated'] == true) {
         $_SESSION['authenticated'] = true;
         $_SESSION['account'] = $user;
         $_SESSION['videoURL'] = $videoURL;
-        
+
         //取得年級和班級並寫入Session
         $rows = $row_column->fetchAll(PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
@@ -39,7 +39,7 @@ if ($_SESSION['authenticated'] == true) {
           $_SESSION['class'] = $row['class'];
         }
 
-        echo $_SESSION['account'];
+        echo $_SESSION['account'].$_SESSION['videoURL'];
 
         $pdo = null;
         return;

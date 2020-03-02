@@ -11,7 +11,7 @@ $videoURL = $_SESSION['videoURL']; //第幾部影片(第幾堂課)
 
 if( isset($answerTime) == true){
 
-  echo $videoURL;
+  echo $account.$videoURL;
 
 }else{
   //沒有接收到資料

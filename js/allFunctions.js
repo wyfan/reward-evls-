@@ -54,9 +54,10 @@ function login() {
      videoURL: _videoURL
    };
 
-  $.post("./php/login.php", _data, function(data) {
+  $.post("./php/login.php", _data,function(data) {
     if (data != "fail") {
       //登入成功，顯示歡迎資訊並顯示登出按鈕
+      console.log(data);
       _currentUser = data;
       $("#home").html("歡迎 " + data + " 使用本系統");
       $("#message_info").html("正以 " + data + " 身分留言<br/>");
