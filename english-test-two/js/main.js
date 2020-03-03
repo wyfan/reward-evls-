@@ -298,7 +298,7 @@ $(function () {
               };
               $.post("./php/getCorrectCount.php", _quizData, function(_correctCount){
                 if(_correctCount != "fail"){
-                  console.log("有什麼東西從PHP-getCorrectConut來了：" + _correctCount);
+                  console.log("你答對了幾題：" + _correctCount);
                 }else{
                   console.log("什麼東西都沒有in getCorrectCount！");
                 }
