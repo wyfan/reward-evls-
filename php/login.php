@@ -3,7 +3,7 @@
 session_start();
 //連線
 require('connect.php');
-$videoURL = $_POST['videoURL'];
+$videoURL = './upload/video.mp4';
 
 //是否登入過
 if ($_SESSION['authenticated'] == true) {
