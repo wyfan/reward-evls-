@@ -17,6 +17,7 @@ $(function () {
             answer: [],           //多选答案顺序数组
             vacancyCon: '',       //单选填空显示单词
             vacancyArr: [],    //多选填空显示单词
+            quizNum: 8,        //總共幾題
             correctSum: 0,    //答對的題數總數
             errorSum: 0,       //答錯的題數總數
             answerTime: 0      //作答次數
@@ -78,7 +79,7 @@ $(function () {
                     //20200302 - 最後一題沒有送出，要補一次判斷
                     this.RadioAnswer();
                     //再做獲取總分的動作
-                    this.finishget();//最后一页get提交获取成绩评分(原專案使用)
+                    //this.finishget();//最后一页get提交获取成绩评分(原專案使用)
                     this.correctCount(app.answerTime); //取得最後答對總題數
                 } else {
                     if (this.questionList[this.listsId].type == 4) { //判断题答案
@@ -298,13 +299,24 @@ $(function () {
               };
               $.post("./php/getCorrectCount.php", _quizData, function(_correctCount){
                 if(_correctCount != "fail"){
-                  console.log("你答對了幾題：" + _correctCount);
+                  app.correctSum =  _correctCount;
+                  console.log("你答對了幾題：" + app.correctSum);
+                  app.errorSum = app.quizNum - app.correctSum;
+                  app.finish= {
+                      trueNum: app.correctSum,
+                      wrongNum: app.errorSum
+                    };
+
                 }else{
                   console.log("什麼東西都沒有in getCorrectCount！");
                 }
 
 
               })
+            },
+            /*作答結束，前往排行榜*/
+            quiz2reward: function () {
+              $('#goRewardBtn', window.parent.document).trigger('click');
             }
 
         }

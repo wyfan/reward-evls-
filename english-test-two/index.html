@@ -86,9 +86,9 @@
             </div>
             <!--结尾尾页-->
             <div class="ended" :class="{hide:endShow}">
-                <p class="correct">Correct: {{finish.trueNum}}</p>
-                <p class="wrong">Wrong: {{finish.wrongNum}}</p>
-                <div class="star-box">
+                <p class="correct">答對題數: {{finish.trueNum}}</p>
+                <p class="wrong">答錯題數: {{finish.wrongNum}}</p>
+                <!--div class="star-box"> 星星排榜-本專案不用
                     <p v-if="finish.star==1">
                         <span class="star star-true"></span>
                         <span class="star star-false"></span>
@@ -104,10 +104,10 @@
                         <span class="star star-true"></span>
                         <span class="star star-true"></span>
                     </p>
-                </div>
+                </div-->
                 <p class="btn-box">
-                    <span class="btn-end btn-again" @click="btnAgain">重新測驗</span>
-                    <span class="btn-end btn-quit">結束</span>
+                    <!--span class="btn-end btn-again" @click="btnAgain">重新測驗</span-->
+                    <span class="btn-end btn-quit" id="quiz_to_reward" @click="quiz2reward">前往排行榜(iframeBtn)</span>
                 </p>
             </div>
         </div>
