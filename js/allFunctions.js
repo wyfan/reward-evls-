@@ -540,6 +540,8 @@ $("#exam_link").click(function() {
   $("#reward_content").fadeOut(100);
   //顯示測驗頁面
   $("#exam_content").fadeIn(100);
+  //開始測驗計時倒數
+  countdownQuiz();
   //$("#message_content").fadeIn(100);
   _player.pause();
 
@@ -1109,6 +1111,51 @@ function countdownTime(){
       console.log("時間還沒到，重新繼續播放影片");
 
   }
+
+}
+
+/****************************測驗時間倒數***************************************/
+/****************
+* 測驗時間倒數
+* 20200303
+****************/
+function countdownQuiz(){
+
+  var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
+  var _countDownDate = new Date(_iniTime+100000).getTime(); //設定要開始倒數的時間長度(影片時間)-300000(5分)
+  var _startCountdown = setInterval(function() {
+    var _now = new Date().getTime();
+    var _distance = _countDownDate - _now; //剩餘時間
+    //計算幾分幾秒
+    var _minutes = Math.floor((_distance % (1000 * 60 * 60)) / (1000 * 60));
+    var _seconds = Math.floor((_distance % (1000 * 60)) / 1000);
+
+    //顯示在測驗頁面
+    $("#countdownQuiz").empty();
+    $("#countdownQuiz").append(_minutes+"分"+_seconds+"秒");
+    //console.log("現在時間：" + _minutes+"分"+_seconds+"秒");
+
+    //時間倒數結束
+    if ( _distance < 0) {
+      var _time = new Date().getTime(); //紀錄現在系統時間使用
+      clearInterval(_startCountdown);
+      $("#countdownQuiz").append("測驗時間結束！");
+
+      userLog(_currentUser, "QuizEnd", _videoURL, null); //學習結束點
+
+      console.log("測驗已結束！");
+
+      //隱藏首頁頁面
+      $("#home").fadeOut(100);
+      $("#home_content").fadeOut(100);
+      $("#exam_content").fadeOut(100);
+
+      //顯示測驗頁面
+      $("#reward_content").fadeIn(100);
+
+      }
+ }, 1000);//var startCountdown = setInterval(function() {
+
 
 }
 

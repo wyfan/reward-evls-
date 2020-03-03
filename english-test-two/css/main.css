@@ -304,11 +304,18 @@ html, body {
 }
 
 .btn-end {
-    display: inline-block;
+  /*display: inline-block;
     width: 212px;
     height: 66px;
     background-image: #FFFFFF;
-    cursor: pointer;
+    cursor: pointer;*/
+  display: inline-block;
+  width: 168px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 10px;
+  background: #c4ddf5;
+  cursor: pointer;
 }
 
 .btn-again {
