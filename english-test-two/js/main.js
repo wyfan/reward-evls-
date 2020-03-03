@@ -250,7 +250,8 @@ $(function () {
                   qId: id, //題目ID
                   selectStr:select, //OK OR ERROR
                   selected: selected, //選擇的選項
-                  answerTime: answerTime
+                  answerTime: answerTime,
+                  quizNum: app.quizNum
                   };
                 $.post("./php/answerSend.php", _answerData, function(_checkResult) {
                    if(_checkResult != "fail"){

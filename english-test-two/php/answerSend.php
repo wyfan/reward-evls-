@@ -10,14 +10,16 @@ $selected = $_POST['selected'];
 $answerTime = $_POST['answerTime'];
 $account = $_SESSION['account'];
 $videoURL = $_SESSION['videoURL'];
+$quizNum = $_POST['quizNum'];
 $action = 'Quiz';
+
 $extention = $selectStr.'; user_selected='.$selected.'; answer_time='.$answerTime;
 
 if( isset($qId) == true){
    //寫入測驗題LOG
   //addQuizLog($account, $qId, $selected, $selectStr);
-   $sql_quiz = "INSERT INTO quiz_log (account, lesson, answer_time, q_number, user_selected, correct) VALUES ('$account', '$videoURL', '$answerTime', '$qId', '$selected', '$selectStr')";
-   $pdo->prepare($sql_quiz)->execute([$account, $videoURL, $answerTime, $qId, $selected, $selectStr]);
+   $sql_quiz = "INSERT INTO quiz_log (account, lesson, answer_time, q_number, user_selected, correct, total) VALUES ('$account', '$videoURL', '$answerTime', '$qId', '$selected', '$selectStr', '$quizNum')";
+   $pdo->prepare($sql_quiz)->execute([$account, $videoURL, $answerTime, $qId, $selected, $selectStr, $quizNum]);
 
   //寫入UserLog
   //addUserLog($account, $action, $aId, $extention);
