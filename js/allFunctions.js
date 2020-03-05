@@ -47,6 +47,46 @@ $("#message_content").fadeOut(100);
 $("#exam_content").fadeOut(100);
 $("#reward_content").fadeOut(100);
 $("#logout_link").hide();
+
+//20200304 - 英文字幕載入處理(全域)
+//for(var i in array ){}
+var contentEng; //先宣告全域字幕變數
+var timeArray = []; //存放各句的時間點(START TIME)
+var numArray = []; //存放第幾句的編號
+var tagArray = []; //存放各句的TAG(A=單字句/S-開頭/M-中間/E-結尾)
+//載入字幕檔並且切割成一行
+var subtitleEngAll = new XMLHttpRequest();
+subtitleEngAll.open("GET", _englishSub, true);
+subtitleEngAll.responseType = "text";
+subtitleEngAll.onload = function() {
+  contentEng = subtitleEngAll.response;
+  contentEng = contentEng.split("\n\n"); //切字幕檔大區段，字幕在第三段contentEng[2]
+  contentEng = contentEng[2].split("\n"); //將字幕檔切成一行
+
+  contentEng.map(function(partsE){
+    var partsEngArr = partsE.split(",");
+    if(partsEngArr.includes("Dialogue: 0") == true){
+      //將全部的字幕時間挑出組成時間Array
+      timeArray.push(partsEngArr[1]);
+      //將第幾句的標號挑出組成句數array
+      numArray.push(partsEngArr[4]);
+      //將句子TAG挑出組成TAG Array
+      tagArray.push(partsEngArr[8]);
+      //console.log("partsEngArr = " + partsEngArr[1]);
+    }
+  });
+  console.log("timeArray[2] = " + timeArray[2]+"|| numArray[2] = " + numArray[2]+"|| tagArray[2] = " + tagArray[2]);
+  //console.log("有沒有讀字幕啊→timeArray[1]="+ timeArray[1] +'||timeArray[2]='+timeArray[2] );
+};
+subtitleEngAll.send();
+/********************測試用FUNCTION************************************************/
+function getEngArray(){
+
+  console.log("timeArray[0] = " + timeArray[0]+"|| timeArray[1] = " + timeArray[1]);
+
+}
+
+
 /******************************登入與登出功能******************************/
 function login() {
   //先進行Session確認，若成功登入則data回傳帳號名稱，並將該次登入的帳號存入全域變數中
@@ -244,7 +284,7 @@ function subtitle_english(_time) {
       }
 
       //處理文字部分
-      var _subEnglish = _english[9];
+      var _subEnglish = _english[9]; //字幕檔中第9欄是text
       _subEnglish = String(_subEnglish).split(" ");
 
       if (_timeEnglish > _time - 5 && _timeEnglish < _time + 5) {
