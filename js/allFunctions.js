@@ -67,7 +67,17 @@ subtitleEngAll.onload = function() {
     var partsEngArr = partsE.split(",");
     if(partsEngArr.includes("Dialogue: 0") == true){
       //將全部的字幕時間挑出組成時間Array
-      timeArray.push(partsEngArr[1]);
+      //var _sentenctTime =  partsEngArr[1];
+      //if(typeof _sentenctTime == "string"){
+      var _sentenctTime =  partsEngArr[1].split(":");
+      var _intTime =
+          parseInt(_sentenctTime[0]) * 60 +
+          parseInt(_sentenctTime[1]) * 60 +
+          parseFloat(_sentenctTime[2]);
+
+      timeArray.push(_intTime);
+      //}
+
       //將第幾句的標號挑出組成句數array
       numArray.push(partsEngArr[4]);
       //將句子TAG挑出組成TAG Array
@@ -75,7 +85,8 @@ subtitleEngAll.onload = function() {
       //console.log("partsEngArr = " + partsEngArr[1]);
     }
   });
-  console.log("timeArray[2] = " + timeArray[2]+"|| numArray[2] = " + numArray[2]+"|| tagArray[2] = " + tagArray[2]);
+  console.log(timeArray[18]);
+  console.log("timeArray[18] = " + timeArray[18]+"|| numArray[18] = " + numArray[18]+"|| tagArray[18] = " + tagArray[18]);
   //console.log("有沒有讀字幕啊→timeArray[1]="+ timeArray[1] +'||timeArray[2]='+timeArray[2] );
 };
 subtitleEngAll.send();
@@ -85,7 +96,12 @@ function getEngArray(){
   console.log("timeArray[0] = " + timeArray[0]+"|| timeArray[1] = " + timeArray[1]);
 
 }
+/*********************連續句數的判斷*************************************/
+function getSentenceData(_time){
 
+
+
+}
 
 /******************************登入與登出功能******************************/
 function login() {
