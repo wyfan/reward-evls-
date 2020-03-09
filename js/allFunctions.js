@@ -114,13 +114,15 @@ function getEngArray(){
 */
 function getSentenceData(_time){
   var _currentSentenceTime = _time; //要比對的時間
+  var _sentCount = 0;
+
   for(var i=0; i<timeArray.length; i++){
     if(_currentSentenceTime <= timeArray[i]){ //現在在第幾句的中斷時間
       var _arrayIndex = i-1;
       console.log("判斷是在哪個位置(i-1)= "+(i-1) + "||第幾句："+numArray[i-1]+"||tag:"+tagArray[i-1]);
-      countSentence(_arrayIndex);
+      _sentCount = countSentence(_arrayIndex);
       //開始判斷學了幾句
-
+      console.log("_sentCount ="+_sentCount);
       break;
     }else{
       console.log("現在在ELSE");
