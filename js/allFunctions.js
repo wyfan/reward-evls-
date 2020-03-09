@@ -51,7 +51,7 @@ $("#logout_link").hide();
 //20200304 - 英文字幕載入處理(全域)
 //for(var i in array ){}
 var contentEng; //先宣告全域字幕變數
-var timeArray = []; //存放各句的時間點(START TIME)
+var timeArray = []; //存放各句的時間點(END TIME)
 var numArray = []; //存放第幾句的編號
 var tagArray = []; //存放各句的TAG(A=單字句/S-開頭/M-中間/E-結尾)
 //載入字幕檔並且切割成一行
@@ -69,7 +69,7 @@ subtitleEngAll.onload = function() {
       //將全部的字幕時間挑出組成時間Array
       //var _sentenctTime =  partsEngArr[1];
       //if(typeof _sentenctTime == "string"){
-      var _sentenctTime =  partsEngArr[1].split(":");
+      var _sentenctTime =  partsEngArr[2].split(":"); //partsEngArr[2]各句的結束時間
       var _intTime =
           parseInt(_sentenctTime[0]) * 60 +
           parseInt(_sentenctTime[1]) * 60 +
@@ -90,18 +90,95 @@ subtitleEngAll.onload = function() {
   //console.log("有沒有讀字幕啊→timeArray[1]="+ timeArray[1] +'||timeArray[2]='+timeArray[2] );
 };
 subtitleEngAll.send();
+
+//連續句數判斷使用
+_sentenceNum = 1; //上一次是第幾句，起始為1
+_sentenceTag = 'S'; //上一次的TAG，起始null
+//_sentenceCount = 0; //連續學了幾句
+
 /********************測試用FUNCTION************************************************/
 function getEngArray(){
-
-  console.log("timeArray[0] = " + timeArray[0]+"|| timeArray[1] = " + timeArray[1]);
+  //_player.currentTime
+  getSentenceData(_player.currentTime);
+  //console.log("timeArray[0] = " + timeArray[0]+"|| timeArray[1] = " + timeArray[1]);
 
 }
 /*********************連續句數的判斷*************************************/
+/*
+* 0.設置全域變數，儲存上一次是第幾句和TAG，用來判斷下一次中斷時間隔連續幾句
+* 1.從時間找出第幾句和TAG
+* 2.計算連續句數
+* -相差>1: if tag = A or tag =E =>表示聽完整句 句數相減再 +1
+*          else 句數相減
+* 連續句數：聽完兩句(完整)=>連續句數=1
+*/
 function getSentenceData(_time){
+  var _currentSentenceTime = _time; //要比對的時間
+  for(var i=0; i<timeArray.length; i++){
+    if(_currentSentenceTime <= timeArray[i]){ //現在在第幾句的中斷時間
+      var _arrayIndex = i-1;
+      console.log("判斷是在哪個位置(i-1)= "+(i-1) + "||第幾句："+numArray[i-1]+"||tag:"+tagArray[i-1]);
+      countSentence(_arrayIndex);
+      //開始判斷學了幾句
 
+      break;
+    }else{
+      console.log("現在在ELSE");
+    }
+
+  }
+  console.log("break跳出啦!");
 
 
 }
+
+function countSentence(_index){
+  var _countSentence = 0;
+  var _currentNum = numArray[_index]; //現在在第幾句
+  var _count = _currentNum-_sentenceNum;
+
+  if(_count >= 1 ){
+    //如果前一次停下來的地方TAG=A或TAG=S->單獨句子或句子開頭
+    if( _sentenceTag == 'A' || _sentenceTag == 'S' ){
+      //如果當前句子結尾是E或A
+      if( tagArray[_index] == 'A' || tagArray[_index] == 'E' ){
+          //學滿兩句以上，連續句數為_count
+          _countSentence = _count;
+          console.log("第"+_sentenceNum+"句開始，第"+_currentNum+"句中斷，開頭是"+_sentenceTag+"結尾是"+tagArray[_index]+"連續句數="+_countSentence);
+
+      }else{ //後面句子未滿，連續句數為_count-1
+          _countSentence = _count-1;
+          console.log("第"+_sentenceNum+"句開始，第"+_currentNum+"句中斷，開頭是"+_sentenceTag+"結尾是"+tagArray[_index]+"連續句數="+_countSentence);
+      }
+
+
+    }else{//如果前一次停下來的地方TAG=M或TAG=E->單獨句子或句子開頭
+      //如果當前句子結尾是E或A，連續句數為_count
+      if( tagArray[_index] == 'A' || tagArray[_index] == 'E'){
+        _countSentence = _count-1;
+        console.log("第"+_sentenceNum+"句開始，第"+_currentNum+"句中斷，開頭是"+_sentenceTag+"結尾是"+tagArray[_index]+"連續句數="+_countSentence);
+      }else{
+        //如果當前句子結尾是S或M，句子中斷
+        //如果_count==1 ->0 else _count=_count-2
+        if(_count==1){
+          _countSentence = 0;
+        }else{
+          _countSentence = _count-2;
+        }
+      }
+
+    }//else{//如果前一次停下來的地方TAG=M或TAG=E->單獨句子或句子開頭
+
+  }else{
+    _countSentence = 0;
+  }
+  //將當前位置替換前一次句子的標記
+  _sentenceNum = numArray[_index+1];
+  _sentenceTag = tagArray[_index+1];
+  console.log("儲存下次要比對的句子標記與句數：第幾句="+_sentenceNum+"  TAG ="+_sentenceTag);
+  return _countSentence;
+}
+
 
 /******************************登入與登出功能******************************/
 function login() {
