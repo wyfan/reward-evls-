@@ -39,7 +39,7 @@ if ($_SESSION['authenticated'] == true) {
           $_SESSION['class'] = $row['class'];
         }
 
-        echo $_SESSION['account'].$_SESSION['videoURL'];
+        echo $_SESSION['account'];
 
         $pdo = null;
         return;
