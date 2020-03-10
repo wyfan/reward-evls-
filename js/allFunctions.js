@@ -1313,13 +1313,25 @@ function countdownTime(){
       //時間倒數結束
       if ( _distance < 0) {
         var _time = new Date().getTime(); //紀錄現在系統時間使用
+        var _sentenceSum = 0; //紀錄現在連續學習句數
+
         clearInterval(_startCountdown);
         $("#countdown").append("已結束！");
 
         if(_player.currentTime < _maxPlaytime){//表示在複習時間中就時間結束
           userLog(_currentUser, "ReviewEnd", _videoURL, _time); //學習結束點
+
         }
 
+        //影片沒看完就倒數時間結束
+        if(_player.currentTime > _maxPlaytime){
+          //就以當前的時間去計算
+          _sentenceSum = getSentenceData(_player.currentTime);
+          console.log("影片沒看完就倒數時間結束，連續句數為：" + _sentenceSum);
+        }
+
+
+        userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
         userLog(_currentUser, "End", _videoURL, _time); //學習結束點
 
         console.log("已結束！");
