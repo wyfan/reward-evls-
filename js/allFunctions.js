@@ -51,7 +51,8 @@ $("#logout_link").hide();
 //20200304 - 英文字幕載入處理(全域)
 //for(var i in array ){}
 var contentEng; //先宣告全域字幕變數
-var timeArray = []; //存放各句的時間點(END TIME)
+var starttimeArray=[]; //存放各句的時間點(START TIME)
+var endtimeArray = []; //存放各句的時間點(END TIME)
 var numArray = []; //存放第幾句的編號
 var tagArray = []; //存放各句的TAG(A=單字句/S-開頭/M-中間/E-結尾)
 //載入字幕檔並且切割成一行
@@ -69,14 +70,21 @@ subtitleEngAll.onload = function() {
       //將全部的字幕時間挑出組成時間Array
       //var _sentenctTime =  partsEngArr[1];
       //if(typeof _sentenctTime == "string"){
-      var _sentenctTime =  partsEngArr[2].split(":"); //partsEngArr[2]各句的結束時間
+      var _sentenceETime =  partsEngArr[2].split(":"); //partsEngArr[2]各句的結束時間
       var _intTime =
-          parseInt(_sentenctTime[0]) * 60 +
-          parseInt(_sentenctTime[1]) * 60 +
-          parseFloat(_sentenctTime[2]);
+          parseInt(_sentenceETime[0]) * 60 +
+          parseInt(_sentenceETime[1]) * 60 +
+          parseFloat(_sentenceETime[2]);
 
-      timeArray.push(_intTime);
+      endtimeArray.push(_intTime);
       //}
+      var _sentenceSTime = partsEngArr[1].split(":"); //partsEngArr[1]各句的開始時間
+      var _intSTime =
+          parseInt(_sentenceSTime[0]) * 60 +
+          parseInt(_sentenceSTime[1]) * 60 +
+          parseFloat(_sentenceSTime[2]);
+
+      starttimeArray.push(_intSTime);
 
       //將第幾句的標號挑出組成句數array
       numArray.push(partsEngArr[4]);
@@ -85,8 +93,8 @@ subtitleEngAll.onload = function() {
       //console.log("partsEngArr = " + partsEngArr[1]);
     }
   });
-  console.log(timeArray[18]);
-  console.log("timeArray[18] = " + timeArray[18]+"|| numArray[18] = " + numArray[18]+"|| tagArray[18] = " + tagArray[18]);
+  console.log(endtimeArray[18]);
+  console.log("(endtimeArray[18] = " + endtimeArray[18]+"|| numArray[18] = " + numArray[18]+"|| tagArray[18] = " + tagArray[18]);
   //console.log("有沒有讀字幕啊→timeArray[1]="+ timeArray[1] +'||timeArray[2]='+timeArray[2] );
 };
 subtitleEngAll.send();
@@ -103,7 +111,7 @@ function getEngArray(){
   //console.log("timeArray[0] = " + timeArray[0]+"|| timeArray[1] = " + timeArray[1]);
 
 }
-/*********************連續句數的判斷*************************************/
+/*********************連續句數的時間判斷*************************************/
 /*
 * 0.設置全域變數，儲存上一次是第幾句和TAG，用來判斷下一次中斷時間隔連續幾句
 * 1.從時間找出第幾句和TAG
@@ -111,29 +119,53 @@ function getEngArray(){
 * -相差>1: if tag = A or tag =E =>表示聽完整句 句數相減再 +1
 *          else 句數相減
 * 連續句數：聽完兩句(完整)=>連續句數=1
+* _time = _play.currentTime ->跟著第一次學習中斷的時間走!!只判斷第一次學習的連續學習句數
 */
 function getSentenceData(_time){
   var _currentSentenceTime = _time; //要比對的時間
   var _sentCount = 0;
 
-  for(var i=0; i<timeArray.length; i++){
-    if(_currentSentenceTime <= timeArray[i]){ //現在在第幾句的中斷時間
-      var _arrayIndex = i-1;
-      console.log("判斷是在哪個位置(i-1)= "+(i-1) + "||第幾句："+numArray[i-1]+"||tag:"+tagArray[i-1]);
+  for(var i=0; i<endtimeArray.length; i++){
+    var _arrayIndex = 0;
+    //現在在第幾句的中斷時間
+    if(_currentSentenceTime <= endtimeArray[0]){ //還沒到第一句字幕結束就暫停
+
+      if(_currentSentenceTime >= starttimeArray[0]){ //第一句字幕已經開始出現
+        _arrayIndex = 0; //以第一句算
+
+        console.log("判斷是在哪個位置(i-1)= "+_arrayIndex + "||第幾句："+numArray[_arrayIndex]+"||tag:"+tagArray[_arrayIndex]);
+        _sentCount = countSentence(_arrayIndex);
+        //開始判斷學了幾句
+        console.log("_sentCount ="+_sentCount);
+
+        //userLog(_currentUser, "SentenceCount", _videoURL, _time);
+        break;
+      }else{
+        console.log("第一句字幕都還沒開始喔");
+      }
+    }else if((_currentSentenceTime <= endtimeArray[i]) && (i>0)){ //在中間句子判斷
+      _arrayIndex = i-1; //以前一個END時間計算
+
+      console.log("判斷是在哪個位置(i-1)= "+_arrayIndex + "||第幾句："+numArray[_arrayIndex]+"||tag:"+tagArray[_arrayIndex]);
       _sentCount = countSentence(_arrayIndex);
       //開始判斷學了幾句
       console.log("_sentCount ="+_sentCount);
       break;
-    }else{
-      console.log("現在在ELSE");
+
+    }else if(_currentSentenceTime > endtimeArray[endtimeArray.length-1]){  //如果比對到最後一個都沒有，表示已經超過最後一個字幕時間
+      console.log("判斷是在哪個位置(i-1)= "+(i-1) + "||第幾句："+numArray[i-1]+"||tag:"+tagArray[i-1]);
+      _arrayIndex = endtimeArray.length-1; //取最後一個時間當成判斷
+      _sentCount = countSentence(_arrayIndex);
+      console.log("這邊是最後的字幕：_sentCount ="+_sentCount);
+      break;
     }
 
   }
   console.log("break跳出啦!");
-
+  return _sentCount;
 
 }
-
+/************判斷連續句數數量的判斷***************/
 function countSentence(_index){
   var _countSentence = 0;
   var _currentNum = numArray[_index]; //現在在第幾句
@@ -792,18 +824,34 @@ function mediaPause() { //影片暫停
   var _click = "mediaPause";
   var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
   var _time = new Date().getTime(); //紀錄現在系統時間使用
+  var _sentenceSum = 0; //紀錄現在連續學習句數
+
   //1.是不是第一次暫停
   if (_maxPlaytime == 0) {
+    //第一次暫停，設定當前暫停的播放時間
     _maxPlaytime = _actionTime;
+    //有設定_maxPlaytime，就要計算連續句數(第一次學習的暫停)
+    _sentenceSum = getSentenceData(_maxPlaytime);
+
     console.log("這是第一次暫停(mediaPause)，複習開始計算，並設定時間：" + _maxPlaytime + "現在的動作是影片暫停=" + _click);
+    console.log("這是第一次暫停(mediaPause)，複習開始計算，連續學習句數為：" + _sentenceSum);
+
     userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+    userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
     console.log("現在系統時間：" + _time);
   } else {
     //2.如果不是第一次暫停，有沒有要重新設定最大播放時間
     if (_actionTime > _maxPlaytime) {
       _maxPlaytime = _actionTime;
+      //有設定_maxPlaytime，就要計算連續句數
+      _sentenceSum = getSentenceData(_maxPlaytime);
+
       console.log("超過原本時間，複習開始計算，更新時間為：" + _maxPlaytime + "現在的動作是影片暫停=" + _click);
+      console.log("超過原本時間，複習開始計算，連續學習句數為：" + _sentenceSum);
+
       userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+      userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
       console.log("現在系統時間：" + _time);
     } else {
       console.log("沒有超過原本時間，複習未結束，原本時間為：" + _maxPlaytime + "現在的動作是影片暫停=" + _click);
@@ -895,18 +943,32 @@ function mediaReplay(_replayTime) {
     //當重播被按下時要確認的事
     var _click = "mediaReplay";
     var _time = new Date().getTime(); //紀錄現在系統時間使用
+    var _sentenceSum = 0; //紀錄現在連續學習句數
+
     //1.是不是第一次重播
     if (_maxPlaytime == 0) {
       _maxPlaytime = _actionTime;
+      _sentenceSum = getSentenceData(_maxPlaytime);
+
       console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是影片重播=" + _click);
+      console.log("第一次重播，連續學習句數：" + _sentenceSum);
+
       userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+      userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
       console.log("現在系統時間：" + _time);
     } else {
       //2.如果不是第一次重播，有沒有要重新設定最大播放時間
       if (_actionTime > _maxPlaytime) {
         _maxPlaytime = _actionTime;
+        _sentenceSum = getSentenceData(_maxPlaytime);
+
         console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是影片重播=" + _click);
+        console.log("重播動作，超過原本時間，連續學習句數：" + _sentenceSum);
+
         userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+        userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
         console.log("現在系統時間：" + _time);
       } else {
         console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是影片重播=" + _click);
@@ -1092,18 +1154,34 @@ function tagReplay(_selectedTag) {
     //當重播被按下時要確認的事
     var _click = "tagReplay";
     var _time = new Date().getTime(); //紀錄現在系統時間使用
+    var _sentenceSum = 0; //紀錄現在連續學習句數
+
     //1.是不是第一次重播
     if (_maxPlaytime == 0) {
       _maxPlaytime = _actionTime;
+      //有設定_maxPlaytime就要計算連續學習句數
+      _sentenceSum = getSentenceData(_maxPlaytime);
+
       console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
+      console.log("第一次標記重播，連續學習句數：" + _sentenceSum);
+
       userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+      userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
       console.log("現在系統時間：" + _time);
     } else {
       //2.如果不是第一次重播，有沒有要重新設定最大播放時間
       if (_actionTime > _maxPlaytime) {
         _maxPlaytime = _actionTime;
+        //有設定_maxPlaytime就要計算連續學習句數
+        _sentenceSum = getSentenceData(_maxPlaytime);
+
         console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
+        console.log("標記重播動作，超過原本時間，連續學習句數：" + _sentenceSum);
+
         userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+        userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
         console.log("現在系統時間：" + _time);
       } else {
         console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是標記重播=" + _click);
@@ -1168,11 +1246,19 @@ function userLog(_currentUser, _action, _object, _extention) {
   function getMaxPlaytime(_actionTime, _event) {
     var _click = _event;
     var _time = new Date().getTime(); //紀錄現在系統時間使用
+    var _sentenceSum = 0; //紀錄現在連續學習句數
+
     _player.ontimeupdate = function() {
       if (_maxPlaytime == 0) {
         _maxPlaytime = _actionTime;
+        _sentenceSum = getSentenceData(_maxPlaytime);
+
         console.log("這是第一次設定：" + _maxPlaytime + _click);
+        console.log("這是第一次設定in getMaxPlaytime()，連續句數為：" + _sentenceSum);
+
         userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+        userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
         console.log("現在系統時間：" + _time);
       } else {
         //偵測現在影片撥放時間是否有超過_maxPlaytime
@@ -1188,10 +1274,15 @@ function userLog(_currentUser, _action, _object, _extention) {
         //是否要更新_maxPlaytime
         if (_actionTime > _maxPlaytime) {
           _maxPlaytime = _actionTime;
+          _sentenceSum = getSentenceData(_maxPlaytime);
+
           // userLog(_currentUser, "continueLearning", _videoURL, _maxPlaytime);
           //_player.ontimeupdate = null;
           console.log("超過原本時間，更新時間為：" + _maxPlaytime + _click);
+          console.log("超過原本時間in getMaxPlaytime()，，連續句數為：" + _sentenceSum);
+
           userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+          userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
           console.log("現在系統時間：" + _time);
         }
       }
