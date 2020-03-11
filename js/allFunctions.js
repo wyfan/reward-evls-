@@ -707,6 +707,8 @@ $("#exam_link").click(function() {
   $("#reward_content").fadeOut(100);
   //顯示測驗頁面
   $("#exam_content").fadeIn(100);
+  //20200311-要記得Clear影片的倒數時間
+  clearInterval(_startLearnCountdown);
   //開始測驗計時倒數
   countdownQuiz();
   //$("#message_content").fadeIn(100);
@@ -748,7 +750,11 @@ function goToReward() {
   $("#home_content").fadeOut(100);
   //顯示排行榜
   $("#reward_content").fadeIn(100);
-
+  //20200311 - 要記得clear測驗的倒數時間
+  clearInterval(_startQuizCountdown);
+  //畫出進度條
+  getSelfData();
+  
   userLog(_currentUser, "goToReward", _videoURL, null);
   console.log("goToReward");
 }
@@ -1288,26 +1294,30 @@ function userLog(_currentUser, _action, _object, _extention) {
       }
     };
   }
-  /****************************學習時間倒數***************************************/
+
+/****************************學習時間倒數***************************************/
   /****************
   * 學習時間倒數
   * 20200204
   ****************/
+var _startLearnCountdown;
 function countdownTime(){
+
+  clearInterval(_startLearnCountdown);
 
   if (_countdownFlag == 0) { //第一次播放影片，開始學習時間倒數
     _countdownFlag = 1; //flag設1，表示已經開始播放過
     var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
     var _countDownDate = new Date(_iniTime+600000).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
-    var _startCountdown = setInterval(function() {
+
+    _startLearnCountdown = setInterval(function() {
       var _now = new Date().getTime();
       var _distance = _countDownDate - _now; //剩餘時間
       //計算幾分幾秒
       var _minutes = Math.floor((_distance % (1000 * 60 * 60)) / (1000 * 60));
       var _seconds = Math.floor((_distance % (1000 * 60)) / 1000);
 
-      $("#countdown").empty();
-      $("#countdown").append(_minutes+"分"+_seconds+"秒");
+      $("#countdown").html(_minutes+"分"+_seconds+"秒");
       //console.log("現在時間：" + _minutes+"分"+_seconds+"秒");
 
       //時間倒數結束
@@ -1315,7 +1325,7 @@ function countdownTime(){
         var _time = new Date().getTime(); //紀錄現在系統時間使用
         var _sentenceSum = 0; //紀錄現在連續學習句數
 
-        clearInterval(_startCountdown);
+        clearInterval(_startLearnCountdown);
         $("#countdown").append("已結束！");
 
         if(_player.currentTime < _maxPlaytime){//表示在複習時間中就時間結束
@@ -1357,11 +1367,14 @@ function countdownTime(){
 * 測驗時間倒數
 * 20200303
 ****************/
+var _startQuizCountdown;
 function countdownQuiz(){
+  clearInterval(_startQuizCountdown);
 
   var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
   var _countDownDate = new Date(_iniTime+100000).getTime(); //設定要開始倒數的時間長度(影片時間)-300000(5分)
-  var _startCountdown = setInterval(function() {
+
+  _startQuizCountdown = setInterval(function() {
     var _now = new Date().getTime();
     var _distance = _countDownDate - _now; //剩餘時間
     //計算幾分幾秒
@@ -1369,14 +1382,13 @@ function countdownQuiz(){
     var _seconds = Math.floor((_distance % (1000 * 60)) / 1000);
 
     //顯示在測驗頁面
-    $("#countdownQuiz").empty();
-    $("#countdownQuiz").append(_minutes+"分"+_seconds+"秒");
+    $("#countdownQuiz").html(_minutes+"分"+_seconds+"秒");
     //console.log("現在時間：" + _minutes+"分"+_seconds+"秒");
 
     //時間倒數結束
     if ( _distance < 0) {
       var _time = new Date().getTime(); //紀錄現在系統時間使用
-      clearInterval(_startCountdown);
+      clearInterval(_startQuizCountdown);
       $("#countdownQuiz").append("測驗時間結束！");
 
       userLog(_currentUser, "QuizEnd", _videoURL, null); //學習結束點
