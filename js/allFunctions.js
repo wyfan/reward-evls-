@@ -754,7 +754,7 @@ function goToReward() {
   clearInterval(_startQuizCountdown);
   //畫出進度條
   getSelfData();
-  
+
   userLog(_currentUser, "goToReward", _videoURL, null);
   console.log("goToReward");
 }
@@ -1300,10 +1300,8 @@ function userLog(_currentUser, _action, _object, _extention) {
   * 學習時間倒數
   * 20200204
   ****************/
-var _startLearnCountdown;
+var _startLearnCountdown; //計時器設成全域，非時間到做切換時要CLEAR
 function countdownTime(){
-
-  clearInterval(_startLearnCountdown);
 
   if (_countdownFlag == 0) { //第一次播放影片，開始學習時間倒數
     _countdownFlag = 1; //flag設1，表示已經開始播放過
