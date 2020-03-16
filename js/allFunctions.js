@@ -734,6 +734,7 @@ $("#reward_link").click(function() {
   //$("#message_content").fadeIn(100);
   //getAllReward();
   getSelfData();
+  getScore();
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
 

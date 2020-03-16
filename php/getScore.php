@@ -13,16 +13,18 @@ $videourl = $_SESSION['videoURL'];
 
 
 if ($_SESSION['authenticated'] == true) {
-  $result = $pdo->query("SELECT account, object, score
+  $result = $pdo->query("SELECT reward_total_score.account, reward_total_score.object, reward_total_score.score
                          FROM reward_total_score
-                         WHERE  account = '$account'
-                            AND object = '$videourl'
+                         JOIN user_list ON (reward_total_score.account=user_list.account)
+                         WHERE  reward_total_score.account = '$account'
+                            AND reward_total_score.object = '$videourl'
+                            AND user_list.class = '$class'
                           ");
   $rows = $result->fetchAll(PDO::FETCH_ASSOC);
   foreach ($rows as $row) {
     $score = $row['score'];
   }
-  $pdo = null;
+
   echo $score;
 
 
