@@ -107,8 +107,8 @@ _sentenceTag = 'S'; //上一次的TAG，起始null
 /********************測試用FUNCTION************************************************/
 function getEngArray(){
   //_player.currentTime
-  getSentenceData(_player.currentTime);
-  //console.log("timeArray[0] = " + timeArray[0]+"|| timeArray[1] = " + timeArray[1]);
+  var _videoTime = _player.duration;
+  console.log(_videoTime);
 
 }
 /*********************連續句數的時間判斷*************************************/
@@ -717,7 +717,7 @@ $("#exam_link").click(function() {
   var _time = new Date().getTime(); //紀錄現在系統時間使用
   userLog(_currentUser, "goToExam", _videoURL, null);
 
-  if(_player.currentTime < _maxPlaytime){//表示在複習時間中就跳到測驗
+  if(_player.currentTime <= _maxPlaytime){//表示在複習時間中就跳到測驗
     userLog(_currentUser, "ReviewEnd", _videoURL, _time);
   }
   userLog(_currentUser, "End", _videoURL, _time); //學習結束點
@@ -1569,7 +1569,6 @@ function dateTotimestamp( _data ){
   return _timestamp;
 }
 
-
 /******************排行榜-d3-timeline**************************************/
 //排行榜抓取自己的學習進度與資料
 function getSelfData() {
@@ -1693,6 +1692,38 @@ function getSelfData() {
 }
 
 
+
+
+/****************排行榜-總分計算************************************/
+/* 1.連續句數計算(Bonus) = 連續學習句數總和/全部字幕的句子數 ->DB新增課程資訊表(未來的課程管理使用)
+*  2.時間獎勵分數(TimeReward) = Efficiency * Effort
+*  - Efficiency = 剩餘時間/影片時間*2
+*  - Effort = 學習時間/影片時間 if 學習時間>影片時間 則Effort=1
+*  3.測驗分數(Test) = 答對題數/總題數
+*  4.聽力學習分數(Point) = Round( (Bonus+TimeReward)*Test*100 )
+*  5.在DB中處理好上面四項需要的數據，
+*
+*/
+//取得個人總評分
+function getScore(){
+
+  $.post("./php/getScore.php", function(_data){
+    console.log(_data); //個人成績
+
+    if(_data != "fail"){
+      var _score = _data;
+      $("#self_score p").html(_score+"分");
+
+    }else {
+      console.log("沒有取到個人分數！");
+    }
+
+  });
+
+}
+
+
+/****************************************************************/
 //取得使用者資料
 function getAllReward() {
   $.post("./php/getSession.php", function(data) {
