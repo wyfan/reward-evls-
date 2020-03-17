@@ -5,7 +5,12 @@ session_start();
 require('connect.php');
 
 //使用者資料
-$account = $_SESSION['account'];
+if(isset($_POST['user'])){
+  $account = $_POST['user'];
+}else{
+  $account = $_SESSION['account'];
+}
+
 $year = $_SESSION['year'];
 $class = $_SESSION['class'];
 $videourl = $_POST['videoURL'];
