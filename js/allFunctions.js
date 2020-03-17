@@ -1592,16 +1592,17 @@ function getSelfData() {
   $.post("./php/getReviewPoint.php", _post, function(_data) {
 
     if (_data != "fail") {
+      //action=Review / ReviewEnd, extention=時間
       var _checkData = $.parseJSON(_data);
       console.log(_checkData);
-      //_checkData= JSON.stringify(_checkData[0]);
+      /***測試訊息***/
       var _test = dateTotimestamp( _checkData[0].extention);
-      console.log(_test);
+      console.log(_checkData[0].action);
       $("#check").empty();
       $("#check").append(
         "<div id='reviewPoint'>" + _checkData[0].extention + '|||'+_test+"</div>"
       );
-
+      /***測試訊息***/
       /****查詢Start時間和End時間***/
       $.post("./php/getSEPoint.php", _post, function(_seData){
 
@@ -1639,10 +1640,15 @@ function getSelfData() {
           var _timeReview=[];
 
           for( var i=0; i<_checkData.length; i=i+2){
+            //_checkData= JSON.stringify(_checkData[0]);
+            //20200317 - 判斷Review和ReviewEnd的組合，如果現在是Review，而且下一個是reviewEnd才做
+            if(_checkData[i].action =='Review' && _checkData[i+1].action == 'ReviewEnd'){
             //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
-            var _reviewStr = { color: '#FFAA33', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
-            _timeReview.push(_reviewStr);
-
+              var _reviewStr = { color: '#FFAA33', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
+              _timeReview.push(_reviewStr);
+            }else{
+              console.log("當前_checkData[i].action = "+_checkData[i].action+"||_checkData[i+1].action = "+_checkData[i+1].action);
+            }
             //console.log("_reviewStr = "+_reviewStr.starting_time);
             //console.log("_reviewData="+_timeReview[1]);
           }
@@ -1723,7 +1729,23 @@ function getScore(){
 
 }
 
+//取得排行榜前五名的總分及account
 
+function getRank(){
+  //要送出的資料，看哪一部影片
+  var _post = {
+    videoURL: _videoURL //影片
+  };
+  //查詢前五名的資料
+  $.post("./php/getRankScore.php", _post, function(_data){
+    if (_data != "fail") {
+      var _rankData = $.parseJSON(_data);
+      console.log(_rankData);
+    }
+
+  });
+
+}
 /****************************************************************/
 //取得使用者資料
 function getAllReward() {
