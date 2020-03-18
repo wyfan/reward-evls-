@@ -735,6 +735,7 @@ $("#reward_link").click(function() {
   //getAllReward();
   getSelfData();
   getScore();
+  getRank();
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
 
@@ -1761,7 +1762,7 @@ function getRank(){
       }
 
     let loop = function(_r) {
-      if (_r <= _rankData.length) {
+      if (_r < _rankData.length) {
         var _num =_r+1;
         _rankUser = _rankData[_r].account;
         _rankScore = _rankData[_r].score;
@@ -1818,7 +1819,7 @@ function getRank(){
                     _timeReview.push(_reviewStr);
                     //console.log(_timeReview[3]);
                   }else{
-                    console.log("當前_checkData[i].action = "+_checkData[i].action+"||_checkData[i+1].action = "+_checkData[i+1].action);
+                    console.log("當前_checkData[i].action = "+_checkData[i].action);
                   }
                   //console.log("_reviewStr = "+_reviewStr.starting_time);
                   //console.log("_reviewData="+_timeReview[1]);
@@ -1848,12 +1849,15 @@ function getRank(){
                 //var svg =
 
                 d3
-                  .select("#top_2_learnDuring")
+                  .select("#top_"+_num+"_learnDuring")
                   .append("svg")
                   .attr("width", 400)
                   .datum(testData_p1)
                   .call(chart);
 
+                //畫上分數和姓名
+                $("#name_"+_num+" p").html(_rankUser+"：");
+                $("#learn_score_"+_num+" p").html(_rankScore+"分");
 
               }//if(_seData !="fail"){ //如果有取得Start EndPoint資料
                 next(_r)
