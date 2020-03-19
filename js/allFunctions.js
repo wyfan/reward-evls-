@@ -1050,7 +1050,7 @@ function speedControl(_value, _function) {
       if (_value > 0.5) {
         _player.playbackRate = _value - 0.5;
         $("#speedInfo").html("x" + _player.playbackRate);
-        userLog(_currentUser, "volumeDOWN", _videoURL, _player.playbackRate);
+        userLog(_currentUser, "speedDOWN", _videoURL, _player.playbackRate);
       }
       break;
     default:
@@ -1610,7 +1610,23 @@ function getSelfData(_user) {
     if (_data != "fail") {
       //action=Review / ReviewEnd, extention=時間
       var _checkData = $.parseJSON(_data);
-      console.log(_checkData);
+      console.log("20200319-確認一下沒有複習動作的情況(_checkData.length)："+ _checkData.length);
+
+      //特別案例；如果都沒有任何付息動作：
+      if(_checkData.length == 0){
+        _checkData[0] = {
+          action: "Review",
+          extention: 0
+        };
+        _checkData[1]={
+          action: "ReviewEnd",
+          extention:0
+        };
+
+      }else{
+        console.log("1111");
+      }
+
       /***測試訊息***/
       var _test = dateTotimestamp( _checkData[0].extention);
       console.log(_checkData[0].action);
@@ -1758,6 +1774,8 @@ function getQuizScore(){
 
 //取得排行榜前五名的總分及account
 function getRank(){
+
+
   //要送出的資料，看哪一部影片
   var _post = {
     videoURL: _videoURL //影片
@@ -1783,6 +1801,9 @@ function getRank(){
     let loop = function(_r) {
       if (_r < _rankData.length) {
         var _num =_r+1;
+        //20200319-清空上次的畫面
+
+
         _rankUser = _rankData[_r].account;
         _rankScore = _rankData[_r].score;
         console.log("FOR開始啦，到底現在是誰："+_rankUser);
@@ -1857,6 +1878,7 @@ function getRank(){
                 console.log("_num="+_num);
                 var _selector = "top_"+_num+"_learnDuring";
                 console.log("_selector="+_selector);
+                $("#"+_selector).empty();
 
                 var chart = d3.timeline().showTimeAxis().itemHeight(24).margin({
                               left: 20,
