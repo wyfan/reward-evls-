@@ -735,6 +735,7 @@ $("#reward_link").click(function() {
   //getAllReward();
   getSelfData();
   getScore();
+  getQuizScore();
   getRank();
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
@@ -756,6 +757,11 @@ function goToReward() {
   clearInterval(_startQuizCountdown);
   //畫出進度條
   getSelfData();
+  //顯示自己分數
+  getScore();
+  getQuizScore();
+  //畫出前五名排行
+  getRank();
 
   userLog(_currentUser, "goToReward", _videoURL, null);
   console.log("goToReward");
@@ -1735,9 +1741,22 @@ function getScore(){
   });
 
 }
+//取得測驗答對題數與總題數
+function getQuizScore(){
+  $.post("./php/getQuizScore.php", function(_data){
+
+    if(_data != "fail"){
+      var _quizScore = $.parseJSON(_data);
+      $("#self_quiz_score p").html("總共"+_quizScore.quiz_total+"題，共答對"+_quizScore.quiz_right+"題！");
+      //console.log("總共幾題："+_quizScore.quiz_total+"  答對幾題："+_quizScore.quiz_right);
+    }else{
+      console.log("沒有取到個人測驗成績！");
+    }
+  });
+
+}
 
 //取得排行榜前五名的總分及account
-
 function getRank(){
   //要送出的資料，看哪一部影片
   var _post = {
@@ -1856,7 +1875,7 @@ function getRank(){
                   .call(chart);
 
                 //畫上分數和姓名
-                $("#name_"+_num+" p").html(_rankUser+"：");
+                $("#name_"+_num+" p").html("TOP "+_num+"： "+_rankUser);
                 $("#learn_score_"+_num+" p").html(_rankScore+"分");
 
               }//if(_seData !="fail"){ //如果有取得Start EndPoint資料

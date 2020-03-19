@@ -273,7 +273,16 @@
             <div class="pure-u-5-8" id="top_5_learnDuring"></div>
           </div>
           <div class="pure-u-1-1"></div>
-          <!--自己的分數-->
+          <!--自己的測驗分數-->
+          <div class="pure-g">
+            <div class="pure-u-1-4" style="text-align: right;">
+              <p style="margin-top:5px">你的測驗分數：</p>
+            </div>
+            <div class="pure-u-5-8" id="self_quiz_score" style="text-align: left;">
+              <p style="margin-top:5px">總題數OO題，共答對幾題</p>
+            </div>
+          </div>
+          <!--自己的聽力分數-->
           <div class="pure-g">
             <div class="pure-u-1-4" style="text-align: right;">
               <p style="margin-top:5px">你的學習情況：</p>
@@ -302,7 +311,7 @@
         <div id="learnBar_2"></div>
         <a href="javascript:void(0);" onclick="backToVideo()" class="pure-button go-reward" id="goHomeBtn">前往第二部影片</a>
         <a href="javascript:void(0);" onclick="getSelfData()" class="pure-button check-data" id="checkBtn">測試資料CHECK</a>
-        <a href="javascript:void(0);" onclick="getScore()" class="pure-button get-session" id="sessionBtn">SCORE CHECK</a>
+        <a href="javascript:void(0);" onclick="getQuizScore()" class="pure-button get-session" id="sessionBtn">SCORE CHECK</a>
         <a href="javascript:void(0);" onclick="getRank()" class="pure-button get-rank" id="rankBtn">rank CHECK</a>
       </div>
 
