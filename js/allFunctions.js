@@ -1610,10 +1610,11 @@ function getSelfData(_user) {
     if (_data != "fail") {
       //action=Review / ReviewEnd, extention=時間
       var _checkData = $.parseJSON(_data);
-      console.log("20200319-確認一下沒有複習動作的情況(_checkData.length)："+ _checkData.length);
+      //console.log("20200319-確認一下沒有複習動作的情況(_checkData.length)："+ _checkData.length);
 
-      //特別案例；如果都沒有任何付息動作：
+      //特別案例；如果都沒有任何複習動作：
       if(_checkData.length == 0){
+
         _checkData[0] = {
           action: "Review",
           extention: 0
@@ -1622,9 +1623,6 @@ function getSelfData(_user) {
           action: "ReviewEnd",
           extention:0
         };
-
-      }else{
-        console.log("1111");
       }
 
       /***測試訊息***/
@@ -1646,7 +1644,7 @@ function getSelfData(_user) {
             var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
             var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
             var _learnEndPoint = _startPoint + 600;//dateTotimestamp('2020-02-11 01:02:27');
-            console.log("_learnEndPoint"+_learnEndPoint);
+            //console.log("_learnEndPoint"+_learnEndPoint);
 
             //timeline 第一次看影片的時間段
             var _timeStartEnd=[
@@ -1817,6 +1815,19 @@ function getRank(){
             //action=Review / ReviewEnd, extention=時間
             var _checkData = $.parseJSON(_data);
 
+            //特別案例；如果都沒有任何複習動作：
+            if(_checkData.length == 0){
+
+              _checkData[0] = {
+                action: "Review",
+                extention: 1584602405990
+              };
+              _checkData[1]={
+                action: "ReviewEnd",
+                extention: 1584602405999
+              };
+            }
+
             console.log("學生"+_rankUser+"的複習資料："+_checkData[0].extention);
 
             /****查詢Start時間和End時間***/
@@ -1824,12 +1835,12 @@ function getRank(){
 
               if(_seData !="fail"){
                 var _checkSE = $.parseJSON(_seData);
-                  console.log("_checkSE="+_checkSE);
+                  //console.log("_checkSE="+_checkSE);
                   //開始學習時間點
                   var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
                   var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
                   var _learnEndPoint = _startPoint + 600;//dateTotimestamp('2020-02-11 01:02:27');
-                  console.log("_learnEndPoint"+_learnEndPoint);
+                  console.log("我自己的資料=_startPoint:"+_startPoint+"||_endPoint="+_endPoint+"||_learnEndPoint="+_learnEndPoint);
 
                   //timeline 第一次看影片的時間段
                   var _timeStartEnd=[

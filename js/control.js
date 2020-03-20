@@ -124,5 +124,50 @@ $.getScript("js/allFunctions.js", function() {
         alert("登入才能使用喔");
       }
     }); //播放器控制、單字標記控制、時間標記控制 結束
+
+    //影片開關
+    $("input.videoSwitch").click(function() {
+      if (_currentUser) {
+        var _status = $(this).prop("checked");
+
+        if (_status == true) {
+          $("video").css("visibility", "visible");
+        } else if (_status == false) {
+          $("video").css("visibility", "hidden");
+        }
+        userLog(_currentUser, _status, _videoURL, "videoArea");
+      } else {
+        alert("登入才能使用喔");
+      }
+    });
+
+    //字幕開關
+    $("input.subtitle").click(function() {
+      if (_currentUser) {
+        var _language = this.id;
+        var _status = $(this).prop("checked");
+
+        if (_language == "chinese") {
+          if (_status == true) {
+            console.log("中文開");
+            $("#view_chinese").css("visibility", "visible");
+          } else if (_status == false) {
+            console.log("中文關");
+            $("#view_chinese").css("visibility", "hidden");
+          }
+        } else if (_language == "english") {
+          if (_status == true) {
+            console.log("英文開");
+            $("#view_english").css("visibility", "visible");
+          } else if (_status == false) {
+            console.log("英文關");
+            $("#view_english").css("visibility", "hidden");
+          }
+        }
+        userLog(_currentUser, _status, _videoURL, _language);
+      } else {
+        alert("登入才能使用喔");
+      }
+    });
   })(this, this.document);
 });
