@@ -1359,6 +1359,7 @@ function countdownTime(){
         $("#reward_content").fadeOut(100);
         //顯示測驗頁面
         $("#exam_content").fadeIn(100);
+        
         }
    }, 1000);//var startCountdown = setInterval(function() {
   }else{
@@ -1406,8 +1407,18 @@ function countdownQuiz(){
       $("#home_content").fadeOut(100);
       $("#exam_content").fadeOut(100);
 
-      //顯示測驗頁面
+      //顯示排行榜頁面
       $("#reward_content").fadeIn(100);
+      //畫出進度條
+      getSelfData();
+      //顯示自己分數
+      getScore();
+      getQuizScore();
+      //畫出前五名排行
+      getRank();
+
+      userLog(_currentUser, "goToReward", _videoURL, null);
+      console.log("goToReward");
 
       }
  }, 1000);//var startCountdown = setInterval(function() {
@@ -1611,20 +1622,6 @@ function getSelfData(_user) {
       //action=Review / ReviewEnd, extention=時間
       var _checkData = $.parseJSON(_data);
       //console.log("20200319-確認一下沒有複習動作的情況(_checkData.length)："+ _checkData.length);
-      //
-      // //特別案例；如果都沒有任何複習動作：
-      // if(_checkData.length == 0){
-      //
-      //   _checkData[0] = {
-      //     action: "Review",
-      //     extention: 1584602405985
-      //   };
-      //   _checkData[1]={
-      //     action: "ReviewEnd",
-      //     extention: 1584602405999
-      //   };
-      // }
-
       /***測試訊息***/
       // var _test = dateTotimestamp( _checkData[0].extention);
       // console.log(_checkData[0].action);
@@ -1669,7 +1666,7 @@ function getSelfData(_user) {
           //複習時間點(ReviewPoint 的陣列)
           var _timeReview=[];
           var testData_p1;
-          if(_checkData.length>1){ //Review/ReviewEnd為兩兩一組 
+          if(_checkData.length>1){ //Review/ReviewEnd為兩兩一組
                 //有正常複習行為-開始畫圖
                 for( var i=0; i<_checkData.length; i=i+2){
                   //_checkData= JSON.stringify(_checkData[0]);
