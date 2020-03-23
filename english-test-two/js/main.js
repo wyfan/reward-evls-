@@ -2,9 +2,9 @@ $(function () {
     var app = new Vue({
         el: "#app",
         data: {
-            startShow: false,    //初始第一页的显示
+            startShow: true,    //初始第一页的显示
             endShow: true,      //末尾页的显示
-            contentShow: true, //做题内容页的显示
+            contentShow: false, //做题内容页的显示
             questionList: [],   //lists对象数组
             question_type: [],  //问题种类type的标题
             listsId: 0,         //当前做题页码第一页是0
