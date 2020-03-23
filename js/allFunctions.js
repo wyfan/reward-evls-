@@ -1359,7 +1359,11 @@ function countdownTime(){
         $("#reward_content").fadeOut(100);
         //顯示測驗頁面
         $("#exam_content").fadeIn(100);
-        
+        //開始測驗計時倒數
+        countdownQuiz();
+        //$("#message_content").fadeIn(100);
+        _player.pause();
+
         }
    }, 1000);//var startCountdown = setInterval(function() {
   }else{
@@ -1379,7 +1383,7 @@ function countdownQuiz(){
   clearInterval(_startQuizCountdown);
 
   var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
-  var _countDownDate = new Date(_iniTime+100000).getTime(); //設定要開始倒數的時間長度(影片時間)-300000(5分)
+  var _countDownDate = new Date(_iniTime+300000).getTime(); //設定要開始倒數的時間長度(影片時間)-300000(5分)
 
   _startQuizCountdown = setInterval(function() {
     var _now = new Date().getTime();
