@@ -1827,20 +1827,20 @@ function getRank(){
             //action=Review / ReviewEnd, extention=時間
             var _checkData = $.parseJSON(_data);
 
-            //特別案例；如果都沒有任何複習動作：
-            if(_checkData.length == 0){
-
-              _checkData[0] = {
-                action: "Review",
-                extention: 1584602405990
-              };
-              _checkData[1]={
-                action: "ReviewEnd",
-                extention: 1584602405999
-              };
-            }
-
-            console.log("學生"+_rankUser+"的複習資料："+_checkData[0].extention);
+            //****特別案例；如果都沒有任何複習動作：
+            // if(_checkData.length == 0){
+            //
+            //   _checkData[0] = {
+            //     action: "Review",
+            //     extention: 1584602405990
+            //   };
+            //   _checkData[1]={
+            //     action: "ReviewEnd",
+            //     extention: 1584602405999
+            //   };
+            // }
+            //
+            // console.log("學生"+_rankUser+"的複習資料："+_checkData[0].extention);
 
             /****查詢Start時間和End時間***/
             $.post("./php/getSEPoint.php", _rank, function(_seData){
@@ -1865,39 +1865,50 @@ function getRank(){
 
                 console.log("現在是"+_rankUser+" : start time="+_startPoint+" ; end time="+ _endPoint+";分數="+_rankScore);
                 //將要畫的資料打包看看
-                console.log(_checkData.length);
+                console.log("_checkData.length"+_checkData.length);
                 //複習時間點(ReviewPoint 的陣列)
-                var _timeReview=[];
+                var _timeReview = [];
+                var testData_p1;
+                if (_checkData.length > 1) { ///Review/ReviewEnd為兩兩一組
+                  //有正常複習行為-開始畫圖
 
-                for( var i=0; i<_checkData.length; i=i+2){
-                  //_checkData= JSON.stringify(_checkData[0]);
-                  //20200317 - 判斷Review和ReviewEnd的組合，如果現在是Review，而且下一個是reviewEnd才做
+                  for (var i = 0; i < _checkData.length; i = i + 2) {
+                    //_checkData= JSON.stringify(_checkData[0]);
+                    //20200317 - 判斷Review和ReviewEnd的組合，如果現在是Review，而且下一個是reviewEnd才做
 
-                  if(_checkData[i].action =='Review' && _checkData[i+1].action == 'ReviewEnd'){
-                    console.log("複習點-"+i+" 起始類型:"+_checkData[i].action+" 時間:"+dateTotimestamp(_checkData[i].extention));
-                    console.log("複習點-"+(i+1)+" 起始類型:"+_checkData[i+1].action+" 時間:"+dateTotimestamp(_checkData[i+1].extention));
-                  //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
-                    var _reviewStr = { color: '#FFAA33', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
-                    console.log("-----------------");
-                    _timeReview.push(_reviewStr);
-                    //console.log(_timeReview[3]);
-                  }else{
-                    console.log("當前_checkData[i].action = "+_checkData[i].action);
+                    if (_checkData[i].action == 'Review' && _checkData[i + 1].action == 'ReviewEnd') {
+                      console.log("複習點-" + i + " 起始類型:" + _checkData[i].action + " 時間:" + dateTotimestamp(_checkData[i].extention));
+                      console.log("複習點-" + (i + 1) + " 起始類型:" + _checkData[i + 1].action + " 時間:" + dateTotimestamp(_checkData[i + 1].extention));
+                      //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
+                      var _reviewStr = {
+                        color: '#FFAA33',
+                        starting_time: dateTotimestamp(_checkData[i].extention),
+                        ending_time: dateTotimestamp(_checkData[i + 1].extention)
+                      };
+                      console.log("-----------------");
+                      _timeReview.push(_reviewStr);
+                      //console.log(_timeReview[3]);
+                    } else {
+                      console.log("當前_checkData[i].action = " + _checkData[i].action);
+                    }
+                    //console.log("_reviewStr = "+_reviewStr.starting_time);
+                    //console.log("_reviewData="+_timeReview[1]);
                   }
-                  //console.log("_reviewStr = "+_reviewStr.starting_time);
-                  //console.log("_reviewData="+_timeReview[1]);
-                }
 
-                var testData_p1 = [
-                  {//顏色1 - 第一次觀看影片的時間
+                  testData_p1 = [{ //顏色1 - 第一次觀看影片的時間
                     times: _timeStartEnd
-                  },{//顏色2 - 複習影片的時間
+                  }, { //顏色2 - 複習影片的時間
                     times: _timeReview
-                  },{//顏色3 - 剩餘時間
+                  }, { //顏色3 - 剩餘時間
                     times: _timeSurplus
-                  }
-                ];//var testData_p1 = [
-
+                  }]; //var testData_p1 = [
+                } else { //特殊案例：如果完全沒有複習動作
+                  testData_p1 = [{ //顏色1 - 第一次觀看影片的時間
+                    times: _timeStartEnd
+                  }, { //顏色3 - 剩餘時間
+                    times: _timeSurplus
+                  }]; //var testData_p1 = [
+                }
                 console.log("_num="+_num);
                 var _selector = "top_"+_num+"_learnDuring";
                 console.log("_selector="+_selector);
@@ -1937,105 +1948,6 @@ function getRank(){
     }
 
     loop(0)
-
-    // //開始顯示資料
-    // for(var _r=0; _r<_rankData.length; _r++){
-    //   var _num =_r+1;
-    //   _rankUser = _rankData[_r].account;
-    //   _rankScore = _rankData[_r].score;
-    //   console.log("FOR開始啦，到底現在是誰："+_rankUser);
-    //   var _rank = {
-    //     user: _rankData[_r].account,
-    //     videoURL: _videoURL
-    //   }
-    //
-    //   $.post("./php/getReviewPoint.php", _rank,function(_data){
-    //     if (_data != "fail") {
-    //       //action=Review / ReviewEnd, extention=時間
-    //       var _checkData = $.parseJSON(_data);
-    //
-    //       console.log("學生"+_rankUser+"的複習資料："+_checkData);
-    //
-    //       /****查詢Start時間和End時間***/
-    //       $.post("./php/getSEPoint.php", _rank, function(_seData){
-    //
-    //         if(_seData !="fail"){
-    //           var _checkSE = $.parseJSON(_seData);
-    //             console.log("_checkSE="+_checkSE);
-    //             //開始學習時間點
-    //             var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
-    //             var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
-    //             var _learnEndPoint = _startPoint + 600;//dateTotimestamp('2020-02-11 01:02:27');
-    //             console.log("_learnEndPoint"+_learnEndPoint);
-    //
-    //             //timeline 第一次看影片的時間段
-    //             var _timeStartEnd=[
-    //                     { color: '#0066FF', starting_time: _startPoint, ending_time: _learnEndPoint }
-    //                 ];
-    //             //timeline 剩下的學習時間段
-    //             var _timeSurplus =[
-    //                     { color: '#CCEEFF', starting_time: _endPoint, ending_time: _learnEndPoint }
-    //             ];
-    //
-    //           console.log("現在是"+_rankUser+" : start time="+_startPoint+" ; end time="+ _endPoint+";分數="+_rankScore);
-    //           //將要畫的資料打包看看
-    //           console.log(_checkData.length);
-    //           //複習時間點(ReviewPoint 的陣列)
-    //           var _timeReview=[];
-    //
-    //           for( var i=0; i<_checkData.length; i=i+2){
-    //             //_checkData= JSON.stringify(_checkData[0]);
-    //             //20200317 - 判斷Review和ReviewEnd的組合，如果現在是Review，而且下一個是reviewEnd才做
-    //             if(_checkData[i].action =='Review' && _checkData[i+1].action == 'ReviewEnd'){
-    //             //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
-    //               var _reviewStr = { color: '#FFAA33', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
-    //               _timeReview.push(_reviewStr);
-    //             }else{
-    //               console.log("當前_checkData[i].action = "+_checkData[i].action+"||_checkData[i+1].action = "+_checkData[i+1].action);
-    //             }
-    //             //console.log("_reviewStr = "+_reviewStr.starting_time);
-    //             //console.log("_reviewData="+_timeReview[1]);
-    //           }
-    //
-    //           var testData_p1 = [
-    //             {//顏色1 - 第一次觀看影片的時間
-    //               times: _timeStartEnd
-    //             },{//顏色2 - 複習影片的時間
-    //               times: _timeReview
-    //             },{//顏色3 - 剩餘時間
-    //               times: _timeSurplus
-    //             }
-    //           ];//var testData_p1 = [
-    //
-    //           console.log("_num="+_num);
-    //           var _selector = "top_"+_num+"_learnDuring";
-    //           console.log("_selector="+_selector);
-    //
-    //           var chart = d3.timeline().showTimeAxis().itemHeight(24).margin({
-    //                         left: 20,
-    //                         right: 0,
-    //                         top: 5,
-    //                         bottom: 0
-    //                     });
-    //           //console.log(chart);
-    //           //var svg =
-    //
-    //           d3
-    //             .select("top_2_learnDuring")
-    //             .append("svg")
-    //             .attr("width", 400)
-    //             .datum(testData_p1)
-    //             .call(chart);
-    //         }//if(_seData !="fail"){ //如果有取得Start EndPoint資料
-    //
-    //       }); //$.post 查詢學習時間起始點
-    //
-    //     } //if(_data != "fail"){ //如果有取得ReviewPoint資料
-    //
-    //   }); //查詢每個人的複習時間點
-    //   //console.log("_rankUser = "+_rankUser+"||_rankScore = "+_rankScore );
-    //
-    // } // for(var _r=0; _r<_rankData.length; _r++){
 
   });  // $.post("./php/getRankScore.php", _post, function(_data){
 
