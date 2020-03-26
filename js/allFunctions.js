@@ -720,6 +720,12 @@ $("#exam_link").click(function() {
   if(_player.currentTime <= _maxPlaytime){//表示在複習時間中就跳到測驗
     userLog(_currentUser, "ReviewEnd", _videoURL, _time);
   }
+  //學習時間還沒結束就自行前往測驗
+  if(_player.currentTime > _maxPlaytime){
+    //就以當前的時間去計算
+    _sentenceSum = getSentenceData(_player.currentTime);
+    console.log("學習時間還沒結束就前往測驗，當前連續句數為：" + _sentenceSum);
+  }
   userLog(_currentUser, "End", _videoURL, _time); //學習結束點
 });
 
