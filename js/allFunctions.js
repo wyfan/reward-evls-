@@ -1240,6 +1240,20 @@ function tagRelease() {
   userLog(_currentUser, "tagRelease", _videoURL, null);
 }
 
+/********************影片自動播放結束進行設定MAXTIME(當使用者放置無任何動作)*******/
+_player.onended = function() {
+  //影片第一次播放完畢，將最大播放時間設定成最大
+  _maxPlaytime = _player.currentTime;
+  var _time = new Date().getTime(); //紀錄現在系統時間使用
+
+  _sentenceSum = getSentenceData(_maxPlaytime);
+
+  userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+  userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+  console.log("播完第一次，現在_maxPlaytim = " + _maxPlaytime);
+
+};
+
 function userLog(_currentUser, _action, _object, _extention) {
   var _stmt = {
     account: _currentUser,
@@ -1435,6 +1449,7 @@ function countdownQuiz(){
 
 
 }
+
 
 /******************************討論區功能******************************/
 
