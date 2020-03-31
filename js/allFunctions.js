@@ -746,8 +746,40 @@ $("#reward_link").click(function() {
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
 
-//從測驗前往排行榜
+//從影片前往測驗(btn)
+function video2Exam(){
+  //隱藏首頁頁面和其他頁面
+  $("#home").fadeOut(100);
+  $("#home_content").fadeOut(100);
+  $("#reward_content").fadeOut(100);
+  //顯示測驗頁面
+  $("#exam_content").fadeIn(100);
+  //把前往首頁的連結關掉
+  $("a#home_link").css("visibility","hidden");
+  //20200311-要記得Clear影片的倒數時間
+  clearInterval(_startLearnCountdown);
+  //開始測驗計時倒數
+  countdownQuiz();
+  //$("#message_content").fadeIn(100);
+  _player.pause();
 
+  var _time = new Date().getTime(); //紀錄現在系統時間使用
+  userLog(_currentUser, "goToExam", _videoURL, null);
+
+  if(_player.currentTime <= _maxPlaytime){//表示在複習時間中就跳到測驗
+    userLog(_currentUser, "ReviewEnd", _videoURL, _time);
+  }
+  //學習時間還沒結束就自行前往測驗
+  if(_player.currentTime > _maxPlaytime){
+    //就以當前的時間去計算
+    _sentenceSum = getSentenceData(_player.currentTime);
+    console.log("學習時間還沒結束就前往測驗，當前連續句數為：" + _sentenceSum);
+  }
+  userLog(_currentUser, "End", _videoURL, _time); //學習結束點
+
+}
+
+//從測驗前往排行榜
 function goToReward() {
   //隱藏留言板頁面
   $("#message").fadeOut(100);
@@ -797,6 +829,9 @@ function mediaPlay() {
     "<i class='pause icon'></i> 暫停"
   ); //按紐文字改為暫停
   $("button#play.media_control.mini.ui.button").attr("id", "pause"); //按鈕id改為pause
+  //把前往測驗的按鈕打開
+  $("a#video2examBtn").removeAttr('disabled');
+
 
   /********影片播放的時候只要確認現在的時間有沒有超過第一次設定的時間，如果沒有就不要管他，如果第一次設定就設定時間*****************/
   //當重播被按下時要確認的事
