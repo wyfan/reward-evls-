@@ -61,7 +61,9 @@
 
                             <template v-else>
                                 <span class="playQBtn" @click="playQuestion">{{qItem.q}}</span>
-                                <audio ref="audio" :src="qItem.soundUrl" controls></audio>
+                                 <button class="audioPlay" :disabled='false' @click="audioClick" type="button">PLAY</button>
+                                <audio style="display:none;" ref="MainAudio" :src="qItem.soundUrl" controls></audio>
+
                             </template>
                         </template>
                     </p>

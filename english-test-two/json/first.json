@@ -79,7 +79,7 @@
           "question": [
             {
               "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
+              "soundUrl":"./json/been.mp3",
               "is_empty": 0
             }
           ],

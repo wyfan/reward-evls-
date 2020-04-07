@@ -99,6 +99,19 @@ $(function () {
                 console.log("有沒有出現~");
 
             },
+            audioClick: function () {
+                //console.log(this.listsId);
+                console.log("你戳到音檔了~");
+                var _quiz= this.$refs.MainAudio[0];
+                _quiz.play();
+                event.target.setAttribute("disabled", "disabled");
+
+                //$(this.$refs.MainAudio).attr('duration');
+                  //_quiz.play();
+
+                  console.log("你戳到音檔了~play"+_quiz);
+
+            },
             /*清除判断/单选/多选的选中状态*/
             clearAll: function () {
                 this.judgeFalse = 0; //清空判断选中状态
