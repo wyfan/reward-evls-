@@ -108,9 +108,6 @@ $(function () {
 
                 //$(this.$refs.MainAudio).attr('duration');
                   //_quiz.play();
-
-                  console.log("你戳到音檔了~play"+_quiz);
-
             },
             /*清除判断/单选/多选的选中状态*/
             clearAll: function () {
