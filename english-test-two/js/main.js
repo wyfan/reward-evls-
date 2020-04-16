@@ -17,7 +17,7 @@ $(function () {
             answer: [],           //多选答案顺序数组
             vacancyCon: '',       //单选填空显示单词
             vacancyArr: [],    //多选填空显示单词
-            quizNum: 8,        //總共幾題
+            quizNum: 5,        //總共幾題
             correctSum: 0,    //答對的題數總數
             errorSum: 0,       //答錯的題數總數
             answerTime: 0      //作答次數

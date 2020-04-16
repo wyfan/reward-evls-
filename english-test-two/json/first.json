@@ -15,27 +15,23 @@
           },
           "stem": [
             {
-              "value": "選項1",
+              "value": "(A) The goat went back."
+            },
+            {
+              "value": "(B) The lion ate the goat.",
               "istrue": 1
             },
             {
-              "value": "選項2"
-
-            },
-            {
-              "value": "選項3"
-            },
-            {
-              "value": "選項4"
+              "value": "(C) The lion sent a message to everyone in the village. "
             }
           ],
           "stem_type": "2",
-          "answer": "1",
+          "answer": "2",
           "user_result": [],
           "question": [
             {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
+              "q": "請播放以聽取題目並回答問題：What happened?",
+              "soundUrl":"./json/Q1.mp3",
               "is_empty": 0
             }
           ],
@@ -55,31 +51,28 @@
           "title_type": "2",
           "config": {
             "correct_answer": {
-              "1": "l"
+              "1": "1"
             }
           },
           "stem": [
             {
-              "value": "1",
+              "value": "(A) The lion was cautious."
+            },
+            {
+              "value": "(B) The lion was lazy."
+            },
+            {
+              "value": "(C) The lion was old.",
               "istrue": 1
-            },
-            {
-              "value": "2"
-            },
-            {
-              "value": "3"
-            },
-            {
-              "value": "4"
             }
           ],
           "stem_type": "2",
-          "answer": "1",
+          "answer": "3",
           "user_result": [],
           "question": [
             {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/been.mp3",
+              "q": "請播放以聽取題目並回答問題：Why couldn’t’the lion hunt for food anymore?",
+              "soundUrl":"./json/Q2.mp3",
               "is_empty": 0
             }
           ],
@@ -104,17 +97,14 @@
           },
           "stem": [
             {
-              "value": "1",
+              "value": "(A) The lion caught and ate the animals.",
               "istrue": 1
             },
             {
-              "value": "2"
+              "value": "(B) The lion couldn’t hunt for food."
             },
             {
-              "value": "3"
-            },
-            {
-              "value": "4"
+              "value": "(C) The lion had grown very old."
             }
           ],
           "stem_type": "2",
@@ -122,8 +112,8 @@
           "user_result": [],
           "question": [
             {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
+              "q": "請播放以聽取題目並回答問題：After animals visited the lion, what happened?",
+              "soundUrl":"./json/Q3.mp3",
               "is_empty": 0
             }
           ],
@@ -148,26 +138,23 @@
           },
           "stem": [
             {
-              "value": "1",
+              "value": "(A) Yes, he was sick."
+            },
+            {
+              "value": "(B) No, he was not sick.",
               "istrue": 1
             },
             {
-              "value": "2"
-            },
-            {
-              "value": "3"
-            },
-            {
-              "value": "4"
+              "value": "(C) I don’t know."
             }
           ],
           "stem_type": "2",
-          "answer": "1",
+          "answer": "2",
           "user_result": [],
           "question": [
             {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
+              "q": "請播放以聽取題目並回答問題：Was the lion sick?",
+              "soundUrl":"./json/Q4.mp3",
               "is_empty": 0
             }
           ],
@@ -192,164 +179,29 @@
           },
           "stem": [
             {
-              "value": "1",
+              "value": "(A) The fox stepped in the cave."
+            },
+            {
+              "value": "(B) The fox stood at a safe distance from the cave.",
               "istrue": 1
             },
             {
-              "value": "2"
-            },
-            {
-              "value": "3"
-            },
-            {
-              "value": "4"
+              "value": "(C) The fox accepted the lion’s invitation. "
             }
           ],
           "stem_type": "2",
-          "answer": "1",
+          "answer": "2",
           "user_result": [],
           "question": [
             {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
+              "q": "請播放以聽取題目並回答問題：What did the fox do?",
+              "soundUrl":"./json/Q5.mp3",
               "is_empty": 0
             }
           ],
           "empty": [
             {
               "empty": 1,
-              "value": -1
-            }
-          ]
-        }
-      },
-      {
-        "type": 5,
-        "data": {
-          "id": "6",
-          "title": "Q6",
-          "title_type": "2",
-          "config": {
-            "correct_answer": {
-              "1": "1"
-            }
-          },
-          "stem": [
-            {
-              "value": "1",
-              "istrue": 1
-            },
-            {
-              "value": "2"
-            },
-            {
-              "value": "3"
-            },
-            {
-              "value": "4"
-            }
-          ],
-          "stem_type": "2",
-          "answer": "1",
-          "user_result": [],
-          "question": [
-            {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
-              "is_empty": 1
-            }
-          ],
-          "empty": [
-            {
-              "empty": 1,
-              "value": -1
-            }
-          ]
-        }
-      },
-      {
-        "type": 5,
-        "data": {
-          "id": "7",
-          "title": "Q7",
-          "title_type": "2",
-          "config": {
-            "correct_answer": {
-              "1": "1"
-            }
-          },
-          "stem": [
-            {
-              "value": "1",
-              "istrue": 1
-            },
-            {
-              "value": "2"
-            },
-            {
-              "value": "3"
-            },
-            {
-              "value": "4"
-            }
-          ],
-          "stem_type": "2",
-          "answer": "1",
-          "user_result": [],
-          "question": [
-            {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
-              "is_empty": 0
-            }
-          ],
-          "empty": [
-            {
-              "empty": 1,
-              "value": -1
-            }
-          ]
-        }
-      },
-      {
-        "type": 5,
-        "data": {
-          "id": "8",
-          "title": "Q8",
-          "title_type": "2",
-          "config": {
-            "correct_answer": {
-              "1": "1"
-            }
-          },
-          "stem": [
-            {
-              "value": "1",
-              "istrue": 1
-            },
-            {
-              "value": "2"
-            },
-            {
-              "value": "3"
-            },
-            {
-              "value": "4"
-            }
-          ],
-          "stem_type": "2",
-          "answer": "5",
-          "user_result": [],
-          "question": [
-            {
-              "q": "請播放以聽取題目：",
-              "soundUrl":"./json/animal.mp3",
-              "is_empty": 0
-            }
-          ],
-          "empty": [
-            {
-              "empty": 0,
               "value": -1
             }
           ]

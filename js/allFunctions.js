@@ -2,7 +2,7 @@
 _currentUser = null;
 
 //設定字幕位置
-_englishSub = "./upload/english.vtt";
+_englishSub = "./upload/english_test.vtt";
 _chineseSub = "./upload/chinese.vtt";
 
 //設定影片位置
