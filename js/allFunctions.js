@@ -1389,7 +1389,7 @@ function countdownTime(){
         clearInterval(_startLearnCountdown);
         $("#countdown").append("已結束！");
 
-        if(_player.currentTime < _maxPlaytime){//表示在複習時間中就時間結束
+        if(_player.currentTime <= _maxPlaytime){//表示在複習時間中就時間結束
           userLog(_currentUser, "ReviewEnd", _videoURL, _time); //學習結束點
 
         }
@@ -1728,19 +1728,22 @@ function getSelfData(_user) {
           var testData_p1;
           if(_checkData.length>1){ //Review/ReviewEnd為兩兩一組
                 //有正常複習行為-開始畫圖
-                for( var i=0; i<_checkData.length; i=i+2){
-                  //_checkData= JSON.stringify(_checkData[0]);
-                  //20200317 - 判斷Review和ReviewEnd的組合，如果現在是Review，而且下一個是reviewEnd才做
-                  if(_checkData[i].action =='Review' && _checkData[i+1].action == 'ReviewEnd'){
-                  //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
-                    var _reviewStr = { color: '#FFAA33', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
-                    _timeReview.push(_reviewStr);
-                  }else{
-                    console.log("當前_checkData[i].action = "+_checkData[i].action+"||_checkData[i+1].action = "+_checkData[i+1].action);
-                  }
+                for( var i=0; i<_checkData.length; i=i+1){
+
+                  if( typeof _checkData[i+1] != 'undefined'){//判斷下一筆是否有值(是不是最後一筆)
+                      //_checkData= JSON.stringify(_checkData[0]);
+                      //20200317 - 判斷Review和ReviewEnd的組合，如果現在是Review，而且下一個是reviewEnd才做
+                      if(_checkData[i].action =='Review' && _checkData[i+1].action == 'ReviewEnd'){
+                      //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
+                        var _reviewStr = { color: '#FFAA33', starting_time: dateTotimestamp(_checkData[i].extention), ending_time: dateTotimestamp(_checkData[i+1].extention) };
+                        _timeReview.push(_reviewStr);
+                      }else{
+                        console.log("當前_checkData[i].action = "+_checkData[i].action);//+"||_checkData[i+1].action = "+_checkData[i+1].action
+                      }
+                  }//if(_checkData[i+1].action!='undefined'){
                   //console.log("_reviewStr = "+_reviewStr.starting_time);
                   //console.log("_reviewData="+_timeReview[1]);
-                }
+                }//for( var i=0; i<_checkData.length; i=i+1){
 
                 testData_p1 = [
                   {//顏色1 - 第一次觀看影片的時間
@@ -1928,25 +1931,26 @@ function getRank(){
                 if (_checkData.length > 1) { ///Review/ReviewEnd為兩兩一組
                   //有正常複習行為-開始畫圖
 
-                  for (var i = 0; i < _checkData.length; i = i + 2) {
+                  for (var i = 0; i < _checkData.length; i = i + 1) {
                     //_checkData= JSON.stringify(_checkData[0]);
                     //20200317 - 判斷Review和ReviewEnd的組合，如果現在是Review，而且下一個是reviewEnd才做
-
-                    if (_checkData[i].action == 'Review' && _checkData[i + 1].action == 'ReviewEnd') {
-                      console.log("複習點-" + i + " 起始類型:" + _checkData[i].action + " 時間:" + dateTotimestamp(_checkData[i].extention));
-                      console.log("複習點-" + (i + 1) + " 起始類型:" + _checkData[i + 1].action + " 時間:" + dateTotimestamp(_checkData[i + 1].extention));
-                      //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
-                      var _reviewStr = {
-                        color: '#FFAA33',
-                        starting_time: dateTotimestamp(_checkData[i].extention),
-                        ending_time: dateTotimestamp(_checkData[i + 1].extention)
-                      };
-                      console.log("-----------------");
-                      _timeReview.push(_reviewStr);
-                      //console.log(_timeReview[3]);
-                    } else {
-                      console.log("當前_checkData[i].action = " + _checkData[i].action);
-                    }
+                    if( typeof _checkData[i+1] != 'undefined'){//判斷下一筆是否有值(是不是最後一筆)
+                        if (_checkData[i].action == 'Review' && _checkData[i + 1].action == 'ReviewEnd') {
+                          console.log("複習點-" + i + " 起始類型:" + _checkData[i].action + " 時間:" + dateTotimestamp(_checkData[i].extention));
+                          console.log("複習點-" + (i + 1) + " 起始類型:" + _checkData[i + 1].action + " 時間:" + dateTotimestamp(_checkData[i + 1].extention));
+                          //將一組ReviewStartc+ReviewEnd物件塞入(PUSH)陣列中
+                          var _reviewStr = {
+                            color: '#FFAA33',
+                            starting_time: dateTotimestamp(_checkData[i].extention),
+                            ending_time: dateTotimestamp(_checkData[i + 1].extention)
+                          };
+                          console.log("-----------------");
+                          _timeReview.push(_reviewStr);
+                          //console.log(_timeReview[3]);
+                        } else {
+                          console.log("當前_checkData[i].action = " + _checkData[i].action);
+                        }
+                    }//if(_checkData[i+1].action!='undefined'){
                     //console.log("_reviewStr = "+_reviewStr.starting_time);
                     //console.log("_reviewData="+_timeReview[1]);
                   }
