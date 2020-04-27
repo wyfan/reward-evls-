@@ -12,6 +12,7 @@ Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour,
 Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1
 
 [Events]
+[Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:16.08,0:00:22.00,Default,1,0,0,0,A,老獅子與狐狸
 Dialogue: 0,0:00:24.00,0:00:31.50,Default,2,0,0,0,A,從前從前，森林裡住著一隻年紀大的獅子。
@@ -37,7 +38,7 @@ Dialogue: 0,0:02:01.26,0:02:05.16,Default,15,0,0,0,E,感謝獅子誠摯的邀請
 Dialogue: 0,0:02:05.16,0:02:09.78,Default,16,0,0,0,A,狐狸說:「我是應該要為你的邀請而感到高興。」
 Dialogue: 0,0:02:10.28,0:02:14.70,Default,17,0,0,0,S,「但是我注意到有太多的腳印通往你的洞穴，
 Dialogue: 0,0:02:15.52,0:02:18.84,Default,17,0,0,0,E,卻沒有任何人出來的痕跡。」
-Dialogue: 0,0:02:18.84,0:02:22.72,Default,18,0,0,0,A,「請您告訴我，您的訪客是如何找到他們回家的路呢?」
+Dialogue: 0,0:02:18.84,0:02:22.72,Default,18,0,0,0,A,「請您告訴我，您的訪客是如何找到他們回家的路呢?」 
 Dialogue: 0,0:02:22.76,0:02:27.94,Default,19,0,0,0,A,獅子瞭解無法欺騙這隻與自己一樣聰明的狐狸。
 Dialogue: 0,0:02:36.06,0:02:37.50,Default,20,0,0,0,S,接著，狐狸就回去了，
 Dialogue: 0,0:02:37.50,0:02:39.92,Default,20,0,0,0,E,並且告訴所有人關於獅子的所作所為。

@@ -699,7 +699,7 @@ $("#message_link").click(function() {
   userLog(_currentUser, "goToMessageBoard", _videoURL, null);
 });
 
-//前往測驗
+//前往測驗(menu)
 $("#exam_link").click(function() {
   //隱藏首頁頁面和其他頁面
   $("#home").fadeOut(100);
@@ -707,6 +707,10 @@ $("#exam_link").click(function() {
   $("#reward_content").fadeOut(100);
   //顯示測驗頁面
   $("#exam_content").fadeIn(100);
+  //把前往首頁的連結關掉
+  $("a#home_link").css("visibility","hidden");
+  //把測驗自己的連結關掉
+  $("a#exam_link").css("visibility","hidden");
   //20200311-要記得Clear影片的倒數時間
   clearInterval(_startLearnCountdown);
   //開始測驗計時倒數
@@ -756,6 +760,7 @@ function video2Exam(){
   $("#exam_content").fadeIn(100);
   //把前往首頁的連結關掉
   $("a#home_link").css("visibility","hidden");
+
   //20200311-要記得Clear影片的倒數時間
   clearInterval(_startLearnCountdown);
   //開始測驗計時倒數
@@ -1364,12 +1369,13 @@ function userLog(_currentUser, _action, _object, _extention) {
   * 20200204
   ****************/
 var _startLearnCountdown; //計時器設成全域，非時間到做切換時要CLEAR
+var _isQuizStart = 0; //是否可以進入測驗
 function countdownTime(){
 
   if (_countdownFlag == 0) { //第一次播放影片，開始學習時間倒數
     _countdownFlag = 1; //flag設1，表示已經開始播放過
     var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
-    var _countDownDate = new Date(_iniTime+600000).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
+    var _countDownDate = new Date(_iniTime+328000).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
 
     _startLearnCountdown = setInterval(function() {
       var _now = new Date().getTime();
@@ -1380,6 +1386,18 @@ function countdownTime(){
 
       $("#countdown").html(_minutes+"分"+_seconds+"秒");
       //console.log("現在時間：" + _minutes+"分"+_seconds+"秒");
+
+      //20200427-倒數開始一分鐘之後顯示測驗連結(須看按播放一分鐘之後才能進入測驗)
+      var _quizTimeCheck = _now - _iniTime; //當前時間-初始時間
+      if(_isQuizStart==0 && _quizTimeCheck>60000){//當前時間-初始時間>1分鐘
+        console.log("----超過一分鐘--------");
+        $("a#exam_link").css('pointer-events','auto');
+        //$("a#exam_link").css('background-color',"green");
+        _isQuizStart=1;
+      }//else{
+        //console.log("當前時間-起始時間_quizTimeCheck="+_quizTimeCheck+"||_distance = "+_distance);
+        //$("#exam_link").css("color", "red");
+      //}
 
       //時間倒數結束
       if ( _distance < 0) {

@@ -40,7 +40,7 @@
         <ul class="pure-menu-list">
           <!-- 回首頁 -->
           <li class="pure-menu-item">
-            <a href="javascript:void(0);" class="pure-menu-link" id="home_link">首頁</a>
+            <a href="javascript:void(0);" class="pure-menu-link" id="home_link" disabled="true" style="pointer-events:none;">首頁</a>
           </li>
           <!-- 討論區連結  -->
           <li class="pure-menu-item" id="_forum">
@@ -48,7 +48,7 @@
           </li>
           <!-- 測驗 -->
           <li class="pure-menu-item" id="exam">
-            <a href="javascript:void(0);" class="pure-menu-link" id="exam_link" style="visibility: hidden;">測驗</a>
+            <a href="javascript:void(0);" class="pure-menu-link" id="exam_link" disabled="true" style="pointer-events:none;">測驗</a><!---style="visibility: hidden;"->
           </li>
           <!-- 排行榜 -->
           <li class="pure-menu-item" id="reward">
@@ -76,7 +76,7 @@
             <p id="countdown" style="display:inline;"></p>
           </div>
           <div class="pure-u-1-4">
-            <a href="javascript:void(0);" onclick="video2Exam()" class="pure-button video-2-exam" id="video2examBtn" disabled="disabled">前往測驗</a>
+            <a href="javascript:void(0);" onclick="video2Exam()" class="pure-button video-2-exam" id="video2examBtn" disabled="disabled" style="visibility: hidden;">前往測驗</a>
           </div>
         </div>
         <!-- 標記操作 -->
@@ -96,7 +96,7 @@
         <div class="pure-g">
           <!-- 影片顯示 -->
           <div class="pure-u-3-4" id="video_area">
-            <video width="100%">
+            <video width="100%" preload="auto">
               <source type="video/mp4"> 你的瀏覽器不支援HTML5播放器，請更新瀏覽器。
             </video>
           </div>
@@ -105,7 +105,7 @@
           <div class="pure-u-1-4" id="word_area">
             <h4>單字列表</h4>
             <!-- <form id="word_list" style="display:inline"> -->
-            <select id="word_select" size="10"></select>
+            <select id="word_select" size="10" style="overflow-y:scroll"></select>
             <!-- </form> -->
             <button type="button" id="search" class="vocabulary_control mini ui button" value="查詢" />
             <i class="search icon"></i>查詢</button>
@@ -312,11 +312,18 @@
           <!--div class="pure-u-1-2" id="getSession">session啦！</div-->
           <div class="pure-u-1-2" id="learnBar_1"></div>
         </div>
-        <div id="learnBar_2"></div>
-        <!--a href="javascript:void(0);" onclick="backToVideo()" class="pure-button go-reward" id="goHomeBtn">前往第二部影片</a-->
-        <!--a href="javascript:void(0);" onclick="getSelfData()" class="pure-button check-data" id="checkBtn">測試資料CHECK</a-->
-        <!--a href="javascript:void(0);" onclick="getQuizScore()" class="pure-button get-session" id="sessionBtn">SCORE CHECK</a-->
-        <a href="javascript:void(0);" onclick="getRank()" class="pure-button get-rank" id="rankBtn">排行榜更新</a>
+        <div class="content">
+          <div id="learnBar_2"></div>
+          <div class="pure-u-1-3"></div>
+          <div class="pure-u-1-3" style="text-align:center;">
+            <a href="javascript:void(0);" onclick="getRank()" class="pure-button get-rank" id="rankBtn">排行榜更新</a>
+          </div>
+          <div class="pure-u-1-3"></div>
+          <!--a href="javascript:void(0);" onclick="backToVideo()" class="pure-button go-reward" id="goHomeBtn">前往第二部影片</a-->
+          <!--a href="javascript:void(0);" onclick="getSelfData()" class="pure-button check-data" id="checkBtn">測試資料CHECK</a-->
+          <!--a href="javascript:void(0);" onclick="getQuizScore()" class="pure-button get-session" id="sessionBtn">SCORE CHECK</a-->
+
+      </div>
       </div>
 
 
