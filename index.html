@@ -52,7 +52,7 @@
           </li>
           <!-- 排行榜 -->
           <li class="pure-menu-item" id="reward">
-            <a href="javascript:void(0);" class="pure-menu-link" id="reward_link" disabled="true" style="pointer-events:none;">排行榜</a><!--style="visibility: hidden;"--->
+            <a href="javascript:void(0);" class="pure-menu-link" id="reward_link" disabled="true">排行榜</a><!--style="visibility: hidden;"--->
           </li>
           <!-- 登出連結 -->
           <li id="logout-menu" class="pure-menu-item">
@@ -71,13 +71,14 @@
         <div class="pure-g">
           <div class="pure-u-1-4">
           </div>
+          <div class="pure-u-1-4">
+            <a href="javascript:void(0);" onclick="video2Exam()" class="pure-button video-2-exam" id="video2examBtn" disabled="disabled" style="visibility: hidden;">前往測驗</a>
+          </div>
           <div class="pure-u-1-2" style="color:blue;">
             <p style="display:inline;">您的學習時間還剩：</p>
             <p id="countdown" style="display:inline;"></p>
           </div>
-          <div class="pure-u-1-4">
-            <a href="javascript:void(0);" onclick="video2Exam()" class="pure-button video-2-exam" id="video2examBtn" disabled="disabled" style="visibility: hidden;">前往測驗</a>
-          </div>
+
         </div>
         <!-- 標記操作 -->
         <div class="pure-u-1-1" id="button_control">
@@ -96,7 +97,7 @@
         <div class="pure-g">
           <!-- 影片顯示 -->
           <div class="pure-u-3-4" id="video_area">
-            <video width="100%" preload="auto">
+            <video width="100%" preload="auto" as="video" type="video/mp4">
               <source type="video/mp4"> 你的瀏覽器不支援HTML5播放器，請更新瀏覽器。
             </video>
           </div>
@@ -115,6 +116,7 @@
 
           <!-- 播放器操作 -->
           <div class="pure-u-3-4" id="media_control">
+            <div id="video_time" style="float: right;">影片時間：-分-秒/-分-秒</div>
             <p>
               <button type="button" id="play" class="media_control mini ui button" value="播放" />
               <i class="play icon"></i> 播放</button>

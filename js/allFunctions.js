@@ -1,9 +1,9 @@
 //變數宣告
 _currentUser = null;
 
-//設定字幕位置
-_englishSub = "./upload/english_test.vtt";
-_chineseSub = "./upload/chinese.vtt";
+//設定字幕位置0420
+_englishSub = "./upload/english_test_0429.vtt";
+_chineseSub = "./upload/chinese_0429.vtt";
 
 //設定影片位置
 _videoURL = "./upload/video.mp4";
@@ -47,6 +47,11 @@ $("#message_content").fadeOut(100);
 $("#exam_content").fadeOut(100);
 $("#reward_content").fadeOut(100);
 $("#logout_link").hide();
+
+//20200429-重新整理提醒
+window.onbeforeunload = function(){
+return "onbeforeunload is work";
+}
 
 //20200304 - 英文字幕載入處理(全域)
 //for(var i in array ){}
@@ -376,8 +381,25 @@ function formatSecond(_seconds) {
     _second = "0" + _minute;
   }
   if (_hour) _hour += "時";
-  return _hour + _minute + "分" + _second + "秒";
+  return _hour + _minute + ":" + _second;
 }
+/******************************時間處理功能(影片用)******************************/
+function formatSecond4video(_seconds) {
+  //將秒數轉為時分秒格式
+  var _hour = Math.floor(_seconds / 3600);
+  var _minute = Math.floor((_seconds - _hour * 3600) / 60);
+  var _second = parseInt(_seconds - _hour * 3600 - _minute * 60);
+
+  while (_minute.length < 2) {
+    _minute = "0" + _minute;
+  }
+  while (_second.length < 2) {
+    _second = "0" + _minute;
+  }
+  if (_hour) _hour += ":";
+  return _hour + _minute + ":" + _second;
+}
+
 
 /******************************字幕處理功能******************************/
 //英文字幕
@@ -1111,7 +1133,7 @@ function tagPlay(_selectedTag) {
   getMaxPlaytime(_player.currentTime, _event);//開始偵測影片播放時間
   console.log("現在是播放標記(tagPlay)："+_player.currentTime);
 
-  _player.currentTime = _selectedTag - 5; //由選擇的時間往前回溯5秒
+  _player.currentTime = _selectedTag - 10; //由選擇的時間往前回溯10秒
   _player.play(); //開始播放
 
   $("button#play.media_control.mini.ui.button").html(
@@ -1119,8 +1141,8 @@ function tagPlay(_selectedTag) {
   ); //按紐文字改為暫停
   $("button#play.media_control.mini.ui.button").attr("id", "pause"); //按鈕id改為pause
 
-  subtitle_chinese(_selectedTag); //顯示中文字幕
-  subtitle_english(_selectedTag); //顯示英文字幕
+  subtitle_chinese(_selectedTag-10); //顯示中文字幕
+  subtitle_english(_selectedTag-10); //顯示英文字幕
 
   userLog(_currentUser, "tagPlay", _videoURL, formatSecond(_selectedTag));
 }
@@ -1157,10 +1179,10 @@ function tagDelete(_selectedTag) {
 function tagReplay(_selectedTag) {
   var _replayCount = 0;
   var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
-  _player.currentTime = _selectedTag - 5; //由選擇的時間往前回溯5秒
+  _player.currentTime = _selectedTag - 10; //由選擇的時間往前回溯10秒
   _player.play(); //開始播放
 
-  _start = parseInt(_selectedTag - 5);
+  _start = parseInt(_selectedTag - 10);
     _end = parseInt(_selectedTag); //原本_end = parseInt(_start + 10); 改成只重播到原本標記時間
   //按鈕改為解除重播
   $("button#replay.tag_control.mini.ui.button").html("解除重播");
@@ -1292,7 +1314,14 @@ _player.onended = function() {
   userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
   console.log("播完第一次，現在_maxPlaytim = " + _maxPlaytime);
 
+  //-------
+  $("button#pause.media_control.mini.ui.button").html(
+    "<i class='play icon'></i> 播放"
+  ); //按紐文字改為播放
+  $("button#pause.media_control.mini.ui.button").attr("id", "play"); //按鈕id改為play
+
 };
+
 
 function userLog(_currentUser, _action, _object, _extention) {
   var _stmt = {
@@ -1386,6 +1415,9 @@ function countdownTime(){
 
       $("#countdown").html(_minutes+"分"+_seconds+"秒");
       //console.log("現在時間：" + _minutes+"分"+_seconds+"秒");
+
+      //20200429 - 順便顯示目前影片時間
+      $("#video_time").html("影片時間："+formatSecond(_player.currentTime)+" / "+formatSecond(_player.duration));
 
       //20200427-倒數開始一分鐘之後顯示測驗連結(須看按播放一分鐘之後才能進入測驗)
       var _quizTimeCheck = _now - _iniTime; //當前時間-初始時間
