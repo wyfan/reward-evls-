@@ -723,36 +723,40 @@ $("#message_link").click(function() {
 
 //前往測驗(menu)
 $("#exam_link").click(function() {
-  //隱藏首頁頁面和其他頁面
-  $("#home").fadeOut(100);
-  $("#home_content").fadeOut(100);
-  $("#reward_content").fadeOut(100);
-  //顯示測驗頁面
-  $("#exam_content").fadeIn(100);
-  //把前往首頁的連結關掉
-  $("a#home_link").css("visibility","hidden");
-  //把測驗自己的連結關掉
-  $("a#exam_link").css("visibility","hidden");
-  //20200311-要記得Clear影片的倒數時間
-  clearInterval(_startLearnCountdown);
-  //開始測驗計時倒數
-  countdownQuiz();
-  //$("#message_content").fadeIn(100);
-  _player.pause();
 
-  var _time = new Date().getTime(); //紀錄現在系統時間使用
-  userLog(_currentUser, "goToExam", _videoURL, null);
+  if(confirm("前往測驗後即無法回頭觀看影片，確認前往嗎？")){
+    //隱藏首頁頁面和其他頁面
+    $("#home").fadeOut(100);
+    $("#home_content").fadeOut(100);
+    $("#reward_content").fadeOut(100);
+    //顯示測驗頁面
+    $("#exam_content").fadeIn(100);
+    //把前往首頁的連結關掉
+    $("a#home_link").css("visibility","hidden");
+    //把測驗自己的連結關掉
+    $("a#exam_link").css("visibility","hidden");
+    //20200311-要記得Clear影片的倒數時間
+    clearInterval(_startLearnCountdown);
+    //開始測驗計時倒數
+    countdownQuiz();
+    //$("#message_content").fadeIn(100);
+    _player.pause();
 
-  if(_player.currentTime <= _maxPlaytime){//表示在複習時間中就跳到測驗
-    userLog(_currentUser, "ReviewEnd", _videoURL, _time);
+    var _time = new Date().getTime(); //紀錄現在系統時間使用
+    userLog(_currentUser, "goToExam", _videoURL, null);
+
+    if(_player.currentTime <= _maxPlaytime){//表示在複習時間中就跳到測驗
+      userLog(_currentUser, "ReviewEnd", _videoURL, _time);
+    }
+    //學習時間還沒結束就自行前往測驗
+    if(_player.currentTime > _maxPlaytime){
+      //就以當前的時間去計算
+      _sentenceSum = getSentenceData(_player.currentTime);
+      console.log("學習時間還沒結束就前往測驗，當前連續句數為：" + _sentenceSum);
+    }
+    userLog(_currentUser, "End", _videoURL, _time); //學習結束點
   }
-  //學習時間還沒結束就自行前往測驗
-  if(_player.currentTime > _maxPlaytime){
-    //就以當前的時間去計算
-    _sentenceSum = getSentenceData(_player.currentTime);
-    console.log("學習時間還沒結束就前往測驗，當前連續句數為：" + _sentenceSum);
-  }
-  userLog(_currentUser, "End", _videoURL, _time); //學習結束點
+
 });
 
 //從MENU前往排行榜
@@ -1464,6 +1468,10 @@ function countdownTime(){
         $("#reward_content").fadeOut(100);
         //顯示測驗頁面
         $("#exam_content").fadeIn(100);
+        //把前往首頁的連結關掉
+        $("a#home_link").css("visibility","hidden");
+        //把測驗自己的連結關掉
+        $("a#exam_link").css("visibility","hidden");
         //開始測驗計時倒數
         countdownQuiz();
         //$("#message_content").fadeIn(100);
