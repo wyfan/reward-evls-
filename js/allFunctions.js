@@ -3,7 +3,7 @@ _currentUser = null;
 
 //設定字幕位置0420
 _englishSub = "./upload/english_test_0507.vtt";
-_chineseSub = "./upload/chinese_0429.vtt";
+_chineseSub = "./upload/chinese_0507.vtt";
 
 //設定影片位置
 _videoURL = "./upload/video.mp4";
