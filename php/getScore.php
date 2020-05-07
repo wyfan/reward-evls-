@@ -24,7 +24,7 @@ if ($_SESSION['authenticated'] == true) {
   foreach ($rows as $row) {
     $score = $row['score'];
   }
-
+  $pdo = null;
   echo $score;
 
 

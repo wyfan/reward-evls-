@@ -2,7 +2,7 @@
 _currentUser = null;
 
 //設定字幕位置0420
-_englishSub = "./upload/english_test_0429.vtt";
+_englishSub = "./upload/english_test_0507.vtt";
 _chineseSub = "./upload/chinese_0429.vtt";
 
 //設定影片位置
@@ -1750,7 +1750,7 @@ function getSelfData(_user) {
             //開始學習時間點
             var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
             var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
-            var _learnEndPoint = _startPoint + 600;//dateTotimestamp('2020-02-11 01:02:27');
+            var _learnEndPoint = _startPoint + 328;//dateTotimestamp('2020-02-11 01:02:27');
             //console.log("_learnEndPoint"+_learnEndPoint);
 
             //timeline 第一次看影片的時間段
@@ -1770,7 +1770,7 @@ function getSelfData(_user) {
             {"starting_time": 1355759910000, "ending_time": 1355761900000}]},
           {label: "person c", times: [
             {"starting_time": 1355761910000, "ending_time": 1355763910000}]}*/
-          console.log("start time="+_startPoint+" ; end time="+ _endPoint);
+          console.log("自己的：start time="+_startPoint+" ; end time="+ _endPoint);
           //將要畫的資料打包看看
           console.log(_checkData.length);
           //複習時間點(ReviewPoint 的陣列)
@@ -1960,8 +1960,8 @@ function getRank(){
                   //開始學習時間點
                   var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
                   var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
-                  var _learnEndPoint = _startPoint + 600;//dateTotimestamp('2020-02-11 01:02:27');
-                  console.log("_startPoint:"+_startPoint+"||_endPoint="+_endPoint+"||_learnEndPoint="+_learnEndPoint);
+                  var _learnEndPoint = _startPoint + 328;//dateTotimestamp('2020-02-11 01:02:27');
+                  console.log("排行榜：_startPoint:"+_startPoint+"||_endPoint="+_endPoint+"||_learnEndPoint="+_learnEndPoint);
 
                   //timeline 第一次看影片的時間段
                   var _timeStartEnd=[

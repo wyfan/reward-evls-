@@ -50,9 +50,11 @@ if ($_SESSION['authenticated'] == true) {
             array_push($res,$value_json);
 
     }
+    $pdo = null;
     echo json_encode($res);
 
 
 }else {
+    $pdo = null;
     echo "fail";
 }

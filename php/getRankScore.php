@@ -18,7 +18,7 @@ if ($_SESSION['authenticated'] == true) {
                              WHERE reward_total_score.object = '$videourl'
                               AND user_list.class = '$class'
                              ORDER BY reward_total_score.score DESC
-                             LIMIT 5 
+                             LIMIT 5
 
                               ");
       $rows = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -37,9 +37,10 @@ if ($_SESSION['authenticated'] == true) {
               array_push($res,$value_json);
 
       }
+      $pdo = null;
       echo json_encode($res);
 
 }else{
-
+    $pdo = null;
     echo "fail";
 }
