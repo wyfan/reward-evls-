@@ -568,6 +568,8 @@ function dictionarySearch(_searchWord, _searchTime) {
   var _search = {
     vocabulary: _searchWord
   };
+ //設定REVIEW計算時間使用
+ var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
 
   if (_currentUser) {
     $.post("./php/dictionary.php", _search, function(msg) {
@@ -651,6 +653,46 @@ function dictionarySearch(_searchWord, _searchTime) {
               "')"
           ).css("font-weight", "bold");
         }, 100);
+
+        /********影片重播的時候只要確認現在的時間有沒有超過第一次設定的時間，如果沒有就不要管他，如果第一次設定就設定時間*****************/
+        //當重播被按下時要確認的事
+        var _click = "dictionarySearch";
+        var _time = new Date().getTime(); //紀錄現在系統時間使用
+        var _sentenceSum = 0; //紀錄現在連續學習句數
+
+
+        //1.是不是第一次重播
+        if (_maxPlaytime == 0) {
+          _maxPlaytime = _actionTime;
+          _sentenceSum = getSentenceData(_maxPlaytime);
+
+          console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
+          console.log("第一次單字查詢，連續學習句數：" + _sentenceSum);
+
+          userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+          userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
+          console.log("現在系統時間：" + _time);
+        } else {
+          //2.如果不是第一次重播，有沒有要重新設定最大播放時間
+          if (_actionTime > _maxPlaytime) {
+            _maxPlaytime = _actionTime;
+            _sentenceSum = getSentenceData(_maxPlaytime);
+
+            console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
+            console.log("單字查詢，超過原本時間，連續學習句數：" + _sentenceSum);
+
+            userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+            userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+
+            console.log("現在系統時間：" + _time);
+          } else {
+            console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
+          }
+        }
+        /********************************************/
+
+
         userLog(
           _currentUser,
           "searchVocabulary",
