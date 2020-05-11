@@ -660,36 +660,37 @@ function dictionarySearch(_searchWord, _searchTime) {
         var _time = new Date().getTime(); //紀錄現在系統時間使用
         var _sentenceSum = 0; //紀錄現在連續學習句數
 
-
-        //1.是不是第一次重播
-        if (_maxPlaytime == 0) {
-          _maxPlaytime = _actionTime;
-          _sentenceSum = getSentenceData(_maxPlaytime);
-
-          console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
-          console.log("第一次單字查詢，連續學習句數：" + _sentenceSum);
-
-          userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
-          userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
-
-          console.log("現在系統時間：" + _time);
-        } else {
-          //2.如果不是第一次重播，有沒有要重新設定最大播放時間
-          if (_actionTime > _maxPlaytime) {
-            _maxPlaytime = _actionTime;
-            _sentenceSum = getSentenceData(_maxPlaytime);
-
-            console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
-            console.log("單字查詢，超過原本時間，連續學習句數：" + _sentenceSum);
-
-            userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
-            userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
-
-            console.log("現在系統時間：" + _time);
-          } else {
-            console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
-          }
-        }
+        getMaxPlaytime(_actionTime, _click);//開始偵測影片播放時間
+        //
+        // //1.是不是第一次重播
+        // if (_maxPlaytime == 0) {
+        //   _maxPlaytime = _actionTime;
+        //   _sentenceSum = getSentenceData(_maxPlaytime);
+        //
+        //   console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
+        //   console.log("第一次單字查詢，連續學習句數：" + _sentenceSum);
+        //
+        //   userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+        //   userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+        //
+        //   console.log("現在系統時間：" + _time);
+        // } else {
+        //   //2.如果不是第一次重播，有沒有要重新設定最大播放時間
+        //   if (_actionTime > _maxPlaytime) {
+        //     _maxPlaytime = _actionTime;
+        //     _sentenceSum = getSentenceData(_maxPlaytime);
+        //
+        //     console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
+        //     console.log("單字查詢，超過原本時間，連續學習句數：" + _sentenceSum);
+        //
+        //     userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+        //     userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+        //
+        //     console.log("現在系統時間：" + _time);
+        //   } else {
+        //     console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
+        //   }
+        // }
         /********************************************/
 
 
