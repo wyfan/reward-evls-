@@ -125,6 +125,19 @@ $.getScript("js/allFunctions.js", function() {
       }
     }); //播放器控制、單字標記控制、時間標記控制 結束
 
+    //20200512 - 單字雙擊查詢
+    $("#word_select").dblclick(function(){
+      dictionarySearch(
+        $("#word_select")
+          .find(":selected")
+          .val(),
+        $("#word_select")
+          .find(":selected")
+          .attr("id")
+      );
+    });
+
+
     //影片開關
     $("input.videoSwitch").click(function() {
       if (_currentUser) {
