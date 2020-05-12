@@ -476,6 +476,7 @@ function subtitle_english(_time) {
           /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\ |\=|\||\\|\[|\]|\{|\}|\;|\:|\「|\」|\,|\<|\.|\>|\/|\?]/g,
           ""
         );
+      _selectedWord = _selectedWord.trim();
       _selectedTime = this.id;
 
       //如果有登入，處理資料
@@ -571,6 +572,8 @@ function dictionarySearch(_searchWord, _searchTime) {
  //設定REVIEW計算時間使用
  var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
 
+ console.log("_search.vocabulary = "+ _search.vocabulary );
+
   if (_currentUser) {
     $.post("./php/dictionary.php", _search, function(msg) {
       if (msg != "fail") {
@@ -585,8 +588,8 @@ function dictionarySearch(_searchWord, _searchTime) {
         _fullVocabulary = _vocabularyArray[1];
         var _explanation = _vocabularyArray[2];
         var _parts = _vocabularyArray[3];
-        var _syllable = _vocabularyArray[4].split("#");
-        var _syllableCount = _vocabularyArray[5];
+        //var _syllable = _vocabularyArray[4].split("#");
+        //var _syllableCount = _vocabularyArray[5];
         var _reserved = _vocabularyArray[6];
 
         $("#pronounce").append(
@@ -603,25 +606,25 @@ function dictionarySearch(_searchWord, _searchTime) {
             "<hr>"
         );
 
-        if (_syllableCount > 1) {
-          $("#word_syllable").append("(共" + _syllableCount + "音節) <br />");
-          for (i = 0; i < _syllableCount; i++) {
-            $("#word_syllable").append(
-              "<audio id='" +
-                _syllable[i] +
-                "'><source src='./upload/syllable/" +
-                _id +
-                _syllable[i] +
-                ".mp3' type='audio/mp3'></audio><button id='" +
-                _syllable[i] +
-                "' class='button mini ui' style='width:50%;' onClick='playSound(this.id);'><i class='play icon'></i>" +
-                _syllable[i] +
-                "</button><br/>"
-            );
-          }
-        } else {
-          $("#word_syllable").append("(共" + _syllableCount + "個音節)");
-        }
+        // if (_syllableCount > 1) {
+        //   $("#word_syllable").append("(共" + _syllableCount + "音節) <br />");
+        //   for (i = 0; i < _syllableCount; i++) {
+        //     $("#word_syllable").append(
+        //       "<audio id='" +
+        //         _syllable[i] +
+        //         "'><source src='./upload/syllable/" +
+        //         _id +
+        //         _syllable[i] +
+        //         ".mp3' type='audio/mp3'></audio><button id='" +
+        //         _syllable[i] +
+        //         "' class='button mini ui' style='width:50%;' onClick='playSound(this.id);'><i class='play icon'></i>" +
+        //         _syllable[i] +
+        //         "</button><br/>"
+        //     );
+        //   }
+        // } else {
+        //   $("#word_syllable").append("(共" + _syllableCount + "個音節)");
+        // }
         $("#word_def").append("<hr>" + _explanation);
 
         //這邊把單字標出顏色
@@ -661,38 +664,6 @@ function dictionarySearch(_searchWord, _searchTime) {
         var _sentenceSum = 0; //紀錄現在連續學習句數
 
         getMaxPlaytime(_actionTime, _click);//開始偵測影片播放時間
-        //
-        // //1.是不是第一次重播
-        // if (_maxPlaytime == 0) {
-        //   _maxPlaytime = _actionTime;
-        //   _sentenceSum = getSentenceData(_maxPlaytime);
-        //
-        //   console.log("這是第一次設定：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
-        //   console.log("第一次單字查詢，連續學習句數：" + _sentenceSum);
-        //
-        //   userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
-        //   userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
-        //
-        //   console.log("現在系統時間：" + _time);
-        // } else {
-        //   //2.如果不是第一次重播，有沒有要重新設定最大播放時間
-        //   if (_actionTime > _maxPlaytime) {
-        //     _maxPlaytime = _actionTime;
-        //     _sentenceSum = getSentenceData(_maxPlaytime);
-        //
-        //     console.log("超過原本時間，更新時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
-        //     console.log("單字查詢，超過原本時間，連續學習句數：" + _sentenceSum);
-        //
-        //     userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
-        //     userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
-        //
-        //     console.log("現在系統時間：" + _time);
-        //   } else {
-        //     console.log("沒有超過原本時間，原本時間為：" + _maxPlaytime + "現在的動作是單字查詢=" + _click);
-        //   }
-        // }
-        /********************************************/
-
 
         userLog(
           _currentUser,

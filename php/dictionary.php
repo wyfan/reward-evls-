@@ -25,10 +25,11 @@ if ($_SESSION['authenticated'] === true) {
     } elseif ($count >1) {
         echo "more";
     } else {
-        echo "fail";
+
+        echo "fail1";
     }
 } else {
-    echo "fail";
+    echo "fail2";
 }
 
 //結束連線
