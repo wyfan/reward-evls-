@@ -116,6 +116,21 @@ function getEngArray(){
   console.log(_videoTime);
 
 }
+/*************************資料讀取中********************************************/
+function showBlockUI(){
+
+    //顯示上傳中的圖片
+    $.blockUI({ message: '<div style="text-align:center;">正在計算分數，請稍後！</div><img style="height: 5em;" src="/img/loading.gif"><img>' });
+
+    //$.unblockUI();/*因為會postback頁面刷新，所以有沒有unblockUI沒差*/
+}
+
+function refleshRank(){
+    getRank();
+    showBlockUI();
+
+    userLog(_currentUser, "refleshRank", _videoURL, null);
+}
 /*********************連續句數的時間判斷*************************************/
 /*
 * 0.設置全域變數，儲存上一次是第幾句和TAG，用來判斷下一次中斷時間隔連續幾句
@@ -787,6 +802,7 @@ $("#reward_link").click(function() {
   getScore();
   getQuizScore();
   getRank();
+  showBlockUI();
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
 
@@ -845,6 +861,8 @@ function goToReward() {
   getQuizScore();
   //畫出前五名排行
   getRank();
+  //資料讀取中畫面
+  showBlockUI();
 
   userLog(_currentUser, "goToReward", _videoURL, null);
   console.log("goToReward");
@@ -1547,6 +1565,8 @@ function countdownQuiz(){
       getQuizScore();
       //畫出前五名排行
       getRank();
+      //資料讀取中畫面
+      showBlockUI();
 
       userLog(_currentUser, "goToReward", _videoURL, null);
       console.log("goToReward");
@@ -1862,6 +1882,9 @@ function getSelfData(_user) {
             .datum(testData_p1).call(chart);
             $("#p2").append(svg2);*/
 
+            //20200512 - 學習長條圖畫玩將資料讀取中的遮罩關掉
+            $.unblockUI();
+
         }//if(_seData !="fail"){ //如果有取得Start EndPoint資料
 
       }); //$.post 查詢學習時間起始點
@@ -2066,8 +2089,12 @@ function getRank(){
                 $("#name_"+_num+" p").html("TOP "+_num+"： "+_rankUser);
                 $("#learn_score_"+_num+" p").html(_rankScore+"分");
 
+                //20200512 - 學習長條圖畫玩將資料讀取中的遮罩關掉
+
+
               }//if(_seData !="fail"){ //如果有取得Start EndPoint資料
                 next(_r)
+                //$.unblockUI();
             }); //$.post 查詢學習時間起始點
 
           } //if(_data != "fail"){ //如果有取得ReviewPoint資料
