@@ -284,6 +284,7 @@ function login() {
           alert("請檢查是否輸入帳號或密碼");
         } else {
           //輸入帳號密碼後進行資料驗證
+          console.log($('#login_data').serialize());
           $.post("./php/login.php", $("#login_data").serialize(), function(
             msg
           ) {
@@ -488,7 +489,7 @@ function subtitle_english(_time) {
       _selectedWord = $(this)
         .text()
         .replace(
-          /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\ |\=|\||\\|\[|\]|\{|\}|\;|\:|\「|\」|\,|\<|\.|\>|\/|\?]/g,
+          /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\ |\=|\||\\|\[|\]|\{|\}|\;|\:|\「|\」|\,|\<|\.|\>|\/|\?|\"]/g,
           ""
         );
       _selectedWord = _selectedWord.trim();

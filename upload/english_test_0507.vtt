@@ -16,7 +16,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:16.08,0:00:22.00,Default,1,0,0,0,A,The old Lion and the Fox
 Dialogue: 0,0:00:24.00,0:00:31.50,Default,2,0,0,0,S,Once upon a time in the forest
 Dialogue: 0,0:00:28.00,0:00:31.50,Default,2,0,0,0,E,there lived a lion who had grown very old.
-Dialogue: 0,0:00:32.50,0:00:36.00,Default,3,0,0,0,S,The lion's teeth and claws were worn with old age
+Dialogue: 0,0:00:32.50,0:00:36.00,Default,3,0,0,0,S,The lion’s teeth and claws were worn with old age
 Dialogue: 0,0:00:37.00,0:00:39.50,Default,3,0,0,0,E,and he couldn't hunt for food anymore.
 Dialogue: 0,0:00:40.48,0:00:44.50,Default,4,0,0,0,S,One day
 Dialogue: 0,0:00:43.48,0:00:45.50,Default,4,0,0,0,M,he got an idea
@@ -35,12 +35,12 @@ Dialogue: 0,0:01:36.16,0:01:40.16,Default,11,0,0,0,S,One day
 Dialogue: 0,0:01:36.16,0:01:40.16,Default,11,0,0,0,E,the clever fox came outside the cave.
 Dialogue: 0,0:01:41.44,0:01:43.86,Default,12,0,0,0,S,The fox was very cautious
 Dialogue: 0,0:01:43.86,0:01:46.66,Default,12,0,0,0,E,and stood at a safe distance from the cave.
-Dialogue: 0,0:01:48.74,0:01:52.38,Default,13,0,0,0,A,Then he enquired politely about the lion's health.
+Dialogue: 0,0:01:48.74,0:01:52.38,Default,13,0,0,0,A,Then he enquired politely about the lion’s health.
 Dialogue: 0,0:01:52.50,0:01:55.38,Default,14,0,0,0,S,The lion replied that he was very well indeed
 Dialogue: 0,0:01:56.04,0:01:58.04,Default,14,0,0,0,E,and asked the fox to step in for a moment.
 Dialogue: 0,0:01:58.04,0:02:01.26,Default,15,0,0,0,S,The fox wisely stayed outside
 Dialogue: 0,0:02:01.26,0:02:05.16,Default,15,0,0,0,E,thanking the lion very kindly for the invitation.
-Dialogue: 0,0:02:05.16,0:02:09.78,Default,16,0,0,0,A,"I should be glad to do as you ask."he added.
+Dialogue: 0,0:02:05.16,0:02:09.78,Default,16,0,0,0,A,"I should be glad to do as you ask." he added.
 Dialogue: 0,0:02:10.28,0:02:14.70,Default,17,0,0,0,S,"But I have noticed that there are too many footprints leading to your cave
 Dialogue: 0,0:02:15.52,0:02:18.84,Default,17,0,0,0,E,but there are no marks of anyone coming out."
 Dialogue: 0,0:02:18.84,0:02:22.72,Default,18,0,0,0,S,"Please tell me
