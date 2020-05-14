@@ -18,6 +18,7 @@ $.getScript("js/allFunctions.js", function() {
               case "play": //影片播放功能
                 mediaPlay();
                 countdownTime();
+                console.log("0514 - _isRelogin = "+_isRelogin);
                 break;
 
               case "pause": //影片暫停功能

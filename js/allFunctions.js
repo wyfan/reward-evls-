@@ -9,7 +9,7 @@ _chineseSub = "./upload/chinese_0507.vtt";
 _videoURL = "./upload/video.mp4";
 
 //設定學習總時間(秒)
-_learnTime4s = 328;
+_learnTime4s = 600;
 //設定學習總時間(毫秒)
 _learnTime4ms = _learnTime4s*1000;
 
@@ -57,7 +57,16 @@ $("#logout_link").hide();
 
 //20200429-重新整理提醒
 window.onbeforeunload = function(){
-return "onbeforeunload is work";
+  //重整的時候的當前系統時間
+  var _currentLearnTime = new Date().getTime();
+  //現在影片播放時間
+  var _currentVideoTime = _player.currentTime;
+  $.cookie('currentLearnTime', _currentLearnTime);
+  $.cookie('currentVideoTime', _currentVideoTime);
+
+  userLog(_currentUser, "Reflesh_LearnTime", _videoURL, _currentLearnTime);
+  userLog(_currentUser, "Reflesh_VideoTime", _videoURL, _currentVideoTime);
+  return "onbeforeunload is work";
 }
 
 //20200304 - 英文字幕載入處理(全域)
@@ -242,6 +251,7 @@ function countSentence(_index){
 
 
 /******************************登入與登出功能******************************/
+var _isRelogin = 0;
 function login() {
   //先進行Session確認，若成功登入則data回傳帳號名稱，並將該次登入的帳號存入全域變數中
 
@@ -272,7 +282,8 @@ function login() {
       loadPost();
       loadTimeTag();
       loadVocabularyTag();
-      userLog(_currentUser, "reLogin", _videoURL, "homePage");
+      _isRelogin = _isRelogin+1;
+      userLog(_currentUser, "reLogin", _videoURL, "homePage:"+_isRelogin);
     } else {
       //第一次進入網站時顯示帳號密碼輸入框，並不提供留言功能
       $("#home").html(
@@ -1443,12 +1454,35 @@ function userLog(_currentUser, _action, _object, _extention) {
   ****************/
 var _startLearnCountdown; //計時器設成全域，非時間到做切換時要CLEAR
 var _isQuizStart = 0; //是否可以進入測驗
+
 function countdownTime(){
 
   if (_countdownFlag == 0) { //第一次播放影片，開始學習時間倒數
     _countdownFlag = 1; //flag設1，表示已經開始播放過
+
     var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
-    var _countDownDate = new Date(_iniTime+_learnTime4ms).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
+
+    if(_isRelogin == 0){ //沒有重整過
+        $.cookie('iniTime', _iniTime);
+        console.log("cookie_iniTime = "+$.cookie('iniTime'));
+        var _countDownDate = new Date(_iniTime+_learnTime4ms).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
+
+      }else{//重新整理過
+        var _current = new Date().getTime();
+        //從COOKIE取回一開始的時間
+        _iniTime = $.cookie('iniTime');
+        var _passTime = _current - _iniTime; //已經經過多少秒
+        console.log("_current = "+_current+"||| _iniTime = "+_iniTime);
+        console.log("已經使用多少學習時間(_passTime) ="+_passTime);
+        var _leftLearnTime = _learnTime4ms - _passTime; //還剩多少學習時間
+        console.log("還剩多少學習時間長度(_leftLearnTime) ="+_leftLearnTime);
+        //var _iniFleshTime = new Date().getTime(); //設定要重新開始倒數的時間
+        var _countDownDate = new Date(_current+_leftLearnTime).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
+        console.log("從幾分開始倒數(_countDownDate) ="+_countDownDate);
+        //重新設定重整旗標
+        //_isRelogin = 0;
+      }
+
 
     _startLearnCountdown = setInterval(function() {
       var _now = new Date().getTime();
