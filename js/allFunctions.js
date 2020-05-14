@@ -1,12 +1,19 @@
 //變數宣告
 _currentUser = null;
-
-//設定字幕位置0420
-_englishSub = "./upload/english_test_0507.vtt";
+/**新影片需要設定的東西**/
+//設定字幕位置
+_englishSub = "./upload/english_test_0514.vtt"; //0507-獅子字幕 0514-佩佩豬字幕
 _chineseSub = "./upload/chinese_0507.vtt";
 
 //設定影片位置
 _videoURL = "./upload/video.mp4";
+
+//設定學習總時間(秒)
+_learnTime4s = 328;
+//設定學習總時間(毫秒)
+_learnTime4ms = _learnTime4s*1000;
+
+/***************************/
 
 //是否使用討論區
 _forum = false;
@@ -98,8 +105,8 @@ subtitleEngAll.onload = function() {
       //console.log("partsEngArr = " + partsEngArr[1]);
     }
   });
-  console.log(endtimeArray[18]);
-  console.log("(endtimeArray[18] = " + endtimeArray[18]+"|| numArray[18] = " + numArray[18]+"|| tagArray[18] = " + tagArray[18]);
+  //console.log(endtimeArray[18]);
+  //console.log("(endtimeArray[18] = " + endtimeArray[18]+"|| numArray[18] = " + numArray[18]+"|| tagArray[18] = " + tagArray[18]);
   //console.log("有沒有讀字幕啊→timeArray[1]="+ timeArray[1] +'||timeArray[2]='+timeArray[2] );
 };
 subtitleEngAll.send();
@@ -1441,7 +1448,7 @@ function countdownTime(){
   if (_countdownFlag == 0) { //第一次播放影片，開始學習時間倒數
     _countdownFlag = 1; //flag設1，表示已經開始播放過
     var _iniTime = new Date().getTime(); //設定初始時間(當前時間)
-    var _countDownDate = new Date(_iniTime+328000).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
+    var _countDownDate = new Date(_iniTime+_learnTime4ms).getTime(); //設定要開始倒數的時間長度(影片時間*2)-600000(10分)
 
     _startLearnCountdown = setInterval(function() {
       var _now = new Date().getTime();
@@ -1793,8 +1800,9 @@ function getSelfData(_user) {
             //開始學習時間點
             var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
             var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
-            var _learnEndPoint = _startPoint + 328;//dateTotimestamp('2020-02-11 01:02:27');
+            var _learnEndPoint = _startPoint + _learnTime4s;//dateTotimestamp('2020-02-11 01:02:27');328
             //console.log("_learnEndPoint"+_learnEndPoint);
+            console.log("開始時間點(0514)_startPoint = "+_startPoint +"|| 結束時間點(0514)_endPoint=" +_endPoint);
 
             //timeline 第一次看影片的時間段
             var _timeStartEnd=[
@@ -2006,7 +2014,7 @@ function getRank(){
                   //開始學習時間點
                   var _startPoint = dateTotimestamp(_checkSE[0].extention);//dateTotimestamp('2020-02-11 00:52:27');
                   var _endPoint = dateTotimestamp(_checkSE[1].extention);//'2020-02-11 00:54:00'
-                  var _learnEndPoint = _startPoint + 328;//dateTotimestamp('2020-02-11 01:02:27');
+                  var _learnEndPoint = _startPoint + _learnTime4s;//dateTotimestamp('2020-02-11 01:02:27');328
                   console.log("排行榜：_startPoint:"+_startPoint+"||_endPoint="+_endPoint+"||_learnEndPoint="+_learnEndPoint);
 
                   //timeline 第一次看影片的時間段

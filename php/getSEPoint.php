@@ -32,9 +32,9 @@ if ($_SESSION['authenticated'] == true) {
                               AND user_log.object = '$videourl'
                               AND user_list.year ='$year'
                               AND user_list.class = '$class'
-                              AND ( user_log.action = 'Start' OR  user_log.action ='End')
+                              AND ( user_log.action = 'Start')
                            ORDER BY user_log.timestamp ASC
-                           LIMIT 2
+                           LIMIT 1
                             ");
 
     $rows = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -51,6 +51,33 @@ if ($_SESSION['authenticated'] == true) {
             array_push($res,$value_json);
 
     }
+;
+    $result2 = $pdo->query("SELECT user_log.account, timestamp, action, extention
+                           FROM user_log
+                           LEFT JOIN user_list ON user_list.account=user_log.account
+                           WHERE  user_log.account = '$account'
+                              AND user_log.object = '$videourl'
+                              AND user_list.year ='$year'
+                              AND user_list.class = '$class'
+                              AND (user_log.action ='End')
+                           ORDER BY user_log.timestamp DESC
+                           LIMIT 1
+                            ");
+
+    $rows = $result2->fetchAll(PDO::FETCH_ASSOC);
+    foreach($rows as $row) {
+            //echo $row['account']."||".$row['action']."||".$row['extention']."---"."<br />";
+            //time:1234
+            //data[0].time
+            //admin**2020-02-07 00:39:09**ReviewEnd**158105400938
+
+            $value_json=array(
+              'extention'=>$row['timestamp']
+            );
+            array_push($res,$value_json);
+
+    }
+
     $pdo = null;
     echo json_encode($res);
 
