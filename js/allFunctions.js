@@ -2,7 +2,7 @@
 _currentUser = null;
 /**新影片需要設定的東西**/
 //設定字幕位置
-_englishSub = "./upload/english_test_0514.vtt"; //0507-獅子字幕 0514-佩佩豬字幕
+_englishSub = "./upload/english_test_0507.vtt"; //0507-獅子字幕 0514-佩佩豬字幕
 _chineseSub = "./upload/chinese_0507.vtt";
 
 //設定影片位置
@@ -55,7 +55,7 @@ $("#exam_content").fadeOut(100);
 $("#reward_content").fadeOut(100);
 $("#logout_link").hide();
 
-//20200429-重新整理提醒
+/*************20200429-重新整理提醒**************/
 window.onbeforeunload = function(){
   //重整的時候的當前系統時間
   var _currentLearnTime = new Date().getTime();
@@ -63,6 +63,8 @@ window.onbeforeunload = function(){
   var _currentVideoTime = _player.currentTime;
   $.cookie('currentLearnTime', _currentLearnTime);
   $.cookie('currentVideoTime', _currentVideoTime);
+  //將計算複習的時間先存進cookie中
+  $.cookie('maxPlaytime', _maxPlaytime);
 
   userLog(_currentUser, "Reflesh_LearnTime", _videoURL, _currentLearnTime);
   userLog(_currentUser, "Reflesh_VideoTime", _videoURL, _currentVideoTime);
@@ -918,10 +920,32 @@ function mediaPlay() {
   /********影片播放的時候只要確認現在的時間有沒有超過第一次設定的時間，如果沒有就不要管他，如果第一次設定就設定時間*****************/
   //當重播被按下時要確認的事
   var _click = "mediaPlay";
+  var _replay = "reloginPlay";
   var _actionTime = _player.currentTime; //第一次影片觀看時間設定使用
   var _time = new Date().getTime(); //紀錄現在系統時間使用
+
   //1.是不是第一次重播
   if (_maxPlaytime == 0) {
+
+    //判斷是不是重新登入後的情況
+    if($.cookie('currentVideoTime') > 0 ){ //1.這是重新登入後的播放
+      //設定成之前的_maxPlaytime
+      _maxPlaytime = $.cookie('maxPlaytime');
+      //載入之前的播放進度
+      _player.currentTime = $.cookie('currentVideoTime');
+
+        //判斷有沒有要重新設定最大播放時間
+        //1.1 第一次學習中->重整
+      if(_actionTime >=_maxPlaytime){
+        console.log("這是第一次學習中重新登入後的播放(reloginPlay)，不做設定：" + _maxPlaytime + "現在的動作是影片播放=" + _replay);
+        userLog(_currentUser, "reloginPlay", _videoURL, _time);
+      }else{
+        //1.2複習中->重整
+        getMaxPlaytime(_player.currentTime, _replay);//開始偵測影片播放時間-要確認有沒有超過當前時間
+        console.log("現在是重整後的播放(reloginPlay)："+_player.currentTime);
+        userLog(_currentUser, "reloginPlay", _videoURL, _time);
+      }
+    }
     console.log("這是第一次播放(mediaPlay)，不做設定：" + _maxPlaytime + "現在的動作是影片播放=" + _click);
     //現在系統時間紀錄(計算用)
     userLog(_currentUser, "Start", _videoURL, _time);
