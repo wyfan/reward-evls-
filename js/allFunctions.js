@@ -602,10 +602,6 @@ function subtitle_chinese(_time) {
 /******************************單字查詢功能******************************/
 function dictionarySearch(_searchWord, _searchTime) {
   //單字查詢
-  if (_searchWord =='turn'){　//turn是DB關鍵字，無法正常查詢，改用全形替代
-
-    _searchWord = 'ｔｕｒｎ';
-  }
   var _search = {
     vocabulary: _searchWord
   };
