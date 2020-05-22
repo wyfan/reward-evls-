@@ -823,7 +823,7 @@ $("#reward_link").click(function() {
   getScore();
   getQuizScore();
   getRank();
-  showBlockUI();
+  //showBlockUI();
   userLog(_currentUser, "goToReward", _videoURL, null);
 });
 
@@ -883,7 +883,9 @@ function goToReward() {
   //畫出前五名排行
   getRank();
   //資料讀取中畫面
-  showBlockUI();
+  //showBlockUI();
+  //20200521-打開排行榜
+  $("a#reward_link").css('pointer-events','auto');
 
   userLog(_currentUser, "goToReward", _videoURL, null);
   console.log("goToReward");
@@ -1382,15 +1384,18 @@ function tagRelease() {
 }
 
 /********************影片自動播放結束進行設定MAXTIME(當使用者放置無任何動作)*******/
+var _endcount = 0;
 _player.onended = function() {
   //影片第一次播放完畢，將最大播放時間設定成最大
   _maxPlaytime = _player.currentTime;
   var _time = new Date().getTime(); //紀錄現在系統時間使用
+  _endcount = _endcount+1;
 
   _sentenceSum = getSentenceData(_maxPlaytime);
 
-  userLog(_currentUser, "Review", _videoURL, _time); //複習開始起始點
+  userLog(_currentUser, "Review-end", _videoURL, _time); //複習開始起始點
   userLog(_currentUser, "SentenceCount", _videoURL, _sentenceSum); //連續學習句數
+  userLog(_currentUser,"player.onended", _videoURL, _endcount);
   console.log("播完第一次，現在_maxPlaytim = " + _maxPlaytime);
 
   //-------
@@ -1632,7 +1637,9 @@ function countdownQuiz(){
       //畫出前五名排行
       getRank();
       //資料讀取中畫面
-      showBlockUI();
+      //showBlockUI();
+      //打開排行榜連結
+      $("a#reward_link").css('pointer-events','auto');
 
       userLog(_currentUser, "goToReward", _videoURL, null);
       console.log("goToReward");
@@ -1950,7 +1957,7 @@ function getSelfData(_user) {
             $("#p2").append(svg2);*/
 
             //20200512 - 學習長條圖畫玩將資料讀取中的遮罩關掉
-            $.unblockUI();
+            //$.unblockUI();
 
         }//if(_seData !="fail"){ //如果有取得Start EndPoint資料
 
@@ -1974,7 +1981,7 @@ function getSelfData(_user) {
 //取得個人總評分
 function getScore(){
 
-  $.post("./php/getScore.php", function(_data){
+  $.post("./php/getScore4class.php", function(_data){//./php/getScore.php(查全部) ./php/getScore4class(只查404班級)
     console.log(_data); //個人成績
 
     if(_data != "fail"){
@@ -2015,7 +2022,7 @@ function getRank(){
   //查詢前五名的資料
   var _rankUser;
   var _rankScore;
-  $.post("./php/getRankScore.php", _post, function(_data){
+  $.post("./php/getTop5.php", _post, function(_data){
 
       if (_data != "fail") {
         var _rankData = $.parseJSON(_data);
